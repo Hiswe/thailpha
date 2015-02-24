@@ -43,6 +43,20 @@ var getVersion = function () {
 // BUILD
 ////////
 
+
+gulp.task('data', function() {
+  gulp.src('data/consonants/*.json')
+    .pipe($.jsoncombine('consonants.js', function (data){
+      var consonants = Object.keys(data);
+      var result     = consonants.map(function (name){
+        return data[name];
+      });
+      return new Buffer(JSON.stringify(result, null, 2));
+    }))
+    .pipe($.defineModule('commonjs'))
+    .pipe(gulp.dest('js/data'));
+});
+
 // usefull packages for after
 // https://www.npmjs.com/package/mithrilify
 
@@ -95,7 +109,7 @@ gulp.task('css', function() {
 
 // all together
 gulp.task('build', function(cb) {
-  return run(['app', 'lib', 'css'], cb);
+  return run('data', ['app', 'lib', 'css'], cb);
 });
 
 ////////
