@@ -11,11 +11,20 @@ var getAll    = function getAll(showObsolete) {
   return consonants;
 };
 
-var getById    = function getById(ids) {
+var getByIds   = function getById(ids) {
   ids = Array.isArray(ids) ? ids : [ids];
 
   var result = consonants.filter(function (consonant) {
     return ids.indexOf(consonant.id) !== -1;
+  });
+
+  if (result.length === 1) {
+    return result;
+  }
+
+  // sort by the query order
+  result.sort(function (a, b) {
+    return ids.indexOf(a.id) > ids.indexOf(b.id);
   });
 
   return result;
@@ -23,5 +32,5 @@ var getById    = function getById(ids) {
 
 module.exports = {
   getAll:   getAll,
-  getById:  getById,
+  getByIds: getByIds,
 };

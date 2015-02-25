@@ -14,7 +14,7 @@ module.exports = function (ctrl) {
         m('span.thai-letter', ctrl.char.letter),
       ]),
     ]),
-    m('.main', m('table', [
+    m('table', [
       ctrl.similars.map(function(similar) {
         return m('tr', [
           m('td.thai-letter', similar.letter),
@@ -23,6 +23,6 @@ module.exports = function (ctrl) {
           m('td', similar.pronunciation.final),
         ]);
       })
-    ])),
+    ]),
   ];
 };
