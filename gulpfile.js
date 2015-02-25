@@ -40,6 +40,12 @@ var getVersion = function () {
   return JSON.parse(fs.readFileSync('./package.json', 'utf8')).version;
 };
 
+gulp.task('bump', function(){
+  gulp.src('./package.json')
+  .pipe($.bump())
+  .pipe(gulp.dest('./'));
+});
+
 ////////
 // BUILD
 ////////
@@ -176,8 +182,12 @@ gulp.task('browser-sync', function() {
 gulp.task('watch', function() {
   gulp.watch('data/**/*.json',  ['data']);
   gulp.watch('css/**/*.styl',   ['css']);
-  gulp.watch('js/**/*.js',      ['app']);
-  gulp.watch(['dist/*',
+  gulp.watch([
+    'js/**/*.js',
+    'package.json',
+    ],                          ['app']);
+  gulp.watch([
+    'dist/*',
     '!dist/cache.manifest',
     '!dist/*-dev.*'],           ['manifest']);
 });
@@ -201,7 +211,7 @@ gulp.task('doc', function(cb) {
   console.log(m('build'), g('.............'), 'everything above');
   console.log(m('dev'), g('...............'), 'build, launch local server + watch files');
   // console.log(m('  --no-build'), g('......'), 'Skip asset building. !! building should have be done before');
-  // console.log(m('bump'), g('..............'), 'patch version of json');
+  console.log(m('bump'), g('..............'), 'patch version of json');
   return cb();
 });
 

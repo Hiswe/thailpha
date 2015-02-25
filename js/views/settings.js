@@ -32,7 +32,7 @@ module.exports = function (ctrl) {
           m('span', 'any suggestions? '),
           m('a.link[href="https://github.com/Hiswe/thailpha/issues"][target="_blank"]', 'send here'),
         ]),
-        m('p', [
+        m('p.version', [
           m('span', 'version '),
           m('span', pkg.version),
         ]),
