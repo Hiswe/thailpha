@@ -7,5 +7,11 @@
     "initial": "kh",
     "final": "k"
   },
-  "class": "low"
+  "class": "low",
+  "similar": [
+    "c-20",
+    "c-38",
+    "c-5",
+    "c-21"
+  ]
 }

@@ -48,6 +48,12 @@ module.exports = [
     },
     "class": "high",
     "obsolete": true,
+    "similar": [
+      "c-2",
+      "c-10",
+      "c-11",
+      "c-6"
+    ],
     "id": "c-3"
   },
   {
@@ -60,6 +66,12 @@ module.exports = [
       "final": "k"
     },
     "class": "low",
+    "similar": [
+      "c-20",
+      "c-38",
+      "c-5",
+      "c-21"
+    ],
     "id": "c-4"
   },
   {
@@ -73,6 +85,12 @@ module.exports = [
     },
     "class": "low",
     "obsolete": true,
+    "similar": [
+      "c-21",
+      "c-4",
+      "c-20",
+      "c-38"
+    ],
     "id": "c-5"
   },
   {

@@ -8,5 +8,11 @@
     "final": "k"
   },
   "class": "low",
-  "obsolete": true
+  "obsolete": true,
+  "similar": [
+    "c-21",
+    "c-4",
+    "c-20",
+    "c-38"
+  ]
 }
