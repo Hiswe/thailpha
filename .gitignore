@@ -4,4 +4,5 @@ npm-debug.log
 /dist/*.js
 /dist/*.css
 /dist/*.png
+/dist/cache.manifest
 /js/data
