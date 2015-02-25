@@ -121,6 +121,9 @@ module.exports = [
       "final": "ng"
     },
     "class": "low",
+    "similar": [
+      "c-37"
+    ],
     "id": "c-7"
   },
   {
@@ -133,6 +136,11 @@ module.exports = [
       "final": "t"
     },
     "class": "mid",
+    "similar": [
+      "c-43",
+      "c-9",
+      "c-44"
+    ],
     "id": "c-8"
   },
   {
@@ -145,6 +153,11 @@ module.exports = [
       "final": "—"
     },
     "class": "high",
+    "similar": [
+      "c-43",
+      "c-8",
+      "c-44"
+    ],
     "id": "c-9"
   },
   {
@@ -157,6 +170,12 @@ module.exports = [
       "final": "t"
     },
     "class": "low",
+    "similar": [
+      "c-11",
+      "c-2",
+      "c-3",
+      "c-6"
+    ],
     "id": "c-10"
   },
   {
@@ -169,6 +188,12 @@ module.exports = [
       "final": "t"
     },
     "class": "low",
+    "similar": [
+      "c-10",
+      "c-2",
+      "c-3",
+      "c-6"
+    ],
     "id": "c-11"
   },
   {
@@ -181,6 +206,14 @@ module.exports = [
       "final": "—"
     },
     "class": "low",
+    "similar": [
+      "c-13",
+      "c-22",
+      "c-15",
+      "c-14",
+      "c-32",
+      "c-1"
+    ],
     "id": "c-12"
   },
   {
@@ -193,6 +226,14 @@ module.exports = [
       "final": "n"
     },
     "class": "low",
+    "similar": [
+      "c-12",
+      "c-22",
+      "c-15",
+      "c-14",
+      "c-32",
+      "c-1"
+    ],
     "id": "c-13"
   },
   {
@@ -205,18 +246,34 @@ module.exports = [
       "final": "t"
     },
     "class": "mid",
+    "similar": [
+      "c-15",
+      "c-32",
+      "c-22",
+      "c-1",
+      "c-13",
+      "c-12"
+    ],
     "id": "c-14"
   },
   {
     "letter": "ฏ",
     "thai": "ฏ ปฏัก",
-    "rtgs": "o pa-tak",
+    "rtgs": "to pa-tak",
     "meaning": "goad, javelin",
     "pronunciation": {
       "initial": "t",
       "final": "t"
     },
     "class": "mid",
+    "similar": [
+      "c-14",
+      "c-32",
+      "c-22",
+      "c-1",
+      "c-13",
+      "c-12"
+    ],
     "id": "c-15"
   },
   {
@@ -229,6 +286,10 @@ module.exports = [
       "final": "t"
     },
     "class": "high",
+    "similar": [
+      "c-35",
+      "c-24"
+    ],
     "id": "c-16"
   },
   {
@@ -253,6 +314,12 @@ module.exports = [
       "final": "t"
     },
     "class": "low",
+    "similar": [
+      "c-21",
+      "c-5",
+      "c-20",
+      "c-38"
+    ],
     "id": "c-18"
   },
   {
@@ -265,6 +332,15 @@ module.exports = [
       "final": "n"
     },
     "class": "low",
+    "similar": [
+      "c-12",
+      "c-13",
+      "c-22",
+      "c-15",
+      "c-14",
+      "c-32",
+      "c-1"
+    ],
     "id": "c-19"
   },
   {
@@ -277,6 +353,12 @@ module.exports = [
       "final": "t"
     },
     "class": "mid",
+    "similar": [
+      "c-4",
+      "c-38",
+      "c-5",
+      "c-21"
+    ],
     "id": "c-20"
   },
   {
@@ -289,6 +371,12 @@ module.exports = [
       "final": "t"
     },
     "class": "mid",
+    "similar": [
+      "c-5",
+      "c-4",
+      "c-38",
+      "c-20"
+    ],
     "id": "c-21"
   },
   {
@@ -301,6 +389,14 @@ module.exports = [
       "final": "t"
     },
     "class": "high",
+    "similar": [
+      "c-32",
+      "c-1",
+      "c-14",
+      "c-15",
+      "c-12",
+      "c-13"
+    ],
     "id": "c-22"
   },
   {
@@ -313,6 +409,9 @@ module.exports = [
       "final": "t"
     },
     "class": "low",
+    "similar": [
+      "c-41"
+    ],
     "id": "c-23"
   },
   {
@@ -325,6 +424,10 @@ module.exports = [
       "final": "t"
     },
     "class": "low",
+    "similar": [
+      "c-35",
+      "c-16"
+    ],
     "id": "c-24"
   },
   {
@@ -337,6 +440,12 @@ module.exports = [
       "final": "n"
     },
     "class": "low",
+    "similar": [
+      "c-33",
+      "c-9",
+      "c-26",
+      "c-27"
+    ],
     "id": "c-25"
   },
   {
@@ -349,6 +458,12 @@ module.exports = [
       "final": "p"
     },
     "class": "mid",
+    "similar": [
+      "c-27",
+      "c-39",
+      "c-25",
+      "c-33"
+    ],
     "id": "c-26"
   },
   {
@@ -361,6 +476,11 @@ module.exports = [
       "final": "p"
     },
     "class": "mid",
+    "similar": [
+      "c-26",
+      "c-25",
+      "c-33"
+    ],
     "id": "c-27"
   },
   {
@@ -373,6 +493,12 @@ module.exports = [
       "final": "—"
     },
     "class": "high",
+    "similar": [
+      "c-29",
+      "c-30",
+      "c-31",
+      "c-42"
+    ],
     "id": "c-28"
   },
   {
@@ -385,6 +511,12 @@ module.exports = [
       "final": "—"
     },
     "class": "high",
+    "similar": [
+      "c-28",
+      "c-30",
+      "c-31",
+      "c-42"
+    ],
     "id": "c-29"
   },
   {
@@ -397,6 +529,12 @@ module.exports = [
       "final": "p"
     },
     "class": "low",
+    "similar": [
+      "c-28",
+      "c-29",
+      "c-31",
+      "c-42"
+    ],
     "id": "c-30"
   },
   {
@@ -409,6 +547,12 @@ module.exports = [
       "final": "p"
     },
     "class": "low",
+    "similar": [
+      "c-28",
+      "c-30",
+      "c-31",
+      "c-42"
+    ],
     "id": "c-31"
   },
   {
@@ -421,6 +565,14 @@ module.exports = [
       "final": "p"
     },
     "class": "low",
+    "similar": [
+      "c-22",
+      "c-1",
+      "c-14",
+      "c-15",
+      "c-12",
+      "c-13"
+    ],
     "id": "c-32"
   },
   {
@@ -433,6 +585,12 @@ module.exports = [
       "final": "m"
     },
     "class": "low",
+    "similar": [
+      "c-25",
+      "c-6",
+      "c-27",
+      "c-39"
+    ],
     "id": "c-33"
   },
   {
@@ -457,6 +615,10 @@ module.exports = [
       "final": "n"
     },
     "class": "low",
+    "similar": [
+      "c-16",
+      "c-24"
+    ],
     "id": "c-35"
   },
   {
@@ -469,6 +631,9 @@ module.exports = [
       "final": "n"
     },
     "class": "low",
+    "similar": [
+      "c-40"
+    ],
     "id": "c-36"
   },
   {
@@ -493,6 +658,12 @@ module.exports = [
       "final": "t"
     },
     "class": "high",
+    "similar": [
+      "c-4",
+      "c-5",
+      "c-20",
+      "c-21"
+    ],
     "id": "c-38"
   },
   {
@@ -505,6 +676,12 @@ module.exports = [
       "final": "t"
     },
     "class": "high",
+    "similar": [
+      "c-26",
+      "c-27",
+      "c-25",
+      "c-33"
+    ],
     "id": "c-39"
   },
   {
@@ -517,6 +694,9 @@ module.exports = [
       "final": "t"
     },
     "class": "high",
+    "similar": [
+      "c-36"
+    ],
     "id": "c-40"
   },
   {
@@ -529,6 +709,9 @@ module.exports = [
       "final": "—"
     },
     "class": "high",
+    "similar": [
+      "c-23"
+    ],
     "id": "c-41"
   },
   {
@@ -541,6 +724,12 @@ module.exports = [
       "final": "n"
     },
     "class": "low",
+    "similar": [
+      "c-31",
+      "c-30",
+      "c-29",
+      "c-28"
+    ],
     "id": "c-42"
   },
   {
@@ -553,6 +742,11 @@ module.exports = [
       "final": "—"
     },
     "class": "mid",
+    "similar": [
+      "c-44",
+      "c-8",
+      "c-9"
+    ],
     "id": "c-43"
   },
   {
@@ -565,6 +759,11 @@ module.exports = [
       "final": "—"
     },
     "class": "low",
+    "similar": [
+      "c-43",
+      "c-8",
+      "c-9"
+    ],
     "id": "c-44"
   }
 ];

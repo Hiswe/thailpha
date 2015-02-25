@@ -46,6 +46,7 @@ var getVersion = function () {
 
 gulp.task('data', function() {
   gulp.src('data/consonants/*.json')
+    .pipe($.plumber({errorHandler: onError}))
     .pipe($.jsoncombine('consonants.js', function (data){
       var consonants = Object.keys(data);
       var result     = consonants.map(function (name, index){

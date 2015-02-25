@@ -7,5 +7,11 @@
     "initial": "d",
     "final": "t"
   },
-  "class": "mid"
+  "class": "mid",
+  "similar": [
+    "c-4",
+    "c-38",
+    "c-5",
+    "c-21"
+  ]
 }

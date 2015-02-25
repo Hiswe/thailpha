@@ -7,5 +7,9 @@
     "initial": "th",
     "final": "t"
   },
-  "class": "high"
+  "class": "high",
+  "similar": [
+    "c-35",
+    "c-24"
+  ]
 }

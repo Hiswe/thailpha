@@ -7,5 +7,10 @@
     "initial": "ch",
     "final": "—"
   },
-  "class": "high"
+  "class": "high",
+  "similar": [
+    "c-43",
+    "c-8",
+    "c-44"
+  ]
 }

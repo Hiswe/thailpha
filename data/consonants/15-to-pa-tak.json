@@ -1,11 +1,19 @@
 {
   "letter": "ฏ",
   "thai": "ฏ ปฏัก",
-  "rtgs": "o pa-tak",
+  "rtgs": "to pa-tak",
   "meaning": "goad, javelin",
   "pronunciation": {
     "initial": "t",
     "final": "t"
   },
-  "class": "mid"
+  "class": "mid",
+  "similar": [
+    "c-14",
+    "c-32",
+    "c-22",
+    "c-1",
+    "c-13",
+    "c-12"
+  ]
 }

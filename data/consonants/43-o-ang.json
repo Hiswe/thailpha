@@ -7,5 +7,10 @@
     "initial": "*",
     "final": "—"
   },
-  "class": "mid"
+  "class": "mid",
+  "similar": [
+    "c-44",
+    "c-8",
+    "c-9"
+  ]
 }
