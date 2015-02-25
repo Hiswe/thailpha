@@ -29,7 +29,7 @@ function onError(err) {
 
 function msg(message) {
   return {
-    title: 'FROG',
+    title: 'THAILPHA',
     message: message,
     onLast: true
   };
@@ -48,13 +48,15 @@ gulp.task('data', function() {
   gulp.src('data/consonants/*.json')
     .pipe($.jsoncombine('consonants.js', function (data){
       var consonants = Object.keys(data);
-      var result     = consonants.map(function (name){
-        return data[name];
+      var result     = consonants.map(function (name, index){
+        var letter   = data[name];
+        letter.id    = 'c-' + (index + 1);
+        return letter;
       });
       return new Buffer(JSON.stringify(result, null, 2));
     }))
     .pipe($.defineModule('commonjs'))
-    .pipe(gulp.dest('js/data'));
+    .pipe(gulp.dest('js/models'));
 });
 
 // usefull packages for after
@@ -89,7 +91,7 @@ gulp.task('app', function () {
   })
   .bundle()
   .on('error', onError)
-  .pipe(source('index.js'))
+  .pipe(source('thailpha.js'))
   // .pipe(gp.streamify(gp.uglify()))
   .pipe(gulp.dest(dist))
   .pipe(reload({stream:true}));
@@ -103,6 +105,7 @@ gulp.task('css', function() {
     .pipe($.stylus())
     .pipe($.autoprefixer())
     // .pipe($.cssmin())
+    .pipe($.rename('thailpha.css'))
     .pipe(gulp.dest(dist))
     .pipe(reload({stream:true}));
 });
@@ -118,6 +121,7 @@ gulp.task('build', function(cb) {
 
 gulp.task('browser-sync', function() {
   browserSync({
+    open: false,
     server: {
       baseDir: './dist'
     }
@@ -125,8 +129,9 @@ gulp.task('browser-sync', function() {
 });
 
 gulp.task('watch', function() {
-  gulp.watch('css/**/*.styl', ['css']);
-  gulp.watch('js/*.js', ['app']);
+  gulp.watch('data/**/*.json',  ['data']);
+  gulp.watch('css/**/*.styl',   ['css']);
+  gulp.watch('js/**/*.js',       ['app']);
 });
 
 gulp.task('dev', function(cb) {

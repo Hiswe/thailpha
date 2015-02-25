@@ -1,0 +1,51 @@
+.letter-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.back {
+  order: 0;
+  background: $c-black;
+  padding: ($gutter/2) $gutter;
+  text-decoration: none;
+  color: $c-white;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+}
+
+.letter-meaning,
+.letter-thai,
+.letter-pronunciation {
+  text-align: center;
+}
+.letter-meaning,
+.letter-pronunciation {
+  font-size: 7vw;
+  padding: $gutter;
+  font-weight: 300;
+}
+
+.letter-meaning {
+  order: 1;
+}
+.letter-meaning-thai {
+  display: none;
+}
+.letter-thai {
+  order: 2;
+  flex-grow: 1;
+  font-size: 90vw;
+  font-weight: 400;
+  display: flex;
+  flex-center();
+  line-height: .8;
+}
+.letter-pronunciation {
+  order: 3;
+}
+.letter-pronunciation-label {
+  color: $c-grey;
+  padding: 0 .5em;
+}

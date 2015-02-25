@@ -1,0 +1,21 @@
+.preview-list {
+  margin: 0;
+  padding: 0;
+  border: solid $c-grey-light;
+  border-width: 0 0 1px;
+}
+.preview-list-item {
+  display: inline-flex;
+  width: 25vw;
+  height: @width;
+  font-size: 15vw;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid $c-grey-light;
+  border-width: 1px 0 0 1px;
+  cursor: pointer;
+
+  &:nth-child(4n +1) {
+    border-width: 1px 0 0 0;
+  }
+}
