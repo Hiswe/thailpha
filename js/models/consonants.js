@@ -121,9 +121,6 @@ module.exports = [
       "final": "ng"
     },
     "class": "low",
-    "similar": [
-      "c-37"
-    ],
     "id": "c-7"
   },
   {

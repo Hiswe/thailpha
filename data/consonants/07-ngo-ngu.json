@@ -7,8 +7,5 @@
     "initial": "ng",
     "final": "ng"
   },
-  "class": "low",
-  "similar": [
-    "c-37"
-  ]
+  "class": "low"
 }
