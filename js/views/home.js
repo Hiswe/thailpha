@@ -2,13 +2,12 @@
 
 var m           = require('mithril');
 
+var nav         = require('./nav.js');
+
 module.exports = function(ctrl) {
   return [
     m('header', [
         m('h1.h1', 'consonants'),
-        m('a.settings[href="/settings"]', {
-          config: m.route
-        }, '¤'),
       ]
     ),
     m('ul.preview-list', [
@@ -24,5 +23,6 @@ module.exports = function(ctrl) {
         ]);
       })
     ]),
+    nav(),
   ];
 };

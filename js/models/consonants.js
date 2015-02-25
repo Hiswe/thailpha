@@ -103,6 +103,12 @@ module.exports = [
       "final": "k"
     },
     "class": "low",
+    "similar": [
+      "c-3",
+      "c-11",
+      "c-10",
+      "c-2"
+    ],
     "id": "c-6"
   },
   {

@@ -2,11 +2,11 @@
 
 var m           = require('mithril');
 
+var pkg         = require('../../package.json');
+var nav         = require('./nav.js');
+
 module.exports = function (ctrl) {
   return [
-    m('a.back[href="/"]', {
-      config: m.route
-    }, '< back'),
     m('header', [
       m('h1.h1', 'settings'),
     ]),
@@ -25,14 +25,19 @@ module.exports = function (ctrl) {
     m('footer',
       [
         m('p', [
-          m('span', m.trust('all information are provided by ')),
+          m('span', 'all information are provided by '),
           m('a.link[href="http://en.wikipedia.org/wiki/Thai_alphabet"][target="_blank"]', 'wikipedia'),
         ]),
         m('p', [
-          m('span', m.trust('any suggestions? ')),
+          m('span', 'any suggestions? '),
           m('a.link[href="https://github.com/Hiswe/thailpha/issues"][target="_blank"]', 'send here'),
+        ]),
+        m('p', [
+          m('span', 'version '),
+          m('span', pkg.version),
         ]),
       ]
     ),
+    nav('/', false),
   ];
 };

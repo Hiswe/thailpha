@@ -2,12 +2,10 @@
 
 var m           = require('mithril');
 
+var nav         = require('./nav.js');
+
 module.exports = function (ctrl) {
   return [
-    m('a.back', {
-      href: '/letter/' + ctrl.char.id,
-      config: m.route
-    }, '< back'),
     m('header', [
       m('h1.h1', [
         'Similar to ',
@@ -24,5 +22,6 @@ module.exports = function (ctrl) {
         ]);
       })
     ]),
+    nav('/letter/' + ctrl.char.id),
   ];
 };

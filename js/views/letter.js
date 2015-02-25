@@ -2,6 +2,8 @@
 
 var m           = require('mithril');
 
+var nav         = require('./nav.js');
+
 var footer      = function footer(ctrl)  {
   if (!ctrl.char.similar) {
     return '';
@@ -30,6 +32,6 @@ module.exports = function (ctrl) {
       ]),
     ]),
     footer(ctrl),
-    m('a.back[href="/"]', {config: m.route}, '< back'),
+    nav('/'),
   ];
 }
