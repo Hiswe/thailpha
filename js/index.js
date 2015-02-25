@@ -21,14 +21,8 @@ var settings = {
   view:       require('./views/settings.js'),
 };
 
-var similar = {
-  controller: require('./controllers/similar.js'),
-  view:       require('./views/similar.js'),
-};
-
 m.route(document.body, '/', {
   '/': home,
   '/settings': settings,
-  '/letter/:letterId': letter,
-  '/similar/:letterId': similar,
+  '/letter/:letterId': letter
 });

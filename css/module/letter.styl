@@ -1,9 +1,9 @@
 .letter-container {
-  min-height: 100vh;
+  min-height: calc(100vh - 40px);
   display: flex;
   flex-direction: column;
 }
-
+.letter-hint,
 .letter-meaning,
 .letter-thai,
 .letter-pronunciation {
@@ -36,4 +36,11 @@
 .letter-pronunciation-label {
   color: $c-grey;
   padding: 0 .5em;
+}
+
+.letter-hint {
+  order: 4;
+  border-top: 1px solid $c-black;
+  padding: $gutter;
+  margin: 0;
 }

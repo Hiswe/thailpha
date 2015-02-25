@@ -5,20 +5,36 @@ var m           = require('mithril');
 var nav         = require('./nav.js');
 
 var footer      = function footer(ctrl)  {
-  if (!ctrl.char.similar) {
-    return '';
+  if (ctrl.hasSimilar) {
+    return m('p.letter-hint', '↓ similar ↓');
   }
-  return m('footer.footer-action', [
-    m('a.btn-footer', {
-      href: '/similar/' + ctrl.char.id,
-      config: m.route
-    }, 'similar'),
-  ]);
+  return '';
+}
+
+var similar = function similar(ctrl) {
+  if (ctrl.hasSimilar) {
+    return m('table', [
+      ctrl.similars.map(function(similar) {
+        return m('tr', [
+          m('td.thai-letter', [
+            m('a', {
+              href: '/letter/' + similar.id,
+              config: m.route
+            }, similar.letter),
+          ]),
+          m('td', similar.rtgs),
+          m('td', similar.pronunciation.initial),
+          m('td', similar.pronunciation.final),
+        ]);
+      })
+    ]);
+  }
+  return '';
 }
 
 module.exports = function (ctrl) {
   return [
-    m('.main', [
+    m('.letter-container', [
       m('strong.letter-thai.thai-letter', ctrl.char.letter),
       m('p.letter-meaning', [
         m('span.letter-meaning-thai', ctrl.char.thai),
@@ -30,8 +46,9 @@ module.exports = function (ctrl) {
         m('span.letter-pronunciation-label', 'final'),
         m('span', ctrl.char.pronunciation.final),
       ]),
+      footer(ctrl),
     ]),
-    footer(ctrl),
     nav('/'),
+    similar(ctrl),
   ];
 }
