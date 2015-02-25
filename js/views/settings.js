@@ -11,11 +11,11 @@ module.exports = function (ctrl) {
       m('h1.h1', 'settings'),
     ]),
     m('form.main', [
-      m('input#showDeprecated[type="checkbox"]', {
-        onchange: m.withAttr('checked', ctrl.showDeprecated),
-        checked: ctrl.showDeprecated(),
+      m('input#showObsolete[type="checkbox"]', {
+        onchange: m.withAttr('checked', ctrl.showObsolete),
+        checked: ctrl.showObsolete(),
       }),
-      m('label[for="showDeprecated"]', 'show deprecated letters'),
+      m('label[for="showObsolete"]', 'show obsolete letters'),
       m('p', m('button.btn', {
         onclick: ctrl.onSave.bind(ctrl)
       }, 'save'))

@@ -9,7 +9,7 @@ module.exports = function () {
 
   var settings    = require('../models/settings.js').get();
 
-  this.consonants = letters.getAll(settings.showDeprecated);
+  this.consonants = letters.getAll(settings.showObsolete);
 
   this.onClick    = function (e) {
     m.route('/letter/' + this.id);

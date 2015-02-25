@@ -2,11 +2,10 @@
 
 var consonants = require('./consonants.js');
 
-var getAll    = function getAll(showDeprecated) {
-  console.log('modele', showDeprecated);
-  if (showDeprecated === false) {
+var getAll    = function getAll(showObsolete) {
+  if (showObsolete === false) {
     return consonants.filter(function (consonant) {
-      return consonant.obsolete == null;
+      return consonant.obsolete !== true;
     });
   }
   return consonants;

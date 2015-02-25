@@ -7,11 +7,11 @@ var Settings    = require('../models/settings.js');
 module.exports = function () {
   var settings        =  Settings.get();
 
-  this.showDeprecated =  m.prop(settings.showDeprecated);
+  this.showObsolete =  m.prop(settings.showObsolete);
 
   this.onSave         = function (e) {
     Settings.put({
-      showDeprecated: this.showDeprecated()
+      showObsolete: this.showObsolete()
     });
   };
 };
