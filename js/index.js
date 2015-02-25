@@ -4,6 +4,7 @@ require('fastclick')(document.body);
 require('viewport-units-buggyfill').init();
 
 var m           = require('mithril');
+m.route.mode    = 'hash';
 
 var home  = {
   controller: require('./controllers/home.js'),
@@ -20,10 +21,14 @@ var settings = {
   view:       require('./views/settings.js'),
 };
 
-m.route.mode = 'hash';
+var similar = {
+  controller: require('./controllers/similar.js'),
+  view:       require('./views/similar.js'),
+};
 
 m.route(document.body, '/', {
   '/': home,
   '/settings': settings,
   '/letter/:letterId': letter,
+  '/similar/:letterId': similar,
 });

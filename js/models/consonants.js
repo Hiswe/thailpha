@@ -9,6 +9,12 @@ module.exports = [
       "final": "k"
     },
     "class": "mid",
+    "similar": [
+      "c-22",
+      "c-32",
+      "c-14",
+      "c-15"
+    ],
     "id": "c-1"
   },
   {

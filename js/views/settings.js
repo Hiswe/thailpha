@@ -6,20 +6,22 @@ module.exports = function (ctrl) {
   return [
     m('a.back[href="/"]', {
       config: m.route
-    }, '<'),
+    }, '< back'),
     m('header', [
       m('h1.h1', 'settings'),
     ]),
-    m('form.main', [
-      m('input#showObsolete[type="checkbox"]', {
-        onchange: m.withAttr('checked', ctrl.showObsolete),
-        checked: ctrl.showObsolete(),
-      }),
-      m('label[for="showObsolete"]', 'show obsolete letters'),
-      m('p', m('button.btn', {
-        onclick: ctrl.onSave.bind(ctrl)
-      }, 'save'))
-    ]),
+    m('.main',
+      m('form', [
+        m('input#showObsolete[type="checkbox"]', {
+          onchange: m.withAttr('checked', ctrl.showObsolete),
+          checked: ctrl.showObsolete(),
+        }),
+        m('label[for="showObsolete"]', 'show obsolete letters'),
+        m('p', m('button.btn', {
+          onclick: ctrl.onSave.bind(ctrl)
+        }, 'save'))
+      ])
+    ),
     m('footer',
       [
         m('p', [

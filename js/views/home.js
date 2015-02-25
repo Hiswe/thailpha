@@ -14,7 +14,9 @@ module.exports = function(ctrl) {
     m('ul.preview-list', [
       ctrl.consonants.map(function (consonant) {
         return m('li.preview-list-item', {
-          key:        consonant.id,
+          key:      consonant.id,
+          // href:     '/letter/' + consonant.id,
+          // config:   m.route
           onclick:    ctrl.onClick.bind(consonant),
         }, consonant.letter);
       })

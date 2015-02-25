@@ -9,6 +9,8 @@ body {
   margin: 0;
   font-family: 'Helvetica', 'Arial', 'sans-serif';
   color: $c-black;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 body {
   display: flex;
@@ -25,6 +27,19 @@ header,
 footer {
   padding: $gutter;
 }
+footer {
+  border-top: 1px solid $c-black;
+}
+.footer-action {
+  padding: 0;
+  display: flex;
+
+  > * {
+    padding: $gutter;
+    text-align: center;
+    flex-grow: 1;
+  }
+}
 
 .settings {
   position: absolute;
@@ -40,4 +55,6 @@ footer {
 
 .main {
   flex-grow: 1;
+  display: flex;
+  flex-direction: column;
 }

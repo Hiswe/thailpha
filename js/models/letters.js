@@ -11,11 +11,14 @@ var getAll    = function getAll(showObsolete) {
   return consonants;
 };
 
-var getById    = function getById(id) {
+var getById    = function getById(ids) {
+  ids = Array.isArray(ids) ? ids : [ids];
+
   var result = consonants.filter(function (consonant) {
-    return consonant.id === id;
+    return ids.indexOf(consonant.id) !== -1;
   });
-  return result[0];
+
+  return result;
 };
 
 module.exports = {
