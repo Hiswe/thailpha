@@ -11,6 +11,8 @@ module.exports = [
     "class": "mid",
     "similar": [
       "c-22",
+      "c-12",
+      "c-13",
       "c-32",
       "c-14",
       "c-15"
@@ -27,6 +29,12 @@ module.exports = [
       "final": "k"
     },
     "class": "high",
+    "similar": [
+      "c-3",
+      "c-10",
+      "c-11",
+      "c-6"
+    ],
     "id": "c-2"
   },
   {
@@ -140,13 +148,13 @@ module.exports = [
     "id": "c-11"
   },
   {
-    "letter": "ญ",
-    "thai": "ญ หญิง",
-    "rtgs": "yo ying",
-    "meaning": "woman",
+    "letter": "ฌ",
+    "thai": "ฌ เฌอ",
+    "rtgs": "cho choe",
+    "meaning": "tree",
     "pronunciation": {
-      "initial": "y",
-      "final": "n"
+      "initial": "ch",
+      "final": "—"
     },
     "class": "low",
     "id": "c-12"

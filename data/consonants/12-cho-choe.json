@@ -1,11 +1,11 @@
 {
-  "letter": "ญ",
-  "thai": "ญ หญิง",
-  "rtgs": "yo ying",
-  "meaning": "woman",
+  "letter": "ฌ",
+  "thai": "ฌ เฌอ",
+  "rtgs": "cho choe",
+  "meaning": "tree",
   "pronunciation": {
-    "initial": "y",
-    "final": "n"
+    "initial": "ch",
+    "final": "—"
   },
   "class": "low"
 }

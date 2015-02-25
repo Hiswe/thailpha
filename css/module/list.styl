@@ -3,19 +3,36 @@
   padding: 0;
   border: solid $c-grey-light;
   border-width: 1px 0 0;
+  display: flex;
+  flex-wrap: wrap;
 }
 .preview-list-item {
   display: inline-flex;
+  flex-direction: column;
   width: 25vw;
-  height: @width;
-  font-size: 15vw;
-  align-items: center;
-  justify-content: center;
+  min-height: @width;
   border: 1px solid $c-grey-light;
   border-width: 0 1px 1px  0;
   cursor: pointer;
 
+  p {
+    margin: 0;
+    text-align: center;
+  }
+
+  .thai-letter {
+    font-size: 15vw;
+    flex-grow: 1;
+    display: flex;
+    flex-center();
+  }
+
   &:nth-child(4n + 4) {
     border-width: 0 0 1px 0;
   }
+}
+
+.preview-list-item-rtgs {
+  font-size: 12px;
+  padding: 0 0 .25em;
 }

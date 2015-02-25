@@ -1,9 +1,11 @@
 'use strict';
 
-var consonants = require('./consonants.js');
+var consonants  = require('./consonants.js');
+var Settings    = require('./settings.js');
 
-var getAll    = function getAll(showObsolete) {
-  if (showObsolete === false) {
+var getAll    = function getAll() {
+  var settings = Settings.get();
+  if (settings.showObsolete === false) {
     return consonants.filter(function (consonant) {
       return consonant.obsolete !== true;
     });
@@ -12,22 +14,29 @@ var getAll    = function getAll(showObsolete) {
 };
 
 var getByIds   = function getById(ids) {
+  var settings = Settings.get();
+
   ids = Array.isArray(ids) ? ids : [ids];
 
   var result = consonants.filter(function (consonant) {
     return ids.indexOf(consonant.id) !== -1;
   });
 
+  // take care of obsolete letters
+  if (settings.showObsolete === false) {
+    result = result.filter(function (letter) {
+      return letter.obsolete !== true;
+    })
+  }
+
   if (result.length === 1) {
     return result;
   }
 
   // sort by the query order
-  result.sort(function (a, b) {
+  return result.sort(function (a, b) {
     return ids.indexOf(a.id) > ids.indexOf(b.id);
   });
-
-  return result;
 };
 
 module.exports = {

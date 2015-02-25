@@ -18,7 +18,10 @@ module.exports = function(ctrl) {
           // href:     '/letter/' + consonant.id,
           // config:   m.route
           onclick:    ctrl.onClick.bind(consonant),
-        }, consonant.letter);
+        }, [
+          m('p.thai-letter', consonant.letter),
+          m('p.preview-list-item-rtgs', consonant.rtgs)
+        ]);
       })
     ]),
   ];
