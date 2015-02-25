@@ -1,5 +1,8 @@
 'use strict';
 
+require('fastclick')(document.body);
+require('viewport-units-buggyfill').init();
+
 var m           = require('mithril');
 
 var home  = {

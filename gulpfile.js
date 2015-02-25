@@ -10,7 +10,8 @@ var reload      = browserSync.reload;
 var browserify  = require('browserify');
 var source      = require('vinyl-source-stream');
 
-var dist        = 'dist'
+var dist        = 'dist';
+var assets      = dist + '/assets';
 
 ////////
 // MISC
@@ -43,7 +44,6 @@ var getVersion = function () {
 // BUILD
 ////////
 
-
 gulp.task('data', function() {
   gulp.src('data/consonants/*.json')
     .pipe($.jsoncombine('consonants.js', function (data){
@@ -65,22 +65,26 @@ gulp.task('data', function() {
 // browserify
 var libs = [
   'mithril',
-  // 'fastclick',
-  // 'viewport-units-buggyfill',
+  'fastclick',
+  'viewport-units-buggyfill',
 ];
 var basedir = __dirname + '/js';
 
-// NODE_ENV=production gulp lib
+// Libs
 gulp.task('lib', function() {
   var browserifyLib = browserify({
     basedir: basedir
   })
   .require(libs)
   .bundle()
-  .pipe(source('lib.js'))
+  .pipe(source('lib-dev.js'))
+  .pipe(gulp.dest(dist))
+  .pipe($.streamify($.uglify()))
+  .pipe($.rename('lib.js'))
   .pipe(gulp.dest(dist));
 });
 
+// application
 gulp.task('app', function () {
   browserify({
     basedir: basedir
@@ -91,12 +95,13 @@ gulp.task('app', function () {
   })
   .bundle()
   .on('error', onError)
-  .pipe(source('thailpha.js'))
-  // .pipe(gp.streamify(gp.uglify()))
+  .pipe(source('thailpha-dev.js'))
+  .pipe(gulp.dest(dist))
+  .pipe($.streamify($.uglify()))
+  .pipe($.rename('thailpha.js'))
   .pipe(gulp.dest(dist))
   .pipe(reload({stream:true}));
 });
-
 
 // stylus to css
 gulp.task('css', function() {
@@ -104,15 +109,36 @@ gulp.task('css', function() {
     .pipe($.plumber({errorHandler: onError}))
     .pipe($.stylus())
     .pipe($.autoprefixer())
-    // .pipe($.cssmin())
+    .pipe($.rename('thailpha-dev.css'))
+    .pipe(gulp.dest(dist))
+    .pipe($.cssmin())
     .pipe($.rename('thailpha.css'))
     .pipe(gulp.dest(dist))
     .pipe(reload({stream:true}));
 });
 
+gulp.task('touch-icon', function() {
+  var basename    = 'touch-icon-';
+  return gulp.src('data/ios.png')
+    .pipe($.rename(function (path){ path.basename = basename + 'iphone-6-plus'}))
+    .pipe(gulp.dest(dist))
+    .pipe($.imageResize({width: 152, height: 152, upscale: true}))
+    .pipe($.rename(function (path){ path.basename = basename + 'ipad-retina'}))
+    .pipe(gulp.dest(dist))
+    .pipe($.imageResize({width: 120, height: 120, upscale: true}))
+    .pipe($.rename(function (path){ path.basename = basename + 'iphone-retina'}))
+    .pipe(gulp.dest(dist))
+    .pipe($.imageResize({width: 76, height: 76, upscale: true}))
+    .pipe($.rename(function (path){ path.basename = basename + 'icon-ipad'}))
+    .pipe(gulp.dest(dist))
+    .pipe($.imageResize({width: 57, height: 57, upscale: true}))
+    .pipe($.rename(function (path){ path.basename = basename + 'icon-iphone'}))
+    .pipe(gulp.dest(dist))
+});
+
 // all together
 gulp.task('build', function(cb) {
-  return run('data', ['app', 'lib', 'css'], cb);
+  return run('data', ['touch-icon', 'app', 'lib', 'css'], cb);
 });
 
 ////////
@@ -148,6 +174,7 @@ gulp.task('doc', function(cb) {
   console.log(m('css'), g('...............'), 'compile Stylus files to distribution');
   console.log(m('app'), g('...............'), 'bundle js files to distribution');
   console.log(m('lib'), g('...............'), 'bundle js libraries files distribution');
+  console.log(m('touch-icon'), g('........'), 'resize touch-icon image for mobile');
   // console.log(m('manifest'), g('..........'), 'generate appcache manifest');
   console.log(m('build'), g('.............'), 'everything above');
   console.log(m('dev'), g('...............'), 'build, launch local server + watch files');

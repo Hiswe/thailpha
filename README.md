@@ -5,6 +5,7 @@ Thai alphabet webapp
 ## Requirements:
 
 - [node](http://nodejs.org/download/)
+- GraphicsMagick `brew install graphicsmagick`
 
 ## Configuration
 
