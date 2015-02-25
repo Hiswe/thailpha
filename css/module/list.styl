@@ -2,7 +2,7 @@
   margin: 0;
   padding: 0;
   border: solid $c-grey-light;
-  border-width: 0 0 1px;
+  border-width: 1px 0 0;
 }
 .preview-list-item {
   display: inline-flex;
@@ -12,10 +12,10 @@
   align-items: center;
   justify-content: center;
   border: 1px solid $c-grey-light;
-  border-width: 1px 0 0 1px;
+  border-width: 0 1px 1px  0;
   cursor: pointer;
 
-  &:nth-child(4n +1) {
-    border-width: 1px 0 0 0;
+  &:nth-child(4n + 4) {
+    border-width: 0 0 1px 0;
   }
 }

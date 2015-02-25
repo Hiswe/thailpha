@@ -15,9 +15,15 @@ var letter = {
   view:       require('./views/letter.js'),
 };
 
+var settings = {
+  controller: require('./controllers/settings.js'),
+  view:       require('./views/settings.js'),
+};
+
 m.route.mode = 'hash';
 
 m.route(document.body, '/', {
   '/': home,
-  '/letter/:letterId': letter
+  '/settings': settings,
+  '/letter/:letterId': letter,
 });

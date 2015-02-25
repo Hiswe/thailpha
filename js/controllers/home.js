@@ -2,10 +2,14 @@
 
 var m       = require('mithril');
 
-var letters = require('../models/letters.js');
+var letters   = require('../models/letters.js');
+
 
 module.exports = function () {
-  this.consonants = letters.getAll();
+
+  var settings    = require('../models/settings.js').get();
+
+  this.consonants = letters.getAll(settings.showDeprecated);
 
   this.onClick    = function (e) {
     m.route('/letter/' + this.id);

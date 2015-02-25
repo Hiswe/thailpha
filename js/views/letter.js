@@ -15,6 +15,6 @@ module.exports = function (ctrl) {
       m('span.letter-pronunciation-label', 'final'),
       m('span', ctrl.char.pronunciation.final),
     ]),
-    m('a.back[href="#"]', {onclick: ctrl.gotoHome }, '<'),
+    m('a.back[href="/"]', {config: m.route}, '<'),
   ]);
 }

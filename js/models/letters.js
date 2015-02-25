@@ -2,7 +2,13 @@
 
 var consonants = require('./consonants.js');
 
-var getAll    = function getAll() {
+var getAll    = function getAll(showDeprecated) {
+  console.log('modele', showDeprecated);
+  if (showDeprecated === false) {
+    return consonants.filter(function (consonant) {
+      return consonant.obsolete == null;
+    });
+  }
   return consonants;
 };
 

@@ -97,10 +97,11 @@ gulp.task('app', function () {
   .on('error', onError)
   .pipe(source('thailpha-dev.js'))
   .pipe(gulp.dest(dist))
+  .pipe(reload({stream:true}))
   .pipe($.streamify($.uglify()))
+  .pipe($.streamify($.stripDebug()))
   .pipe($.rename('thailpha.js'))
-  .pipe(gulp.dest(dist))
-  .pipe(reload({stream:true}));
+  .pipe(gulp.dest(dist));
 });
 
 // stylus to css
@@ -111,10 +112,10 @@ gulp.task('css', function() {
     .pipe($.autoprefixer())
     .pipe($.rename('thailpha-dev.css'))
     .pipe(gulp.dest(dist))
+    .pipe(reload({stream:true}))
     .pipe($.cssmin())
     .pipe($.rename('thailpha.css'))
-    .pipe(gulp.dest(dist))
-    .pipe(reload({stream:true}));
+    .pipe(gulp.dest(dist));
 });
 
 gulp.task('touch-icon', function() {

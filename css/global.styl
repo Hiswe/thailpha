@@ -15,3 +15,29 @@ body {
   flex-direction: column;
   min-height: 100vh;
 }
+
+header {
+  position: relative;
+}
+
+header,
+.main,
+footer {
+  padding: $gutter;
+}
+
+.settings {
+  position: absolute;
+  right: ($gutter/2);
+  top: @right;
+  color: $c-brand;
+  text-decoration: none;
+  width: 40px;
+  height: 40px;
+  font-size: 3em;
+  text-align: center;
+}
+
+.main {
+  flex-grow: 1;
+}
