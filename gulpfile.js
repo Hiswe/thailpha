@@ -136,9 +136,25 @@ gulp.task('touch-icon', function() {
     .pipe(gulp.dest(dist))
 });
 
+// app-cache manifest
+gulp.task('manifest', function(){
+  gulp.src([
+      'dist/**/*',
+      '!dist/*-dev.*',
+    ])
+    .pipe($.manifest({
+      timestamp: true,
+      preferOnline: true,
+      network: ['http://*', 'https://*', '*'],
+      filename: 'cache.manifest',
+      exclude: 'cache.manifest'
+     }))
+    .pipe(gulp.dest(dist));
+});
+
 // all together
 gulp.task('build', function(cb) {
-  return run('data', ['touch-icon', 'app', 'lib', 'css'], cb);
+  return run('data', ['touch-icon', 'app', 'lib', 'css'], 'manifest', cb);
 });
 
 ////////
@@ -149,7 +165,8 @@ gulp.task('browser-sync', function() {
   browserSync({
     open: false,
     server: {
-      baseDir: './dist'
+      baseDir:  './dist',
+      index:    'index-dev.html',
     }
   });
 });
@@ -157,7 +174,10 @@ gulp.task('browser-sync', function() {
 gulp.task('watch', function() {
   gulp.watch('data/**/*.json',  ['data']);
   gulp.watch('css/**/*.styl',   ['css']);
-  gulp.watch('js/**/*.js',       ['app']);
+  gulp.watch('js/**/*.js',      ['app']);
+  gulp.watch(['dist/*',
+    '!dist/cache.manifest',
+    '!dist/*-dev.*'],           ['manifest']);
 });
 
 gulp.task('dev', function(cb) {
@@ -175,7 +195,7 @@ gulp.task('doc', function(cb) {
   console.log(m('app'), g('...............'), 'bundle js files to distribution');
   console.log(m('lib'), g('...............'), 'bundle js libraries files distribution');
   console.log(m('touch-icon'), g('........'), 'resize touch-icon image for mobile');
-  // console.log(m('manifest'), g('..........'), 'generate appcache manifest');
+  console.log(m('manifest'), g('..........'), 'generate appcache manifest');
   console.log(m('build'), g('.............'), 'everything above');
   console.log(m('dev'), g('...............'), 'build, launch local server + watch files');
   // console.log(m('  --no-build'), g('......'), 'Skip asset building. !! building should have be done before');

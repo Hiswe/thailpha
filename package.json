@@ -28,6 +28,7 @@
     "gulp-image-resize": "^0.6.0",
     "gulp-jsoncombine": "^1.0.2",
     "gulp-load-plugins": "^0.8.0",
+    "gulp-manifest": "0.0.6",
     "gulp-plumber": "^0.6.6",
     "gulp-rename": "^1.2.0",
     "gulp-streamify": "0.0.5",
