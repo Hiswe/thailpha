@@ -1,8 +1,8 @@
 {
   "name": "thailpha",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Thai alhphabet webapp",
-  "author": "Yannick Aïvayan",
+  "author": "Hiswe",
   "main": "dist/index.html",
   "repository": {
     "type": "git",
@@ -17,7 +17,6 @@
     "thai",
     "alphabet"
   ],
-  "author": "Hiswe",
   "license": "ISC",
   "devDependencies": {
     "browser-sync": "^2.1.4",
