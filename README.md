@@ -14,14 +14,27 @@ Thai alphabet webapp
 ## Configuration
 
 ```
-npm install -g gulp
 npm install
+```
+
+### optional 
+
+Install gulp globally if you want to access all the build commands
+
+```
+npm install gulp -g
 ```
 
 ## Launching
 
 ```
 npm start
+```
+
+you can avoid to build the app by 
+
+```
+npm start -- --no-build
 ```
 
 additional commands can be find with:

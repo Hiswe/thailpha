@@ -53,36 +53,30 @@ gulp.task('bump', function(){
 // BUILD
 ////////
 
+function mergeData(prefix) {
+  return function (data) {
+    var letters = Object.keys(data);
+    var result  = letters.map(function (name, index) {
+        var letter   = data[name];
+        letter.id    = prefix + (index + 1);
+      return letter;
+    });
+    return new Buffer(JSON.stringify(result, null, 2));
+  }
+}
+
 gulp.task('data', function() {
   var cons = gulp.src('data/consonants/*.json')
     .pipe($.plumber({errorHandler: onError}))
-    .pipe($.jsoncombine('dico-consonants.js', function (data){
-      var consonants = Object.keys(data);
-      var result     = consonants.map(function (name, index){
-        var letter   = data[name];
-        letter.id    = 'c-' + (index + 1);
-        return letter;
-      });
-      return new Buffer(JSON.stringify(result, null, 2));
-    }))
-    .pipe($.defineModule('commonjs'))
-    .pipe(gulp.dest('js/models'));
+    .pipe($.jsoncombine('dico-consonants.js', mergeData('c-')));
 
   var shortVowels = gulp.src('data/vowels/short/*.json')
     .pipe($.plumber({errorHandler: onError}))
-    .pipe($.jsoncombine('dico-short-vowels.js', function (data){
-      var vowels = Object.keys(data);
-      var result     = vowels.map(function (name, index){
-        var letter   = data[name];
-        letter.id    = 'sv-' + (index + 1);
-        return letter;
-      });
-      return new Buffer(JSON.stringify(result, null, 2));
-    }))
+    .pipe($.jsoncombine('dico-short-vowels.js', mergeData('vs-')));
+
+  return mergeStream(cons, shortVowels)
     .pipe($.defineModule('commonjs'))
     .pipe(gulp.dest('js/models'));
-
-  return mergeStream(cons, shortVowels);
 });
 
 // usefull packages for after
@@ -219,6 +213,9 @@ gulp.task('watch', function() {
 });
 
 gulp.task('dev', function(cb) {
+  if (args.build === false) {
+    return run(['browser-sync', 'watch']);
+  }
   return run('build', ['browser-sync', 'watch']);
 });
 
