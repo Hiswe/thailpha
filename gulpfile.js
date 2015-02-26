@@ -44,28 +44,29 @@ var getVersion = function () {
 
 gulp.task('bump', function(){
   var type = args.major ? 'major' : args.minor ? 'minor' : 'patch';
-  gulp.src('./package.json')
-  .pipe($.bump({type: type}))
-  .pipe(gulp.dest('./'));
+  return gulp.src('./package.json')
+    .pipe($.bump({type: type}))
+    .pipe(gulp.dest('./'));
 });
 
 ////////
 // BUILD
 ////////
 
-function mergeData(prefix) {
-  return function (data) {
-    var letters = Object.keys(data);
-    var result  = letters.map(function (name, index) {
+gulp.task('data', function() {
+
+  function mergeData(prefix) {
+    return function (data) {
+      var letters = Object.keys(data);
+      var result  = letters.map(function (name, index) {
         var letter   = data[name];
         letter.id    = prefix + (index + 1);
-      return letter;
-    });
-    return new Buffer(JSON.stringify(result, null, 2));
+        return letter;
+      });
+      return new Buffer(JSON.stringify(result, null, 2));
+    }
   }
-}
 
-gulp.task('data', function() {
   var cons = gulp.src('data/consonants/*.json')
     .pipe($.plumber({errorHandler: onError}))
     .pipe($.jsoncombine('dico-consonants.js', mergeData('c-')));
@@ -74,7 +75,11 @@ gulp.task('data', function() {
     .pipe($.plumber({errorHandler: onError}))
     .pipe($.jsoncombine('dico-short-vowels.js', mergeData('vs-')));
 
-  return mergeStream(cons, shortVowels)
+  var longVowels = gulp.src('data/vowels/long/*.json')
+    .pipe($.plumber({errorHandler: onError}))
+    .pipe($.jsoncombine('dico-long-vowels.js', mergeData('vl-')));
+
+  return mergeStream(cons, shortVowels, longVowels)
     .pipe($.defineModule('commonjs'))
     .pipe(gulp.dest('js/models'));
 });
@@ -92,7 +97,7 @@ var basedir = __dirname + '/js';
 
 // Libs
 gulp.task('lib', function() {
-  var browserifyLib = browserify({
+  return browserify({
     basedir: basedir
   })
   .require(libs)
@@ -106,7 +111,7 @@ gulp.task('lib', function() {
 
 // application
 gulp.task('app', function () {
-  browserify({
+  return browserify({
     basedir: basedir,
     debug: true,
   })
@@ -127,7 +132,7 @@ gulp.task('app', function () {
 
 // stylus to css
 gulp.task('css', function() {
-  var filter = $.filter(['*', '!*.map']);
+  var filterMapFile = $.filter(['*', '!*.map']);
   return gulp.src('css/index.styl')
     .pipe($.plumber({errorHandler: onError}))
     .pipe($.sourcemaps.init())
@@ -137,7 +142,7 @@ gulp.task('css', function() {
     .pipe($.sourcemaps.write('.'))
     .pipe(gulp.dest(dist))
     .pipe(reload({stream:true}))
-    .pipe(filter)
+    .pipe(filterMapFile)
     .pipe($.cssmin())
     .pipe($.rename('thailpha.css'))
     .pipe(gulp.dest(dist));
@@ -165,19 +170,19 @@ gulp.task('touch-icon', function() {
 
 // app-cache manifest
 gulp.task('manifest', function(){
-  gulp.src([
-      'dist/**/*',
-      '!dist/*-dev.*',
-      '!dist/touch-icon-*',
-    ])
-    .pipe($.manifest({
-      timestamp: true,
-      preferOnline: true,
-      network: ['http://*', 'https://*', '*'],
-      filename: 'cache.manifest',
-      exclude: 'cache.manifest'
-     }))
-    .pipe(gulp.dest(dist));
+  return gulp.src([
+    'dist/**/*',
+    '!dist/*-dev.*',
+    '!dist/touch-icon-*',
+  ])
+  .pipe($.manifest({
+    timestamp: true,
+    preferOnline: true,
+    network: ['http://*', 'https://*', '*'],
+    filename: 'cache.manifest',
+    exclude: 'cache.manifest'
+   }))
+  .pipe(gulp.dest(dist));
 });
 
 // all together
@@ -233,7 +238,7 @@ gulp.task('doc', function(cb) {
   console.log(m('manifest'), g('..........'), 'generate appcache manifest');
   console.log(m('build'), g('.............'), 'everything above');
   console.log(m('dev'), g('...............'), 'build, launch local server + watch files');
-  // console.log(m('  --no-build'), g('......'), 'Skip asset building. !! building should have be done before');
+  console.log(m('  --no-build'), g('......'), 'Skip asset building. !! building should have be done before');
   console.log(m('bump'), g('..............'), 'patch version of json');
   console.log(m('  --minor'), g('.........'), 'minor version of ↑');
   console.log(m('  --major'), g('.........'), 'major version of ↑');

@@ -1,9 +1,13 @@
 'use strict';
 
 var consonants  = require('./dico-consonants.js');
+var shortVowels = require('./dico-short-vowels.js');
+var longVowels  = require('./dico-long-vowels.js');
 var Settings    = require('./settings.js');
 
-var getAll    = function getAll() {
+var allLetters  = [].concat(consonants, shortVowels);
+
+var getConsonants    = function getConsonants() {
   var settings = Settings.get();
   if (settings.showObsolete === false) {
     return consonants.filter(function (consonant) {
@@ -13,12 +17,17 @@ var getAll    = function getAll() {
   return consonants;
 };
 
-var getByIds   = function getById(ids) {
-  var settings = Settings.get();
+var getVowels       = function getVowels() {
+  return {
+    short:  shortVowels,
+    long:   longVowels,
+  };
+};
 
-  ids = Array.isArray(ids) ? ids : [ids];
-
-  var result = consonants.filter(function (consonant) {
+var getByIds   = function getById(query) {
+  var settings  = Settings.get();
+  var ids       = Array.isArray(query) ? query : [query];
+  var result    = allLetters.filter(function (consonant) {
     return ids.indexOf(consonant.id) !== -1;
   });
 
@@ -40,6 +49,7 @@ var getByIds   = function getById(ids) {
 };
 
 module.exports = {
-  getAll:   getAll,
-  getByIds: getByIds,
+  getConsonants:  getConsonants,
+  getVowels:      getVowels,
+  getByIds:       getByIds,
 };
