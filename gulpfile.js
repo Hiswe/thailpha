@@ -2,6 +2,7 @@
 
 var fs          = require('fs');
 var args        = require('yargs').argv;
+var mergeStream = require('merge-stream');
 var gulp        = require('gulp');
 var $           = require('gulp-load-plugins')();
 var run         = require('run-sequence');
@@ -53,9 +54,9 @@ gulp.task('bump', function(){
 ////////
 
 gulp.task('data', function() {
-  gulp.src('data/consonants/*.json')
+  var cons = gulp.src('data/consonants/*.json')
     .pipe($.plumber({errorHandler: onError}))
-    .pipe($.jsoncombine('consonants.js', function (data){
+    .pipe($.jsoncombine('dico-consonants.js', function (data){
       var consonants = Object.keys(data);
       var result     = consonants.map(function (name, index){
         var letter   = data[name];
@@ -66,6 +67,22 @@ gulp.task('data', function() {
     }))
     .pipe($.defineModule('commonjs'))
     .pipe(gulp.dest('js/models'));
+
+  var shortVowels = gulp.src('data/vowels/short/*.json')
+    .pipe($.plumber({errorHandler: onError}))
+    .pipe($.jsoncombine('dico-short-vowels.js', function (data){
+      var vowels = Object.keys(data);
+      var result     = vowels.map(function (name, index){
+        var letter   = data[name];
+        letter.id    = 'sv-' + (index + 1);
+        return letter;
+      });
+      return new Buffer(JSON.stringify(result, null, 2));
+    }))
+    .pipe($.defineModule('commonjs'))
+    .pipe(gulp.dest('js/models'));
+
+  return mergeStream(cons, shortVowels);
 });
 
 // usefull packages for after

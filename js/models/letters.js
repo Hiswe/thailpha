@@ -1,6 +1,6 @@
 'use strict';
 
-var consonants  = require('./consonants.js');
+var consonants  = require('./dico-consonants.js');
 var Settings    = require('./settings.js');
 
 var getAll    = function getAll() {

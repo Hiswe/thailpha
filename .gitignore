@@ -6,4 +6,4 @@ npm-debug.log
 /dist/*.png
 /dist/cache.manifest
 /dist/*.map
-/js/data
+/js/models/dico-*

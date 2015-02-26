@@ -40,6 +40,7 @@
     "gulp-uglify": "^1.1.0",
     "gulp-util": "^3.0.3",
     "gulp-webserver": "^0.9.0",
+    "merge-stream": "^0.1.7",
     "mithril": "^0.1.30",
     "run-sequence": "^1.0.2",
     "viewport-units-buggyfill": "^0.5.0",
