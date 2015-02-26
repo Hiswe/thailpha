@@ -26,12 +26,14 @@
     "gulp-bump": "^0.2.1",
     "gulp-cssmin": "^0.1.6",
     "gulp-define-module": "^0.1.1",
+    "gulp-filter": "^2.0.2",
     "gulp-image-resize": "^0.6.0",
     "gulp-jsoncombine": "^1.0.2",
     "gulp-load-plugins": "^0.8.0",
     "gulp-manifest": "0.0.6",
     "gulp-plumber": "^0.6.6",
     "gulp-rename": "^1.2.0",
+    "gulp-sourcemaps": "^1.4.0",
     "gulp-streamify": "0.0.5",
     "gulp-strip-debug": "^1.0.2",
     "gulp-stylus": "^2.0.0",
@@ -41,6 +43,7 @@
     "mithril": "^0.1.30",
     "run-sequence": "^1.0.2",
     "viewport-units-buggyfill": "^0.5.0",
-    "vinyl-source-stream": "^1.0.0"
+    "vinyl-source-stream": "^1.0.0",
+    "yargs": "^3.3.1"
   }
 }

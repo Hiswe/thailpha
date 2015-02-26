@@ -1,6 +1,7 @@
 'use strict';
 
 var fs          = require('fs');
+var args        = require('yargs').argv;
 var gulp        = require('gulp');
 var $           = require('gulp-load-plugins')();
 var run         = require('run-sequence');
@@ -41,8 +42,9 @@ var getVersion = function () {
 };
 
 gulp.task('bump', function(){
+  var type = args.major ? 'major' : args.minor ? 'minor' : 'patch';
   gulp.src('./package.json')
-  .pipe($.bump())
+  .pipe($.bump({type: type}))
   .pipe(gulp.dest('./'));
 });
 
@@ -94,7 +96,8 @@ gulp.task('lib', function() {
 // application
 gulp.task('app', function () {
   browserify({
-    basedir: basedir
+    basedir: basedir,
+    debug: true,
   })
   .external(libs)
   .require(basedir + '/index.js', {
@@ -113,13 +116,17 @@ gulp.task('app', function () {
 
 // stylus to css
 gulp.task('css', function() {
+  var filter = $.filter(['*', '!*.map']);
   return gulp.src('css/index.styl')
     .pipe($.plumber({errorHandler: onError}))
+    .pipe($.sourcemaps.init())
     .pipe($.stylus())
-    .pipe($.autoprefixer())
+    .pipe($.autoprefixer({debug: true}))
     .pipe($.rename('thailpha-dev.css'))
+    .pipe($.sourcemaps.write('.'))
     .pipe(gulp.dest(dist))
     .pipe(reload({stream:true}))
+    .pipe(filter)
     .pipe($.cssmin())
     .pipe($.rename('thailpha.css'))
     .pipe(gulp.dest(dist));
@@ -214,6 +221,8 @@ gulp.task('doc', function(cb) {
   console.log(m('dev'), g('...............'), 'build, launch local server + watch files');
   // console.log(m('  --no-build'), g('......'), 'Skip asset building. !! building should have be done before');
   console.log(m('bump'), g('..............'), 'patch version of json');
+  console.log(m('  --minor'), g('.........'), 'minor version of ↑');
+  console.log(m('  --major'), g('.........'), 'major version of ↑');
   return cb();
 });
 
