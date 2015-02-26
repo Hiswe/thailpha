@@ -2,6 +2,7 @@
   "name": "thailpha",
   "version": "0.2.1",
   "description": "Thai alhphabet webapp",
+  "author": "Yannick Aïvayan",
   "main": "dist/index.html",
   "repository": {
     "type": "git",

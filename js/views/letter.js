@@ -33,6 +33,9 @@ var similar = function similar(ctrl) {
 }
 
 var pronunciation = function pronunciation(ctrl) {
+  if (ctrl.char.pronunciation == null) {
+    return '';
+  }
   var pronunce = ctrl.char.pronunciation;
   if (typeof pronunce === 'string') {
     return  m('.letter-pronunciation', [
@@ -63,7 +66,9 @@ module.exports = function (ctrl) {
     m('.letter-container', {
       className: ctrl.char.isVowel ? 'is-vowel' : '',
     },[
-      m('strong.thai-letter', ctrl.char.letter),
+      m('strong.thai-letter', {
+        className: ctrl.char.longId,
+      }, ctrl.char.letter),
       variant(ctrl),
       m('p.letter-meaning', [
         m('span.letter-meaning-thai', ctrl.char.thai),

@@ -61,6 +61,27 @@ module.exports = function(ctrl) {
         ]),
       ]),
     ]),
+    m('section#numbers', [
+      m('header', [
+          m('h1.h1', 'numbers'),
+        ]
+      ),
+      m('ul.preview-list', [
+        ctrl.numbers.map(function (number) {
+          return m('li.preview-list-item', {
+            key:      number.id,
+            // href:     '/letter/' + consonant.id,
+            // config:   m.route
+            onclick:    ctrl.onClick.bind(number),
+          }, [
+            m('p.thai-letter', {
+              className: number.longId,
+            }, number.letter),
+            m('p.preview-list-item-rtgs', number.rtgs)
+          ]);
+        })
+      ]),
+    ]),
     nav(),
   ];
 };

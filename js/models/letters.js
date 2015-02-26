@@ -3,9 +3,10 @@
 var consonants  = require('./dico-consonants.js');
 var shortVowels = require('./dico-short-vowels.js');
 var longVowels  = require('./dico-long-vowels.js');
+var numbers     = require('./dico-numbers.js');
 var Settings    = require('./settings.js');
 
-var allLetters  = [].concat(consonants, shortVowels, longVowels);
+var allLetters  = [].concat(consonants, shortVowels, longVowels, numbers);
 
 var getConsonants    = function getConsonants() {
   var settings = Settings.get();
@@ -23,6 +24,10 @@ var getVowels       = function getVowels() {
     long:   longVowels,
   };
 };
+
+var getNumbers      = function getNumbers() {
+  return numbers;
+}
 
 var getByIds   = function getById(query) {
   var settings  = Settings.get();
@@ -56,5 +61,6 @@ var getByIds   = function getById(query) {
 module.exports = {
   getConsonants:  getConsonants,
   getVowels:      getVowels,
+  getNumbers:     getNumbers,
   getByIds:       getByIds,
 };

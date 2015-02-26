@@ -62,6 +62,7 @@ gulp.task('data', function() {
         var letter      = data[name];
         letter.id       = prefix + (index + 1);
         letter.isVowel  = /^v/.test(letter.id);
+        letter.longId   = prefix + letter.rtgs.replace(' ', '-');
         return letter;
       });
       return new Buffer(JSON.stringify(result, null, 2));
@@ -80,7 +81,11 @@ gulp.task('data', function() {
     .pipe($.plumber({errorHandler: onError}))
     .pipe($.jsoncombine('dico-long-vowels.js', mergeData('vl-')));
 
-  return mergeStream(cons, shortVowels, longVowels)
+  var numbers = gulp.src('data/numbers/*.json')
+    .pipe($.plumber({errorHandler: onError}))
+    .pipe($.jsoncombine('dico-numbers.js', mergeData('n-')));
+
+  return mergeStream(cons, shortVowels, longVowels, numbers)
     .pipe($.defineModule('commonjs'))
     .pipe(gulp.dest('js/models'));
 });
