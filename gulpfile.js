@@ -59,8 +59,9 @@ gulp.task('data', function() {
     return function (data) {
       var letters = Object.keys(data);
       var result  = letters.map(function (name, index) {
-        var letter   = data[name];
-        letter.id    = prefix + (index + 1);
+        var letter      = data[name];
+        letter.id       = prefix + (index + 1);
+        letter.isVowel  = /^v/.test(letter.id);
         return letter;
       });
       return new Buffer(JSON.stringify(result, null, 2));

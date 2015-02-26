@@ -5,7 +5,7 @@ var shortVowels = require('./dico-short-vowels.js');
 var longVowels  = require('./dico-long-vowels.js');
 var Settings    = require('./settings.js');
 
-var allLetters  = [].concat(consonants, shortVowels);
+var allLetters  = [].concat(consonants, shortVowels, longVowels);
 
 var getConsonants    = function getConsonants() {
   var settings = Settings.get();
@@ -36,6 +36,11 @@ var getByIds   = function getById(query) {
     result = result.filter(function (letter) {
       return letter.obsolete !== true;
     })
+  }
+
+  if (result.length === 0) {
+    console.warn('no letter found for', ids.join(' '));
+    return result;
   }
 
   if (result.length === 1) {

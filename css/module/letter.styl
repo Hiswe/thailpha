@@ -21,15 +21,7 @@
 .letter-meaning-thai {
   display: none;
 }
-.letter-thai {
-  order: 2;
-  flex-grow: 1;
-  font-size: 90vw;
-  font-weight: 400;
-  display: flex;
-  flex-center();
-  line-height: .8;
-}
+
 .letter-pronunciation {
   order: 3;
 }
@@ -43,4 +35,43 @@
   border-top: 1px solid $c-black;
   padding: $gutter;
   margin: 0;
+}
+
+.letter-container {
+  > .thai-letter {
+    order: 2;
+    flex-grow: 1;
+    font-size: 90vw;
+    font-weight: 400;
+    display: flex;
+    flex-center();
+    line-height: .8;
+  }
+
+  &.is-vowel > .thai-letter {
+    font-size: 45vw;
+  }
+}
+
+.letter-variant {
+  order: 4;
+  flex-grow: 1;
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: $gutter;
+
+  li {
+    display: flex;
+    flex-center();
+    border: 1px solid $c-grey-light;
+    font-size: 15vw;
+    flex-grow: 1;
+    flex-basis: 1%;
+    line-height: 0;
+
+    + li {
+      border-left: 0;
+    }
+  }
 }

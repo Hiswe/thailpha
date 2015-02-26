@@ -32,20 +32,44 @@ var similar = function similar(ctrl) {
   return '';
 }
 
+var pronunciation = function pronunciation(ctrl) {
+  var pronunce = ctrl.char.pronunciation;
+  if (typeof pronunce === 'string') {
+    return  m('.letter-pronunciation', [
+      m('span', pronunce),
+    ]);
+  }
+  return m('.letter-pronunciation', [
+    m('span.letter-pronunciation-label', 'start'),
+    m('span', pronunce.initial),
+    m('span.letter-pronunciation-label', 'final'),
+    m('span', pronunce.final),
+  ]);
+};
+
+var variant = function variant(ctrl) {
+  if (ctrl.char.variant == null) {
+    return '';
+  }
+  var altChar = ctrl.char.variant;
+  return m('ul.letter-variant', altChar.map(function (alt) {
+      return m('li.thai-letter', alt);
+    })
+  );
+};
+
 module.exports = function (ctrl) {
   return [
-    m('.letter-container', [
-      m('strong.letter-thai.thai-letter', ctrl.char.letter),
+    m('.letter-container', {
+      className: ctrl.char.isVowel ? 'is-vowel' : '',
+    },[
+      m('strong.thai-letter', ctrl.char.letter),
+      variant(ctrl),
       m('p.letter-meaning', [
         m('span.letter-meaning-thai', ctrl.char.thai),
         m('span.letter-meaning-rtgs', ctrl.char.rtgs),
       ]),
-      m('.letter-pronunciation', [
-        m('span.letter-pronunciation-label', 'start'),
-        m('span', ctrl.char.pronunciation.initial),
-        m('span.letter-pronunciation-label', 'final'),
-        m('span', ctrl.char.pronunciation.final),
-      ]),
+      pronunciation(ctrl),
       footer(ctrl),
     ]),
     nav('/'),
