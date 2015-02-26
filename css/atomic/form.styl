@@ -1,0 +1,25 @@
+input[type=checkbox] {
+  display: none;
+
+  + label {
+    display: flex;
+    align-items: center;
+  }
+}
+label::before {
+  content: '';
+  display: block;
+  width: 25px;
+  height: @width;
+  border: 1px solid $c-grey-light;
+  margin: 0 .5em 0 0;
+}
+input:checked + label::before {
+  content: '\2713';
+  background: $c-brand;
+  border-color: $c-brand;
+  color: $c-white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

@@ -2,13 +2,24 @@
   color: $c-brand;
 }
 .btn {
-  background: $c-brand;
-  color: $c-white;
-  border: 0;
-  font-size: 1em;
-  padding: .5em 1em;
-}
-.btn-footer {
   text-decoration: none;
+  background: none;
+  border-radius: 0;
   color: $c-brand;
+  border: 1px solid $c-brand;
+  cursor: pointer;
+  padding: .5em 1em;
+  font-size: 1em;
+
+  &:hover,
+  &:focus {
+    color: $c-brand-dark;
+    border-color: $c-brand-dark;
+    outline: none;
+  }
+  &:active {
+    background: $c-brand;
+    color: $c-white;
+    border-color: $c-brand;
+  }
 }
