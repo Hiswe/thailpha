@@ -128,6 +128,7 @@ gulp.task('css', function() {
 gulp.task('touch-icon', function() {
   var basename    = 'touch-icon-';
   return gulp.src('data/ios.png')
+    .pipe($.imageResize({width: 180, height: 180, upscale: true}))
     .pipe($.rename(function (path){ path.basename = basename + 'iphone-6-plus'}))
     .pipe(gulp.dest(dist))
     .pipe($.imageResize({width: 152, height: 152, upscale: true}))
@@ -149,6 +150,7 @@ gulp.task('manifest', function(){
   gulp.src([
       'dist/**/*',
       '!dist/*-dev.*',
+      '!dist/touch-icon-*',
     ])
     .pipe($.manifest({
       timestamp: true,
