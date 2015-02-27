@@ -19,7 +19,9 @@ module.exports = function(ctrl) {
             // config:   m.route
             onclick:    ctrl.onClick.bind(consonant),
           }, [
-            m('p.thai-letter', consonant.letter),
+            m('p.thai-letter', {
+              className: consonant.longId,
+            }, consonant.letter),
             m('p.preview-list-item-rtgs', consonant.rtgs)
           ]);
         })

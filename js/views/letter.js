@@ -68,6 +68,7 @@ module.exports = function (ctrl) {
     },[
       m('strong.thai-letter', {
         className: ctrl.char.longId,
+      // }, m('span', ctrl.char.letter)),
       }, ctrl.char.letter),
       variant(ctrl),
       m('p.letter-meaning', [
