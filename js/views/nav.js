@@ -1,22 +1,23 @@
 'use strict';
 
 var m           = require('mithril');
+var actualRoute = '';
 
 var goBack      = function goBack() {
   history.back();
 };
 
-var backLink    = function backLink(url) {
-  if (url) {
-    return m('a.top-nav-back', {
-      onclick: goBack,
-    }, '< back');
+var backLink    = function backLink() {
+  if (actualRoute === '/') {
+    return [];
   }
-  return [];
+  return m('a.top-nav-back', {
+    onclick: goBack,
+  }, '< back');
 }
 
-var settings    = function settings(isSettings) {
-  if (isSettings === false) {
+var settings    = function settings() {
+  if (actualRoute === '/settings') {
     return [];
   }
   return m('a.top-nav-settings[href="/settings"]', {
@@ -24,21 +25,24 @@ var settings    = function settings(isSettings) {
   }, 'settings');
 }
 
-var home      = function home() {
-  if (m.route() === '/') {
-    return '';
+var home      = function home(ctrl) {
+  if (actualRoute === '/') {
+    return m('input[type=text][placeholder=search]', {
+      oninput: ctrl.onSearch.bind(ctrl)
+    });
   }
   return m('a.top-nav-home[href="/"]', {
     config: m.route,
   }, 'home');
 }
 
-module.exports = function (url, isSettings) {
+module.exports = function (ctrl) {
+  actualRoute = m.route();
   return [
     m('nav.top-nav', [
-      backLink(url),
-      home(),
-      settings(isSettings),
+      backLink(),
+      home(ctrl),
+      settings(),
     ]),
   ];
 }

@@ -12,4 +12,7 @@ module.exports = function () {
   this.onClick    = function (e) {
     m.route('/letter/' + this.id);
   }
+  this.onSearch   = function (e) {
+    this.consonants = letters.filterConsonants(e.target.value);
+  }
 };

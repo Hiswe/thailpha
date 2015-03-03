@@ -22,7 +22,8 @@ module.exports = function(ctrl) {
             m('p.thai-letter', {
               className: consonant.longId,
             }, consonant.letter),
-            m('p.preview-list-item-rtgs', consonant.rtgs)
+            m('p.preview-list-item-rtgs', consonant.rtgs),
+            m('p.preview-list-item-meaning', consonant.meaning),
           ]);
         })
       ]),
@@ -72,8 +73,6 @@ module.exports = function(ctrl) {
         ctrl.numbers.map(function (number) {
           return m('li.preview-list-item', {
             key:      number.id,
-            // href:     '/letter/' + consonant.id,
-            // config:   m.route
             onclick:    ctrl.onClick.bind(number),
           }, [
             m('p.thai-letter', {
@@ -84,6 +83,6 @@ module.exports = function(ctrl) {
         })
       ]),
     ]),
-    nav(),
+    nav(ctrl),
   ];
 };

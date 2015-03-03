@@ -58,9 +58,23 @@ var getByIds   = function getById(query) {
   });
 };
 
+var filterConsonants = function filterConsonants(query) {
+  query = query.toLowerCase();
+  return consonants.filter(function (consonant) {
+    if (consonant.rtgs.indexOf(query) !== -1) {
+      return consonant;
+    }
+    if (consonant.meaning.indexOf(query) !== -1) {
+      return consonant;
+    }
+    return false;
+  });
+};
+
 module.exports = {
-  getConsonants:  getConsonants,
-  getVowels:      getVowels,
-  getNumbers:     getNumbers,
-  getByIds:       getByIds,
+  getConsonants:    getConsonants,
+  getVowels:        getVowels,
+  getNumbers:       getNumbers,
+  getByIds:         getByIds,
+  filterConsonants: filterConsonants,
 };
