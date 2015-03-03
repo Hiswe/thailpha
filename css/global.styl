@@ -12,12 +12,21 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 body {
+  background: $c-grey-light;
+}
+#main {
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  background: $c-white;
 
   > *:first-child {
     padding-top: $s-nav;
+  }
+
+  +mq('big') {
+    max-width: 1280px;
+    margin: 0 auto;
   }
 }
 header {
@@ -42,16 +51,20 @@ footer {
 footer {
   border-top: 1px solid $c-black;
   padding-bottom: ($gutter/2);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
   > * {
     margin: .5em 0 0;
   }
 }
 
-.main {
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-}
+// .main {
+//   flex-grow: 1;
+//   display: flex;
+//   flex-direction: column;
+// }
 
 .version {
   font-size: 12px;

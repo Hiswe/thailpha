@@ -21,7 +21,7 @@ var settings = {
   view:       require('./views/settings.js'),
 };
 
-m.route(document.body, '/', {
+m.route(document.getElementById('main'), '/', {
   '/': home,
   '/settings': settings,
   '/letter/:letterId': letter

@@ -93,3 +93,46 @@
   }
 }
 
++mq('landscape') {
+  .letter-container {
+    position: relative;
+    align-items: flex-end;
+
+    .thai-letter {
+      font-size: 30vw;
+      width: 75%;
+      border-left: 1px solid $c-grey-light;
+    }
+    .letter-meaning,
+    .letter-pronunciation {
+      position: absolute;
+      width: 25%;
+      left: 0;
+      font-size: 4vw;
+    }
+    .letter-pronunciation {
+      padding-top: $gutter;
+      border-top: 1px solid $c-grey-light;
+      top: 50%;
+      span {
+        float: left;
+      }
+      .letter-pronunciation-label {
+        clear: left;
+      }
+    }
+
+    .letter-hint {
+      width: 100%;
+    }
+  }
+}
+
++mq('big') {
+  .letter-container {
+    .thai-letter {
+      font-size: 55vw;
+      line-height: 0;
+    }
+  }
+}

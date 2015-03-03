@@ -9,6 +9,7 @@
 
   display: flex;
   align-items: center;
+  justify-content: space-between;
 
   a {
     height: $s-nav;
@@ -19,7 +20,12 @@
     align-items: center;
   }
 }
+.top-nav-home:last-child {
+  margin-right: auto;
+  margin-left: auto;
+  transform: translateX(-50%);
+}
 
-.top-nav-settings {
+.top-nav-settings:first-child {
   margin-left: auto;
 }

@@ -157,7 +157,26 @@ gulp.task('css', function() {
 
 gulp.task('touch-icon', function() {
   var basename    = 'touch-icon-';
-  return gulp.src('data/ios.png')
+  return gulp.src(['data/ios.png'])
+    .pipe($.imageResize({width: 180, height: 180, upscale: true}))
+    .pipe($.rename(function (path){ path.basename = basename + 'iphone-6-plus'}))
+    .pipe(gulp.dest(dist))
+    .pipe($.imageResize({width: 152, height: 152, upscale: true}))
+    .pipe($.rename(function (path){ path.basename = basename + 'ipad-retina'}))
+    .pipe(gulp.dest(dist))
+    .pipe($.imageResize({width: 120, height: 120, upscale: true}))
+    .pipe($.rename(function (path){ path.basename = basename + 'iphone-retina'}))
+    .pipe(gulp.dest(dist))
+    .pipe($.imageResize({width: 76, height: 76, upscale: true}))
+    .pipe($.rename(function (path){ path.basename = basename + 'icon-ipad'}))
+    .pipe(gulp.dest(dist))
+    .pipe($.imageResize({width: 57, height: 57, upscale: true}))
+    .pipe($.rename(function (path){ path.basename = basename + 'icon-iphone'}))
+    .pipe(gulp.dest(dist))
+});
+gulp.task('touch-icon-dev', function() {
+  var basename    = 'touch-icon-dev-';
+  return gulp.src(['data/ios-dev.png'])
     .pipe($.imageResize({width: 180, height: 180, upscale: true}))
     .pipe($.rename(function (path){ path.basename = basename + 'iphone-6-plus'}))
     .pipe(gulp.dest(dist))
@@ -195,7 +214,11 @@ gulp.task('manifest', function(){
 
 // all together
 gulp.task('build', function(cb) {
-  return run('data', ['touch-icon', 'app', 'lib', 'css'], 'manifest', cb);
+  return run(
+    'data',
+    ['touch-icon', 'touch-icon-dev', 'app', 'lib', 'css'],
+    'manifest',
+    cb);
 });
 
 ////////

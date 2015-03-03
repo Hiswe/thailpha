@@ -2,3 +2,21 @@ flex-center() {
   align-items: center;
   justify-content: center;
 }
+
+mq($$size) {
+  if ($$size == "small-only") {
+    @media only screen and (max-width: $s-mq-small-only) {
+      {block}
+    }
+  } else if ($$size == "big") {
+    @media only screen and (min-width: $s-mq-big) {
+      {block}
+    }
+  } else if ($$size == "landscape") {
+    @media only screen and (orientation: landscape) {
+      {block}
+    }
+  } else {
+    {block}
+  }
+}
