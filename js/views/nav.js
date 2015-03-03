@@ -5,8 +5,7 @@ var m           = require('mithril');
 var backLink    = function backLink(url) {
   if (url) {
     return m('a.top-nav-back', {
-      href: url,
-      config: m.route
+      href: 'javascript:history.back();',
     }, '< back');
   }
   return [];
