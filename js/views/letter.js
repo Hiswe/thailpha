@@ -74,6 +74,7 @@ module.exports = function (ctrl) {
       m('p.letter-meaning', [
         m('span.letter-meaning-thai', ctrl.char.thai),
         m('span.letter-meaning-rtgs', ctrl.char.rtgs),
+        m('span.letter-meaning-translation', ctrl.char.meaning),
       ]),
       pronunciation(ctrl),
       footer(ctrl),
