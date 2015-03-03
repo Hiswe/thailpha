@@ -1,5 +1,8 @@
 .top-nav {
-  order: -1;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
   background: $c-black;
   text-decoration: none;
   color: $c-white;
@@ -8,10 +11,12 @@
   align-items: center;
 
   a {
-    height: 40px;
-    padding: ($gutter/1.25) $gutter;
+    height: $s-nav;
+    padding: 0 $gutter;
     color: $c-white;
     text-decoration: none;
+    display: inline-flex;
+    align-items: center;
   }
 }
 

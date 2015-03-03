@@ -79,7 +79,7 @@ module.exports = function (ctrl) {
       pronunciation(ctrl),
       footer(ctrl),
     ]),
-    nav('/'),
     similar(ctrl),
+    nav('/'),
   ];
 }

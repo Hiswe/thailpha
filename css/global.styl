@@ -3,7 +3,6 @@
 *::after {
   box-sizing: border-box;
 }
-
 html,
 body {
   margin: 0;
@@ -16,11 +15,14 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+
+  > *:first-child {
+    padding-top: $s-nav;
+  }
 }
 header {
   position: relative;
 }
-
 dl,
 dd {
   padding:  0;
@@ -36,6 +38,7 @@ header,
 footer {
   padding: $gutter;
 }
+
 footer {
   border-top: 1px solid $c-black;
   padding-bottom: ($gutter/2);

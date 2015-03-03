@@ -6,7 +6,7 @@ var nav         = require('./nav.js');
 
 module.exports = function(ctrl) {
   return [
-    m('section#consonants', [
+    m('section#consonants.home-section', [
       m('header', [
           m('h1.h1', 'consonants'),
         ]
@@ -27,7 +27,7 @@ module.exports = function(ctrl) {
         })
       ]),
     ]),
-    m('section#vowels', [
+    m('section#vowels.home-section', [
       m('header', [
           m('h1.h1', 'vowels'),
         ]
@@ -63,7 +63,7 @@ module.exports = function(ctrl) {
         ]),
       ]),
     ]),
-    m('section#numbers', [
+    m('section#numbers.home-section', [
       m('header', [
           m('h1.h1', 'numbers'),
         ]
