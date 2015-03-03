@@ -108,11 +108,13 @@ gulp.task('lib', function() {
   })
   .require(libs)
   .bundle()
-  .pipe(source('lib-dev.js'))
+  .pipe(source('lib.js'))
+  .pipe($.streamify($.sourcemaps.init({loadMaps: true})))
+    .pipe($.streamify($.uglify()))
+  .pipe($.streamify($.sourcemaps.write('.')))
   .pipe(gulp.dest(dist))
-  .pipe($.streamify($.uglify()))
-  .pipe($.rename('lib.js'))
-  .pipe(gulp.dest(dist));
+  .pipe($.filter(['*', '!*.map']))
+  .pipe(reload({stream:true}));
 });
 
 // application
@@ -127,13 +129,13 @@ gulp.task('app', function () {
   })
   .bundle()
   .on('error', onError)
-  .pipe(source('thailpha-dev.js'))
+  .pipe(source('thailpha.js'))
+  .pipe($.streamify($.sourcemaps.init({loadMaps: true})))
+    .pipe($.streamify($.uglify()))
+  .pipe($.streamify($.sourcemaps.write('.')))
   .pipe(gulp.dest(dist))
-  .pipe(reload({stream:true}))
-  .pipe($.streamify($.uglify()))
-  .pipe($.streamify($.stripDebug()))
-  .pipe($.rename('thailpha.js'))
-  .pipe(gulp.dest(dist));
+  .pipe($.filter(['*', '!*.map']))
+  .pipe(reload({stream:true}));
 });
 
 // stylus to css
@@ -142,16 +144,15 @@ gulp.task('css', function() {
   return gulp.src('css/index.styl')
     .pipe($.plumber({errorHandler: onError}))
     .pipe($.sourcemaps.init())
-    .pipe($.stylus())
-    .pipe($.autoprefixer({debug: true}))
-    .pipe($.rename('thailpha-dev.css'))
+      .pipe($.stylus({
+        compress: true
+      }))
+      .pipe($.autoprefixer({debug: true}))
+      .pipe($.rename('thailpha.css'))
     .pipe($.sourcemaps.write('.'))
     .pipe(gulp.dest(dist))
-    .pipe(reload({stream:true}))
-    .pipe(filterMapFile)
-    .pipe($.cssmin())
-    .pipe($.rename('thailpha.css'))
-    .pipe(gulp.dest(dist));
+    .pipe($.filter(['*', '!*.map']))
+    .pipe(reload({stream:true}));
 });
 
 gulp.task('touch-icon', function() {
@@ -178,7 +179,8 @@ gulp.task('touch-icon', function() {
 gulp.task('manifest', function(){
   return gulp.src([
     'dist/**/*',
-    '!dist/*-dev.*',
+    '!dist/*.map',
+    '!dist/*.html',
     '!dist/touch-icon-*',
   ])
   .pipe($.manifest({
@@ -225,9 +227,9 @@ gulp.task('watch', function() {
 
 gulp.task('dev', function(cb) {
   if (args.build === false) {
-    return run(['browser-sync', 'watch']);
+    return run(['browser-sync', 'watch'], cb);
   }
-  return run('build', ['browser-sync', 'watch']);
+  return run('build', ['browser-sync', 'watch'], cb);
 });
 
 ////////
