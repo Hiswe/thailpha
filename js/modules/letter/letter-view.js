@@ -2,7 +2,7 @@
 
 var m           = require('mithril');
 
-var nav         = require('./nav.js');
+var nav         = require('../../components/nav.js');
 
 var footer      = function footer(ctrl)  {
   if (ctrl.hasSimilar) {

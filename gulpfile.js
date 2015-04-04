@@ -262,17 +262,17 @@ gulp.task('dev', function(cb) {
 gulp.task('doc', function(cb) {
   var m = $.util.colors.magenta;
   var g = $.util.colors.grey;
-  console.log(m('css'), g('...............'), 'compile Stylus files to distribution');
-  console.log(m('app'), g('...............'), 'bundle js files to distribution');
-  console.log(m('lib'), g('...............'), 'bundle js libraries files distribution');
-  console.log(m('touch-icon'), g('........'), 'resize touch-icon image for mobile');
-  console.log(m('manifest'), g('..........'), 'generate appcache manifest');
-  console.log(m('build'), g('.............'), 'everything above');
-  console.log(m('dev'), g('...............'), 'build, launch local server + watch files');
-  console.log(m('  --no-build'), g('......'), 'Skip asset building. !! building should have be done before');
-  console.log(m('bump'), g('..............'), 'patch version of json');
-  console.log(m('  --minor'), g('.........'), 'minor version of ↑');
-  console.log(m('  --major'), g('.........'), 'major version of ↑');
+  console.log(m('css'), g('………………………………………'), 'compile Stylus files to distribution');
+  console.log(m('app'), g('………………………………………'), 'bundle js files to distribution');
+  console.log(m('lib'), g('………………………………………'), 'bundle js libraries files distribution');
+  console.log(m('touch-icon'), g('……………………'), 'resize touch-icon image for mobile');
+  console.log(m('manifest'), g('…………………………'), 'generate appcache manifest');
+  console.log(m('build'), g('…………………………………'), 'everything above');
+  console.log(m('dev'), g('………………………………………'), 'build, launch local server + watch files');
+  console.log(m('  --no-build'), g('………………'), 'Skip asset building. !! building should have be done before');
+  console.log(m('bump'), g('……………………………………'), 'patch version of json');
+  console.log(m('  --minor'), g('………………………'), 'minor version of ↑');
+  console.log(m('  --major'), g('………………………'), 'major version of ↑');
   return cb();
 });
 

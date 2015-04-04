@@ -2,7 +2,7 @@
 
 var m       = require('mithril');
 
-var letters   = require('../models/letters.js');
+var letters   = require('../../models/letters.js');
 
 
 module.exports = function () {

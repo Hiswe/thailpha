@@ -2,8 +2,8 @@
 
 var m           = require('mithril');
 
-var pkg         = require('../../package.json');
-var nav         = require('./nav.js');
+var pkg         = require('../../../package.json');
+var nav         = require('../../components/nav.js');
 
 module.exports = function (ctrl) {
   return [
