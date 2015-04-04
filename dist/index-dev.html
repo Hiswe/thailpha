@@ -22,6 +22,7 @@
 
     <title>Thailpha</title>
     <link rel="stylesheet" href="thailpha.css">
+    <script src="modernizr.custom.00701.js"></script>
     <script src="lib.js"></script>
     <script src="thailpha.js"></script>
   </head>
@@ -29,6 +30,7 @@
     <div id="main"></div>
     <script type="text/javascript">
       require('thailpha');
+      document.getElementsByTagName('html')[0].className = 'no-flexbox';
     </script>
   </body>
 </html>

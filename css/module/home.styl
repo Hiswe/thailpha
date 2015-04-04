@@ -3,12 +3,13 @@
   padding: 0;
   border: solid $c-grey-light;
   border-width: 1px 0 0;
-  display: flex;
-  flex-wrap: wrap;
+  // display: flex;
+  // flex-wrap: wrap;
 }
 .preview-list-item {
-  display: inline-flex;
-  flex-direction: column;
+  list-style: none;
+  // display: inline-flex;
+  // flex-direction: column;
   width: 25vw;
   min-height: @width;
   border: 1px solid $c-grey-light;
@@ -22,16 +23,16 @@
 
   .thai-letter {
     font-size: 15vw;
-    flex-grow: 1;
-    display: flex;
-    flex-center();
+    // flex-grow: 1;
+    // display: flex;
+    // flex-center();
   }
 }
 
 .preview-list-item-rtgs {
   font-size: 3vw;
   padding: .5em 0 .25em;
-  order: -1;
+  // order: -1;
 }
 .preview-list-item-meaning {
   color: $c-grey;
@@ -96,5 +97,32 @@
   .preview-list-item-meaning,
   .preview-list-item-rtgs {
     font-size: 16px;
+  }
+}
+
+
+.no-flexbox {
+  .preview-list-item {
+    float: left;
+  }
+  .thai-letter {
+    height: 50px;
+
+    &::before {
+      content: '';
+      height: 100%;
+      display: inline-block;
+      vertical-align: middle;
+    }
+  }
+  .preview-list-vowels .thai-letter {
+    height: 70px;
+  }
+
+  dd::after {
+    content: '';
+    display: table;
+    clear: both;
+
   }
 }

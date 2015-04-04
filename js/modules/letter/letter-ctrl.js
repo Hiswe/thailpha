@@ -2,6 +2,7 @@
 
 var m           = require('mithril');
 
+var letters     = require('../../models/letters.js');
 var nav         = require('../../components/nav.js');
 
 module.exports = function () {
