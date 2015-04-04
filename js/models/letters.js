@@ -53,9 +53,16 @@ var getByIds   = function getById(query) {
   }
 
   // sort by the query order
-  return result.sort(function (a, b) {
-    return ids.indexOf(a.id) > ids.indexOf(b.id);
+  result = result.sort(function (a, b) {
+    var c = ids.indexOf(a.id);
+    var d = ids.indexOf(b.id);
+    // long version of compare as in mobile phone 'return c > d' doensn't work
+    if (c < d) return -1;
+    if (c > d) return 1;
+    return 0
   });
+
+  return result;
 };
 
 var filterConsonants = function filterConsonants(query) {
