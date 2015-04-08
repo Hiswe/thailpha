@@ -123,6 +123,10 @@ var sourcemapsLib = lazypipe()
   .pipe(concat)
   .pipe(function () { return $.streamify($.sourcemaps.write('.'));});
 
+var write = lazypipe()
+  .pipe(gulp.dest, dest[env])
+  .pipe(function () { return $.if(env === 'dev', reload({stream:true}));  });
+
 // LIBS
 var libs = [
   'mithril',
@@ -144,8 +148,7 @@ gulp.task('lib', function() {
 
   return mergeStream(modernizr, lib)
   .pipe($.if(args.prod, compressLib(), sourcemapsLib()))
-  .pipe(gulp.dest(dest[env]))
-  .pipe(reload({stream:true}));
+  .pipe(write());
 });
 
 // APPLICATION
@@ -162,8 +165,7 @@ gulp.task('app', function () {
   .on('error', onError)
   .pipe(source('thailpha.js'))
   .pipe($.if(args.prod, compress(), sourcemaps()))
-  .pipe(gulp.dest(dest[env]))
-  .pipe(reload({stream:true}));
+  .pipe(write());
 });
 
 // STYLUS TO CSS
@@ -182,9 +184,7 @@ gulp.task('css', function() {
     .src('css/index.styl')
     .pipe($.plumber({errorHandler: onError}))
     .pipe($.if(args.prod, cssProd(), cssDev()))
-    .pipe(gulp.dest(dest[env]))
-    .pipe($.filter(['*', '!*.map']))
-    .pipe(reload({stream:true}));
+    .pipe(write());
 });
 
 // ICONS
@@ -233,7 +233,7 @@ gulp.task('html', function () {
       pretty: env === 'dev',
       locals: {env: env}
     }))
-    .pipe(gulp.dest(dest[env]));
+    .pipe(write());
 });
 
 gulp.task('clean', function (cb) {
@@ -273,6 +273,7 @@ gulp.task('browser-sync', function() {
 gulp.task('watch', function() {
   gulp.watch('data/**/*.json',  ['data']);
   gulp.watch('css/**/*.styl',   ['css']);
+  gulp.watch('html/*.jade',     ['html']);
   gulp.watch([
     'js/**/**/*.js',
     'package.json',
@@ -294,15 +295,16 @@ gulp.task('dev', function(cb) {
 gulp.task('doc', function(cb) {
   var m = $.util.colors.magenta;
   var g = $.util.colors.grey;
-  console.log(m('css'), g('………………………………………'), 'compile Stylus files to distribution');
-  console.log(m('app'), g('………………………………………'), 'bundle js files to distribution');
-  console.log(m('lib'), g('………………………………………'), 'bundle js libraries files distribution');
+  console.log(m('css'), g('………………………………………'), 'compile Stylus files');
+  console.log(m('html'), g('……………………………………'), 'compile Html files');
+  console.log(m('app'), g('………………………………………'), 'bundle js files');
+  console.log(m('lib'), g('………………………………………'), 'bundle js libraries files');
   console.log(m('touch-icon'), g('……………………'), 'resize touch-icon image for mobile');
   console.log(m('manifest'), g('…………………………'), 'generate appcache manifest');
   console.log(m('build'), g('…………………………………'), 'everything above');
-  console.log(m('  --prod'), g('…………………………'), 'compress and bundle in dist folder');
+  console.log(m('  --prod'), g('…………………………'), 'compress and bundle in distribution folder');
   console.log(m('dev'), g('………………………………………'), 'build, launch local server + watch files');
-  console.log(m('  --no-build'), g('………………'), 'Skip asset building. !! building should have be done before');
+  console.log(m('  --no-build'), g('………………'), 'skip asset building. !! building should have be done before');
   console.log(m('bump'), g('……………………………………'), 'patch version of json');
   console.log(m('  --minor'), g('………………………'), 'minor version of ↑');
   console.log(m('  --major'), g('………………………'), 'major version of ↑');
