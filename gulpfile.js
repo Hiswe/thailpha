@@ -128,7 +128,7 @@ var libs = [
   'mithril',
   'fastclick',
   'viewport-units-buggyfill',
-  'dominus',
+  // 'dominus',
   'velocity-animate',
 ];
 var basedir = __dirname + '/js';

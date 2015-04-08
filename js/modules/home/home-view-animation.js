@@ -1,10 +1,7 @@
 'use strict';
 
 var m       = require('mithril');
-var $       = function $(selector) {
-  // var elements = ;
-  return document.querySelectorAll(selector);
-};
+var $       = require('../query');
 
 // http://lhorie.github.io/mithril-blog/velocity-animations-in-mithril.html
 var slideUp = function slideUp(callback) {
@@ -36,14 +33,15 @@ var slideDown = function slideDown(callback) {
 };
 
 var scrollUp = function scrollUp(element, isInitialized, context) {
-  console.log('pouic');
   if (!isInitialized) return ;
-  var $content = $('.content')[0];
+  var $content    = $('.content')[0];
+  var $container  = $('#letter')[0];
+  var $letter     = $('.letter-container')[0];
   Velocity($content, 'scroll', {
-    container: $('#letter')[0],
+    container: $container,
   });
-  $content.style.opacity = 0;
-  Velocity($content, {opacity: 1, delay: 200});
+  $letter.style.opacity = 0;
+  Velocity($letter, {opacity: 1, delay: 200});
 };
 
 module.exports = {

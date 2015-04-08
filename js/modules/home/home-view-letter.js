@@ -20,7 +20,6 @@ var similar = function similar(ctrl) {
           m('td.thai-letter', [
             m('a', {
               onclick: function () { ctrl.vm.current(similar.id); },
-              config: animation.scrollUp,
             }, similar.letter),
           ]),
           m('td', similar.rtgs),
@@ -64,7 +63,9 @@ var variant = function variant(letter) {
 
 module.exports = function (ctrl) {
   var letter = ctrl.vm.current();
-  return m('#letter', m('.content', [
+  return m('#letter', m('.content', {
+    config: animation.scrollUp,
+  }, [
     m('.letter-container', {
       className: letter.char.isVowel ? 'is-vowel' : '',
       onclick: function () { ctrl.vm.reset() },
