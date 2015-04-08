@@ -1,10 +1,6 @@
 /node_modules
 .DS_Store
 npm-debug.log
-/dist/thailpha.js
-/dist/lib.js
-/dist/*.css
-/dist/*.png
-/dist/cache.manifest
-/dist/*.map
+/dist
+/.tmp
 /js/models/dico-*

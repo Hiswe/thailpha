@@ -1,19 +1,30 @@
 'use strict';
 
-var fs          = require('fs');
-var args        = require('yargs').argv;
-var mergeStream = require('merge-stream');
-var gulp        = require('gulp');
-var $           = require('gulp-load-plugins')();
-var run         = require('run-sequence');
-var browserSync = require('browser-sync');
-var reload      = browserSync.reload;
+var fs            = require('fs');
+var args          = require('yargs').argv;
+var del           = require('del');
+var mergeStream   = require('merge-stream');
+var gulp          = require('gulp');
+var $             = require('gulp-load-plugins')();
+var run           = require('run-sequence');
+var lazypipe      = require('lazypipe');
+var browserSync   = require('browser-sync');
+var reload        = browserSync.reload;
 // Browserify dependencies
-var browserify  = require('browserify');
-var source      = require('vinyl-source-stream');
+var browserify    = require('browserify');
+var source        = require('vinyl-source-stream');
 
-var dist        = 'dist';
-var assets      = dist + '/assets';
+var dist          = 'dist';
+
+var env           = args.prod ? 'prod' : 'dev';
+var dest          = {
+  prod: 'dist',
+  dev:  '.tmp',
+};
+var icon          = {
+  prod: 'data/ios.png',
+  dev:  'data/ios-dev.png',
+};
 
 ////////
 // MISC
@@ -93,7 +104,26 @@ gulp.task('data', function() {
 // usefull packages for after
 // https://www.npmjs.com/package/mithrilify
 
-// browserify
+var concat  = lazypipe()
+  .pipe(function () { return $.streamify($.concat('thailpha-lib.js')); });
+
+var compress = lazypipe()
+  .pipe($.streamify, $.uglify)
+  .pipe($.streamify, $.stripDebug);
+  // .pipe($.gzip, { append: false });
+
+var compressLib   = concat.pipe(compress);
+
+var sourcemaps = lazypipe()
+  .pipe(function () { return $.streamify($.sourcemaps.init({loadMaps: true}));})
+  .pipe(function () { return $.streamify($.sourcemaps.write('.')); });
+
+var sourcemapsLib = lazypipe()
+  .pipe(function () { return $.streamify($.sourcemaps.init({loadMaps: true}));})
+  .pipe(concat)
+  .pipe(function () { return $.streamify($.sourcemaps.write('.'));});
+
+// LIBS
 var libs = [
   'mithril',
   'fastclick',
@@ -101,23 +131,24 @@ var libs = [
 ];
 var basedir = __dirname + '/js';
 
-// Libs
 gulp.task('lib', function() {
-  return browserify({
-    basedir: basedir
+  var modernizr = gulp.src('html/modernizr.custom.js');
+  var lib       = browserify({
+    basedir: basedir,
+    noParse:  libs,
+    debug:    true,
   })
   .require(libs)
   .bundle()
-  .pipe(source('lib.js'))
-  .pipe($.streamify($.sourcemaps.init({loadMaps: true})))
-    .pipe($.streamify($.uglify()))
-  .pipe($.streamify($.sourcemaps.write('.')))
-  .pipe(gulp.dest(dist))
-  .pipe($.filter(['*', '!*.map']))
+  .pipe(source('lib.js'));
+
+  return mergeStream(modernizr, lib)
+  .pipe($.if(args.prod, compressLib(), sourcemapsLib()))
+  .pipe(gulp.dest(dest[env]))
   .pipe(reload({stream:true}));
 });
 
-// application
+// APPLICATION
 gulp.task('app', function () {
   return browserify({
     basedir: basedir,
@@ -130,77 +161,59 @@ gulp.task('app', function () {
   .bundle()
   .on('error', onError)
   .pipe(source('thailpha.js'))
-  .pipe($.streamify($.sourcemaps.init({loadMaps: true})))
-    .pipe($.streamify($.uglify()))
-  .pipe($.streamify($.sourcemaps.write('.')))
-  .pipe(gulp.dest(dist))
-  .pipe($.filter(['*', '!*.map']))
+  .pipe($.if(args.prod, compress(), sourcemaps()))
+  .pipe(gulp.dest(dest[env]))
   .pipe(reload({stream:true}));
 });
 
-// stylus to css
+// STYLUS TO CSS
+var cssProd = lazypipe()
+  .pipe($.stylus, { compress: true})
+  .pipe($.autoprefixer);
+
+var cssDev = lazypipe()
+  .pipe($.sourcemaps.init)
+    .pipe($.stylus, { compress: false})
+    .pipe($.autoprefixer)
+  .pipe($.sourcemaps.write, '.');
+
 gulp.task('css', function() {
-  var filterMapFile = $.filter(['*', '!*.map']);
-  return gulp.src('css/index.styl')
+  return gulp
+    .src('css/index.styl')
     .pipe($.plumber({errorHandler: onError}))
-    .pipe($.sourcemaps.init())
-      .pipe($.stylus({
-        compress: true
-      }))
-      .pipe($.autoprefixer({debug: true}))
-      .pipe($.rename('thailpha.css'))
-    .pipe($.sourcemaps.write('.'))
-    .pipe(gulp.dest(dist))
+    .pipe($.if(args.prod, cssProd(), cssDev()))
+    .pipe(gulp.dest(dest[env]))
     .pipe($.filter(['*', '!*.map']))
     .pipe(reload({stream:true}));
 });
 
+// ICONS
 gulp.task('touch-icon', function() {
-  var basename    = 'touch-icon-';
-  return gulp.src(['data/ios.png'])
+  var basename = 'touch-icon-';
+  return gulp.src([icon[env]])
     .pipe($.imageResize({width: 180, height: 180, upscale: true}))
     .pipe($.rename(function (path){ path.basename = basename + 'iphone-6-plus'}))
-    .pipe(gulp.dest(dist))
+    .pipe(gulp.dest(dest[env]))
     .pipe($.imageResize({width: 152, height: 152, upscale: true}))
     .pipe($.rename(function (path){ path.basename = basename + 'ipad-retina'}))
-    .pipe(gulp.dest(dist))
+    .pipe(gulp.dest(dest[env]))
     .pipe($.imageResize({width: 120, height: 120, upscale: true}))
     .pipe($.rename(function (path){ path.basename = basename + 'iphone-retina'}))
-    .pipe(gulp.dest(dist))
+    .pipe(gulp.dest(dest[env]))
     .pipe($.imageResize({width: 76, height: 76, upscale: true}))
     .pipe($.rename(function (path){ path.basename = basename + 'icon-ipad'}))
-    .pipe(gulp.dest(dist))
+    .pipe(gulp.dest(dest[env]))
     .pipe($.imageResize({width: 57, height: 57, upscale: true}))
     .pipe($.rename(function (path){ path.basename = basename + 'icon-iphone'}))
-    .pipe(gulp.dest(dist))
-});
-gulp.task('touch-icon-dev', function() {
-  var basename    = 'touch-icon-dev-';
-  return gulp.src(['data/ios-dev.png'])
-    .pipe($.imageResize({width: 180, height: 180, upscale: true}))
-    .pipe($.rename(function (path){ path.basename = basename + 'iphone-6-plus'}))
-    .pipe(gulp.dest(dist))
-    .pipe($.imageResize({width: 152, height: 152, upscale: true}))
-    .pipe($.rename(function (path){ path.basename = basename + 'ipad-retina'}))
-    .pipe(gulp.dest(dist))
-    .pipe($.imageResize({width: 120, height: 120, upscale: true}))
-    .pipe($.rename(function (path){ path.basename = basename + 'iphone-retina'}))
-    .pipe(gulp.dest(dist))
-    .pipe($.imageResize({width: 76, height: 76, upscale: true}))
-    .pipe($.rename(function (path){ path.basename = basename + 'icon-ipad'}))
-    .pipe(gulp.dest(dist))
-    .pipe($.imageResize({width: 57, height: 57, upscale: true}))
-    .pipe($.rename(function (path){ path.basename = basename + 'icon-iphone'}))
-    .pipe(gulp.dest(dist))
+    .pipe(gulp.dest(dest[env]))
 });
 
-// app-cache manifest
+// APP-CACHE MANIFEST
 gulp.task('manifest', function(){
   return gulp.src([
-    'dist/**/*',
-    '!dist/*.map',
-    '!dist/*.html',
-    '!dist/touch-icon-*',
+    dest[env] + '/**/*',
+    '!' + dest[env] + '/*.html',
+    '!' + dest[env] + '/touch-icon-*',
   ])
   .pipe($.manifest({
     timestamp: true,
@@ -209,15 +222,37 @@ gulp.task('manifest', function(){
     filename: 'cache.manifest',
     exclude: 'cache.manifest'
    }))
-  .pipe(gulp.dest(dist));
+  .pipe(gulp.dest(dest[env]));
+});
+
+// HTML
+gulp.task('html', function () {
+  return gulp
+    .src('html/index.jade')
+    .pipe($.jade({
+      pretty: env === 'dev',
+      locals: {env: env}
+    }))
+    .pipe(gulp.dest(dest[env]));
+});
+
+gulp.task('clean', function (cb) {
+  del(['dist'], cb);
 });
 
 // all together
-gulp.task('build', function(cb) {
+gulp.task('build', function (cb) {
+  if (env === 'prod') {
+    return run(
+      'clean',
+      'data',
+      ['touch-icon', 'html', 'app', 'lib', 'css'],
+      'manifest',
+      cb);
+  }
   return run(
     'data',
-    ['touch-icon', 'touch-icon-dev', 'app', 'lib', 'css'],
-    'manifest',
+    ['touch-icon', 'html', 'app', 'lib', 'css'],
     cb);
 });
 
@@ -229,8 +264,8 @@ gulp.task('browser-sync', function() {
   browserSync({
     open: false,
     server: {
-      baseDir:  './dist',
-      index:    'index-dev.html',
+      baseDir:  './' + dest['dev'],
+      index:    'index.html',
     }
   });
 });
@@ -242,13 +277,10 @@ gulp.task('watch', function() {
     'js/**/**/*.js',
     'package.json',
     ],                          ['app']);
-  gulp.watch([
-    'dist/*',
-    '!dist/cache.manifest',
-    '!dist/*-dev.*'],           ['manifest']);
 });
 
 gulp.task('dev', function(cb) {
+  env = 'dev';
   if (args.build === false) {
     return run(['browser-sync', 'watch'], cb);
   }
@@ -268,6 +300,7 @@ gulp.task('doc', function(cb) {
   console.log(m('touch-icon'), g('……………………'), 'resize touch-icon image for mobile');
   console.log(m('manifest'), g('…………………………'), 'generate appcache manifest');
   console.log(m('build'), g('…………………………………'), 'everything above');
+  console.log(m('  --prod'), g('…………………………'), 'compress and bundle in dist folder');
   console.log(m('dev'), g('………………………………………'), 'build, launch local server + watch files');
   console.log(m('  --no-build'), g('………………'), 'Skip asset building. !! building should have be done before');
   console.log(m('bump'), g('……………………………………'), 'patch version of json');
