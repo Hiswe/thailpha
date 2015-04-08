@@ -9,7 +9,7 @@ var settings    = ls.getItem(STORAGE_ID);
 
 if (settings === 'undefined' || settings == null) {
   settings =  {
-    showObsolete: false
+    showObsolete: true
   };
 } else {
   settings =  JSON.parse(settings);

@@ -3,13 +3,9 @@
   padding: 0;
   border: solid $c-grey-light;
   border-width: 1px 0 0;
-  // display: flex;
-  // flex-wrap: wrap;
 }
 .preview-list-item {
   list-style: none;
-  // display: inline-flex;
-  // flex-direction: column;
   width: 25vw;
   min-height: @width;
   border: 1px solid $c-grey-light;
@@ -23,9 +19,6 @@
 
   .thai-letter {
     font-size: 15vw;
-    // flex-grow: 1;
-    // display: flex;
-    // flex-center();
   }
 }
 
@@ -104,17 +97,19 @@
 .no-flexbox {
   .preview-list-item {
     float: left;
-  }
-  .thai-letter {
-    height: 50px;
 
-    &::before {
-      content: '';
-      height: 100%;
-      display: inline-block;
-      vertical-align: middle;
+    .thai-letter {
+      height: 50px;
+
+      &::before {
+        content: '';
+        height: 100%;
+        display: inline-block;
+        vertical-align: middle;
+      }
     }
   }
+
   .preview-list-vowels .thai-letter {
     height: 70px;
   }
@@ -124,5 +119,22 @@
     display: table;
     clear: both;
 
+  }
+}
+
+.flexbox {
+  .preview-list {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .preview-list-item {
+    display: inline-flex;
+    flex-direction: column;
+
+    .thai-letter {
+      flex-grow: 1;
+      display: flex;
+      flex-center();
+    }
   }
 }

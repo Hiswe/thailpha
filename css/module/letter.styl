@@ -1,7 +1,5 @@
 .letter-container {
-  display: flex;
   min-height: 100vh;
-  flex-direction: column;
 }
 .letter-hint,
 .letter-meaning,
@@ -16,7 +14,6 @@
   font-weight: 300;
 }
 .letter-meaning {
-  order: 1;
   margin: 0;
   padding-bottom: 0;
 }
@@ -29,7 +26,6 @@
   }
 
 .letter-pronunciation {
-  order: 3;
   padding-top: 0;
 }
 .letter-pronunciation-label {
@@ -38,7 +34,6 @@
 }
 
 .letter-hint {
-  order: 4;
   border-top: 1px solid $c-black;
   padding: $gutter;
   margin: 0;
@@ -46,12 +41,8 @@
 
 .letter-container {
   > .thai-letter {
-    order: 2;
-    flex-grow: 1;
     font-size: 90vw;
     font-weight: 400;
-    display: flex;
-    flex-center();
     line-height: 1;
   }
 
@@ -71,20 +62,13 @@
 }
 
 .letter-variant {
-  order: 4;
-  flex-grow: 1;
-  display: flex;
   list-style: none;
   padding: 0;
   margin: $gutter;
 
   li {
-    display: flex;
-    flex-center();
     border: 1px solid $c-grey-light;
     font-size: 15vw;
-    flex-grow: 1;
-    flex-basis: 1%;
     line-height: 0;
 
     + li {
@@ -133,6 +117,78 @@
     .thai-letter {
       font-size: 55vw;
       line-height: 0;
+    }
+  }
+}
+
+.no-flexbox {
+  .letter-container {
+    position: relative;
+
+    .thai-letter {
+      position: absolute;
+      top: 45px;
+      bottom: 50px;
+      left: 0;
+      right: 0;
+
+      +mq('landscape') {
+        left: 25%;
+      }
+    }
+
+    .letter-pronunciation {
+      position: absolute;
+      bottom: 50px;
+      left: 0;
+      right: 0;
+    }
+
+    .letter-hint {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+    }
+  }
+}
+
+
+.flexbox {
+
+  .letter-container {
+    display: flex;
+    flex-direction: column;
+  }
+  .letter-meaning {
+    order: 1;
+  }
+  .letter-pronunciation {
+    order: 3;
+  }
+  .letter-hint {
+    order: 4;
+  }
+  .letter-container {
+    > .thai-letter {
+      order: 2;
+      flex-grow: 1;
+      display: flex;
+      flex-center();
+    }
+  }
+  .letter-variant {
+    order: 4;
+    flex-grow: 1;
+    display: flex;
+
+    li {
+      display: flex;
+      flex-center();
+
+      flex-grow: 1;
+      flex-basis: 1%;
+
     }
   }
 }

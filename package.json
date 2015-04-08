@@ -1,6 +1,6 @@
 {
   "name": "thailpha",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "Thai alhphabet webapp",
   "author": "Hiswe",
   "main": "dist/index.html",
