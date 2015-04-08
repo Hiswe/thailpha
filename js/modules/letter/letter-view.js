@@ -80,6 +80,6 @@ module.exports = function (ctrl) {
       footer(ctrl),
     ]),
     similar(ctrl),
-    nav('/'),
+    nav({url: '/#' + ctrl.char.id}),
   ];
 }

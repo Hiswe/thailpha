@@ -21,10 +21,6 @@ var dest          = {
   prod: 'dist',
   dev:  '.tmp',
 };
-var icon          = {
-  prod: 'data/ios.png',
-  dev:  'data/ios-dev.png',
-};
 
 ////////
 // MISC
@@ -132,10 +128,12 @@ var libs = [
   'mithril',
   'fastclick',
   'viewport-units-buggyfill',
+  'dominus',
+  'velocity-animate',
 ];
 var basedir = __dirname + '/js';
 
-gulp.task('lib', function() {
+gulp.task('lib', function () {
   var modernizr = gulp.src('html/modernizr.custom.js');
   var lib       = browserify({
     basedir: basedir,
@@ -189,8 +187,9 @@ gulp.task('css', function() {
 
 // ICONS
 gulp.task('touch-icon', function() {
-  var basename = 'touch-icon-';
-  return gulp.src([icon[env]])
+  var basename    = 'touch-icon-';
+  var iconSource  = env === 'prod' ? 'data/ios.png' : 'data/ios-dev.png';
+  return gulp.src(iconSource)
     .pipe($.imageResize({width: 180, height: 180, upscale: true}))
     .pipe($.rename(function (path){ path.basename = basename + 'iphone-6-plus'}))
     .pipe(gulp.dest(dest[env]))
@@ -209,7 +208,7 @@ gulp.task('touch-icon', function() {
 });
 
 // APP-CACHE MANIFEST
-gulp.task('manifest', function(){
+gulp.task('manifest', function (){
   return gulp.src([
     dest[env] + '/**/*',
     '!' + dest[env] + '/*.html',
@@ -260,7 +259,7 @@ gulp.task('build', function (cb) {
 // DEV
 ////////
 
-gulp.task('browser-sync', function() {
+gulp.task('browser-sync', function () {
   browserSync({
     open: false,
     server: {
@@ -270,7 +269,7 @@ gulp.task('browser-sync', function() {
   });
 });
 
-gulp.task('watch', function() {
+gulp.task('watch', function () {
   gulp.watch('data/**/*.json',  ['data']);
   gulp.watch('css/**/*.styl',   ['css']);
   gulp.watch('html/*.jade',     ['html']);
@@ -280,7 +279,7 @@ gulp.task('watch', function() {
     ],                          ['app']);
 });
 
-gulp.task('dev', function(cb) {
+gulp.task('dev', function (cb) {
   env = 'dev';
   if (args.build === false) {
     return run(['browser-sync', 'watch'], cb);
@@ -292,7 +291,7 @@ gulp.task('dev', function(cb) {
 // DOC
 ////////
 
-gulp.task('doc', function(cb) {
+gulp.task('doc', function (cb) {
   var m = $.util.colors.magenta;
   var g = $.util.colors.grey;
   console.log(m('css'), g('………………………………………'), 'compile Stylus files');

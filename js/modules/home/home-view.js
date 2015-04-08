@@ -2,7 +2,14 @@
 
 var m           = require('mithril');
 
-var nav         = require('../../components/nav.js');
+var nav         = require('../../components/nav');
+var letterView  = require('./home-view-letter');
+
+var letter      = function letter(ctrl) {
+  var currentLetter = ctrl.vm.current();
+  if (currentLetter === false) return '';
+  return letterView(ctrl);
+};
 
 module.exports = function(ctrl) {
   return [
@@ -14,10 +21,9 @@ module.exports = function(ctrl) {
       m('ul.preview-list', [
         ctrl.consonants.map(function (consonant) {
           return m('li.preview-list-item', {
+            id:       consonant.id,
             key:      consonant.id,
-            // href:     '/letter/' + consonant.id,
-            // config:   m.route
-            onclick:    ctrl.onClick.bind(consonant),
+            onclick:  ctrl.onClick.bind(consonant),
           }, [
             m('p.preview-list-item-rtgs', consonant.rtgs),
             m('p.thai-letter', {
@@ -39,6 +45,7 @@ module.exports = function(ctrl) {
           m('ul.preview-list.preview-list-vowels', [
             ctrl.vowels.short.map(function (shortVowel) {
               return m('li.preview-list-item', {
+                id:       shortVowel.id,
                 key:      shortVowel.id,
                 onclick:  ctrl.onClick.bind(shortVowel),
               }, [
@@ -53,6 +60,7 @@ module.exports = function(ctrl) {
           m('ul.preview-list.preview-list-vowels', [
             ctrl.vowels.long.map(function (longVowel) {
               return m('li.preview-list-item', {
+                id:       longVowel.id,
                 key:      longVowel.id,
                 onclick:  ctrl.onClick.bind(longVowel),
               }, [
@@ -72,7 +80,8 @@ module.exports = function(ctrl) {
       m('ul.preview-list', [
         ctrl.numbers.map(function (number) {
           return m('li.preview-list-item', {
-            key:      number.id,
+            id:         number.id,
+            key:        number.id,
             onclick:    ctrl.onClick.bind(number),
           }, [
             m('p.thai-letter', {
@@ -84,5 +93,6 @@ module.exports = function(ctrl) {
       ]),
     ]),
     nav(ctrl),
+    letter(ctrl),
   ];
 };

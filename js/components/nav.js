@@ -31,7 +31,8 @@ var home      = function home(ctrl) {
       oninput: ctrl.onSearch.bind(ctrl)
     });
   }
-  return m('a.top-nav-home[href="/"]', {
+  return m('a.top-nav-home', {
+    href: ctrl.url,
     config: m.route,
   }, 'home');
 }
