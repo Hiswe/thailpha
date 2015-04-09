@@ -1,7 +1,7 @@
 'use strict';
 
 var m       = require('mithril');
-var $       = require('../query');
+var $       = require('dominus');
 
 // http://lhorie.github.io/mithril-blog/velocity-animations-in-mithril.html
 var slideUp = function slideUp(callback) {

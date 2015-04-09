@@ -1,6 +1,7 @@
 'use strict';
 
 var m         = require('mithril');
+var PubSub    = require('pubsub-js');
 
 var animation = require('./home-view-animation');
 
@@ -68,7 +69,10 @@ module.exports = function (ctrl) {
   }, [
     m('.letter-container', {
       className: letter.char.isVowel ? 'is-vowel' : '',
-      onclick: function () { ctrl.vm.reset() },
+      onclick: function () {
+        PubSub.publish('popover', false);
+        ctrl.vm.reset();
+      },
     },[
       m('strong.thai-letter', {
         className: letter.char.longId,

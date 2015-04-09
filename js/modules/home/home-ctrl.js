@@ -1,6 +1,7 @@
 'use strict';
 
-var m       = require('mithril');
+var m         = require('mithril');
+var PubSub    = require('pubsub-js');
 
 var letters   = require('../../models/letters.js');
 
@@ -10,6 +11,7 @@ var homeController = function homeController() {
   this.numbers    = letters.getNumbers();
   this.vm         = homeController.vm.init({});
   this.onClick    = function (e) {
+    PubSub.publish('popover', true);
     this.vm.current(e.currentTarget.id);
   }.bind(this);
   this.onSearch   = function (e) {
