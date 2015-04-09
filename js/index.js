@@ -30,5 +30,4 @@ var m           = require('mithril');
 m.route(document.getElementById('main'), '/', {
   '/':                  require('./modules/home'),
   '/settings':          require('./modules/settings'),
-  '/letter/:letterId':  require('./modules/letter'),
 });
