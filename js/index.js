@@ -8,24 +8,23 @@ require('velocity-animate');
 require('velocity-animate/velocity.ui');
 
 // Pub sub to handle global events (popover)
-var $           = require('dominus');
-var PubSub      = require('pubsub-js');
-var iNoBounce   = require('inobounce');
+var m                 = require('mithril');
+var $                 = require('dominus');
+var PubSub            = require('pubsub-js');
+var iNoBounce         = require('inobounce');
+var isScrollSuported  = iNoBounce.isEnabled();
+var $html             = $('html');
 
 iNoBounce.disable();
 
-var $html       = $('html');
-
 PubSub.subscribe('popover', function (msg, isOpen) {
   if (isOpen) {
-    $('html').addClass('is-html-fixed');
-    return iNoBounce.enable();
+    if (isScrollSuported) iNoBounce.enable();
+    return $('html').addClass('is-html-fixed');
   }
-  $('html').removeClass('is-html-fixed')
-  iNoBounce.disable();
+  if (isScrollSuported) iNoBounce.disable();
+  $('html').removeClass('is-html-fixed');
 });
-
-var m           = require('mithril');
 
 m.route(document.getElementById('main'), '/', {
   '/':                  require('./modules/home'),
