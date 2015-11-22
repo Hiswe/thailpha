@@ -49,8 +49,9 @@ module.exports = function(ctrl) {
       m('ul.preview-list', [
         ctrl.consonants.map(function (consonant) {
           return m('li.preview-list-item', {
-            id:       consonant.id,
-            key:      consonant.id,
+            id:         consonant.id,
+            key:        consonant.id,
+            className:  `class-${consonant.class}`,
             onclick:  ctrl.onClick.bind(consonant),
           }, [
             m('p.preview-list-item-rtgs', consonant.rtgs),

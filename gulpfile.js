@@ -116,8 +116,8 @@ var concat  = lazypipe()
   .pipe(function () { return $.streamify($.concat('thailpha-lib.js')); });
 
 var compress = lazypipe()
-  .pipe($.streamify, $.uglify)
-  .pipe($.streamify, $.stripDebug);
+  .pipe($.uglify)
+  .pipe($.stripDebug);
   // .pipe($.gzip, { append: false });
 
 var compressLib   = concat.pipe(compress);
@@ -177,6 +177,7 @@ gulp.task('app', function () {
   .require(basedir + '/index.js', {
     expose: 'thailpha'
   })
+  .transform(babelify, {presets: ['es2015']})
   .bundle()
   .on('error', onError)
   .pipe(source('thailpha.js'))

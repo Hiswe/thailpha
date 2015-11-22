@@ -12,6 +12,13 @@
   border-width: 0 1px 1px  0;
   cursor: pointer;
 
+  &.class-high {
+    background: $c-high;
+  }
+  &.class-low {
+    background: $c-low;
+  }
+
   p {
     margin: 0;
     text-align: center;
@@ -48,12 +55,6 @@
     &:nth-child(4n + 4) {
       border-width: 0 0 1px 0;
     }
-    &:nth-child(8n + 1),
-    &:nth-child(8n + 2),
-    &:nth-child(8n + 3),
-    &:nth-child(8n + 4) {
-      background: $c-grey-lightest;
-    }
   }
 }
 
@@ -64,15 +65,6 @@
 
     &:nth-child(7n + 7) {
       border-width: 0 0 1px 0;
-    }
-    &:nth-child(14n + 1),
-    &:nth-child(14n + 2),
-    &:nth-child(14n + 3),
-    &:nth-child(14n + 4),
-    &:nth-child(14n + 5),
-    &:nth-child(14n + 6),
-    &:nth-child(14n + 7) {
-      background: $c-grey-lightest;
     }
     .thai-letter {
       font-size: 80px;

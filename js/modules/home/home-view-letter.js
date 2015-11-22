@@ -63,12 +63,14 @@ var variant = function variant(letter) {
 };
 
 module.exports = function (ctrl) {
-  var letter = ctrl.vm.current();
+  var letter    = ctrl.vm.current();
+  var className = letter.char.isVowel ? 'is-vowel' : '';
+  className     = letter.char.class ? `${className} class-${letter.char.class}` : className;
   return m('#letter', m('.content', {
     config: animation.scrollUp,
   }, [
     m('.letter-container', {
-      className: letter.char.isVowel ? 'is-vowel' : '',
+      className: className,
       onclick: function () {
         PubSub.publish('popover', false);
         ctrl.vm.reset();
