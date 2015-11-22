@@ -1,6 +1,7 @@
 'use strict';
 
 var m           = require('mithril');
+var icon        = require('./icon');
 var actualRoute = '';
 
 var goBack      = function goBack() {
@@ -13,7 +14,9 @@ var backLink    = function backLink() {
   }
   return m('a.top-nav-back', {
     onclick: goBack,
-  }, '< back');
+  }, [
+    icon('arrow-back')
+  ]);
 }
 
 var settings    = function settings() {
@@ -22,7 +25,9 @@ var settings    = function settings() {
   }
   return m('a.top-nav-settings[href="/settings"]', {
     config: m.route
-  }, 'settings');
+  }, [
+    icon('settings')
+  ]);
 }
 
 var home      = function home(ctrl) {

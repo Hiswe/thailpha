@@ -15,11 +15,15 @@ var browserify    = require('browserify');
 var source        = require('vinyl-source-stream');
 
 var dist          = 'dist';
-
 var env           = args.prod ? 'prod' : 'dev';
+var isDev         = env === 'dev';
 var dest          = {
   prod: 'dist',
   dev:  '.tmp',
+};
+var dst           = {
+  dev:    lazypipe().pipe(gulp.dest, '.tmp'),
+  prod:   lazypipe().pipe(gulp.dest, 'dist'),
 };
 
 ////////
@@ -97,6 +101,11 @@ gulp.task('data', function() {
     .pipe(gulp.dest('js/models'));
 });
 
+
+////////
+// JS
+////////
+
 // usefull packages for after
 // https://www.npmjs.com/package/mithrilify
 
@@ -123,7 +132,9 @@ var write = lazypipe()
   .pipe(gulp.dest, dest[env])
   .pipe(function () { return $.if(env === 'dev', reload({stream:true}));  });
 
-// LIBS
+
+//----- LIBRARIES
+
 var libs = [
   'mithril',
   'fastclick',
@@ -151,7 +162,8 @@ gulp.task('lib', function () {
   .pipe(write());
 });
 
-// APPLICATION
+//----- FRONT APPLICATION
+
 gulp.task('app', function () {
   return browserify({
     basedir: basedir,
@@ -168,26 +180,65 @@ gulp.task('app', function () {
   .pipe(write());
 });
 
+////////
 // STYLUS TO CSS
-var cssProd = lazypipe()
-  .pipe($.stylus, { compress: true})
-  .pipe($.autoprefixer);
+////////
 
-var cssDev = lazypipe()
-  .pipe($.sourcemaps.init)
-    .pipe($.stylus, { compress: false})
-    .pipe($.autoprefixer)
-  .pipe($.sourcemaps.write, '.');
+var cssDev        = lazypipe()
+  .pipe(dst.dev)
+  .pipe($.filter, ['*', '!*.map'])
+  .pipe(reload, {stream: true});
+
+var cssProd       = lazypipe()
+  .pipe($.minifyCss)
+  // .pipe(addBanner)
+  .pipe(dst.prod)
 
 gulp.task('css', function() {
   return gulp
     .src('css/index.styl')
     .pipe($.plumber({errorHandler: onError}))
-    .pipe($.if(args.prod, cssProd(), cssDev()))
-    .pipe(write());
+    .pipe($.if(isDev, $.sourcemaps.init()))
+    .pipe($.stylus({
+      'include css': true,
+      // define: {
+      //   isProd: isProd,
+      // }
+    }))
+    .pipe($.autoprefixer())
+    .pipe($.if(isDev, $.sourcemaps.write('.')))
+    .pipe($.if(isDev, cssDev(), cssProd()));
+    // .pipe(write());
 });
 
-// ICONS
+////////
+// ASSETS
+////////
+
+var cleanIcon = require('gulp-cheerio-clean-svg');
+
+//----- ICONS
+
+gulp.task('icons', function () {
+  return gulp
+    .src('icons/*.svg')
+    // .pipe($.cheerio({
+    //   run: function ($, file) { $('#bounds').remove(); },
+    //   parserOptions: {
+    //     xmlMode: true
+    //   }
+    // }))
+    .pipe($.cheerio(cleanIcon()))
+    .pipe($.svgSymbols({
+      id: 'icon-%f',
+      className: '.icon-%f',
+    }))
+    .pipe($.if( /[.]svg$/, gulp.dest('html')))
+    .pipe($.if( /[.]css$/, gulp.dest('css')));
+});
+
+//----- APP ICON
+
 gulp.task('touch-icon', function() {
   var basename    = 'touch-icon-';
   var iconSource  = env === 'prod' ? 'data/ios.png' : 'data/ios-dev.png';
@@ -209,7 +260,11 @@ gulp.task('touch-icon', function() {
     .pipe(gulp.dest(dest[env]))
 });
 
+
+////////
 // APP-CACHE MANIFEST
+////////
+
 gulp.task('manifest', function (){
   return gulp.src([
     dest[env] + '/**/*',
@@ -231,7 +286,7 @@ gulp.task('html', function () {
   return gulp
     .src('html/index.jade')
     .pipe($.jade({
-      pretty: env === 'dev',
+      pretty: isDev,
       locals: {env: env}
     }))
     .pipe(write());
@@ -246,13 +301,13 @@ gulp.task('build', function (cb) {
   if (env === 'prod') {
     return run(
       'clean',
-      'data',
+      ['data', 'icons'],
       ['touch-icon', 'html', 'app', 'lib', 'css'],
       'manifest',
       cb);
   }
   return run(
-    'data',
+    ['data', 'icons'],
     ['touch-icon', 'html', 'app', 'lib', 'css'],
     cb);
 });

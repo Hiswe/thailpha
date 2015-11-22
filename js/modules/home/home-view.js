@@ -11,6 +11,8 @@ var letter      = function letter(ctrl) {
   return letterView(ctrl);
 };
 
+// fixed the focus issue
+// http://dansajin.com/2012/12/07/fix-position-fixed/
 module.exports = function(ctrl) {
   return [
     m('section#consonants.home-section', [
