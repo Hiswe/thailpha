@@ -48,6 +48,8 @@ var pronunciation = function pronunciation(letter) {
     m('span', pronunce.initial),
     m('span.letter-pronunciation-label', 'final'),
     m('span', pronunce.final),
+    m('span.letter-pronunciation-label', 'class'),
+    m('span', letter.char.class),
   ]);
 };
 
