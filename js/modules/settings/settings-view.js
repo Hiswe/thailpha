@@ -17,6 +17,11 @@ module.exports = function (ctrl) {
           checked: ctrl.showObsolete(),
         }),
         m('label[for="showObsolete"]', 'show obsolete letters'),
+        m('input#showNumbers[type="checkbox"]', {
+          onchange: m.withAttr('checked', ctrl.showNumbers),
+          checked: ctrl.showNumbers(),
+        }),
+        m('label[for="showNumbers"]', 'show numbers'),
         m('p', m('button.btn', {
           onclick: ctrl.onSave.bind(ctrl)
         }, 'save'))

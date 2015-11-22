@@ -3,6 +3,7 @@
 var m           = require('mithril');
 
 var nav         = require('../../components/nav');
+var Settings    = require('../../models/settings.js');
 var letterView  = require('./home-view-letter');
 
 var letter      = function letter(ctrl) {
@@ -10,6 +11,31 @@ var letter      = function letter(ctrl) {
   if (currentLetter === false) return '';
   return letterView(ctrl);
 };
+
+function numbers(ctrl) {
+  var settings        =  Settings.get();
+  if (settings.showNumbers !== true) return '';
+  return m('section#numbers.home-section', [
+    m('header', [
+        m('h1.h1', 'numbers'),
+      ]
+    ),
+    m('ul.preview-list', [
+      ctrl.numbers.map(function (number) {
+        return m('li.preview-list-item', {
+          id:         number.id,
+          key:        number.id,
+          onclick:    ctrl.onClick.bind(number),
+        }, [
+          m('p.thai-letter', {
+            className: number.longId,
+          }, number.letter),
+          m('p.preview-list-item-rtgs', number.rtgs)
+        ]);
+      })
+    ]),
+  ]);
+}
 
 // fixed the focus issue
 // http://dansajin.com/2012/12/07/fix-position-fixed/
@@ -74,26 +100,7 @@ module.exports = function(ctrl) {
         ]),
       ]),
     ]),
-    m('section#numbers.home-section', [
-      m('header', [
-          m('h1.h1', 'numbers'),
-        ]
-      ),
-      m('ul.preview-list', [
-        ctrl.numbers.map(function (number) {
-          return m('li.preview-list-item', {
-            id:         number.id,
-            key:        number.id,
-            onclick:    ctrl.onClick.bind(number),
-          }, [
-            m('p.thai-letter', {
-              className: number.longId,
-            }, number.letter),
-            m('p.preview-list-item-rtgs', number.rtgs)
-          ]);
-        })
-      ]),
-    ]),
+    numbers(ctrl),
     nav(ctrl),
     letter(ctrl),
   ];

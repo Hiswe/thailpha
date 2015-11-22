@@ -8,10 +8,12 @@ module.exports = function () {
   var settings        =  Settings.get();
 
   this.showObsolete   =  m.prop(settings.showObsolete);
+  this.showNumbers    =  m.prop(settings.showNumbers);
 
   this.onSave         = function (e) {
     Settings.put({
-      showObsolete: this.showObsolete()
+      showObsolete: this.showObsolete(),
+      showNumbers: this.showNumbers(),
     });
   };
 };

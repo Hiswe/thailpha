@@ -17,6 +17,7 @@ var source        = require('vinyl-source-stream');
 var dist          = 'dist';
 var env           = args.prod ? 'prod' : 'dev';
 var isDev         = env === 'dev';
+var isProd        = !isDev;
 var dest          = {
   prod: 'dist',
   dev:  '.tmp',
@@ -106,6 +107,8 @@ gulp.task('data', function() {
 // JS
 ////////
 
+var babelify      = require('babelify');
+var vinylBuffer   = require('vinyl-buffer');
 // usefull packages for after
 // https://www.npmjs.com/package/mithrilify
 
@@ -120,13 +123,13 @@ var compress = lazypipe()
 var compressLib   = concat.pipe(compress);
 
 var sourcemaps = lazypipe()
-  .pipe(function () { return $.streamify($.sourcemaps.init({loadMaps: true}));})
-  .pipe(function () { return $.streamify($.sourcemaps.write('.')); });
+  .pipe($.sourcemaps.init, {loadMaps: true})
+  .pipe($.sourcemaps.write, '.');
 
 var sourcemapsLib = lazypipe()
-  .pipe(function () { return $.streamify($.sourcemaps.init({loadMaps: true}));})
+  .pipe($.sourcemaps.init, {loadMaps: true})
   .pipe(concat)
-  .pipe(function () { return $.streamify($.sourcemaps.write('.'));});
+  .pipe($.sourcemaps.write, '.');
 
 var write = lazypipe()
   .pipe(gulp.dest, dest[env])
@@ -155,7 +158,8 @@ gulp.task('lib', function () {
   })
   .require(libs)
   .bundle()
-  .pipe(source('lib.js'));
+  .pipe(source('lib.js'))
+  .pipe(vinylBuffer());
 
   return mergeStream(modernizr, lib)
   .pipe($.if(args.prod, compressLib(), sourcemapsLib()))
@@ -176,6 +180,7 @@ gulp.task('app', function () {
   .bundle()
   .on('error', onError)
   .pipe(source('thailpha.js'))
+  .pipe(vinylBuffer())
   .pipe($.if(args.prod, compress(), sourcemaps()))
   .pipe(write());
 });
@@ -201,9 +206,9 @@ gulp.task('css', function() {
     .pipe($.if(isDev, $.sourcemaps.init()))
     .pipe($.stylus({
       'include css': true,
-      // define: {
-      //   isProd: isProd,
-      // }
+      define: {
+        isProd: isProd,
+      }
     }))
     .pipe($.autoprefixer())
     .pipe($.if(isDev, $.sourcemaps.write('.')))
