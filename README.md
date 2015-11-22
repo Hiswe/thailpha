@@ -17,15 +17,15 @@ Thai alphabet webapp
 npm install
 ```
 
-### optional
-
-Install gulp globally if you want to access all the build commands
+## Building
 
 ```
-npm install gulp -g
+npm run build
 ```
 
-## Launching
+all will be in the **dist** folder
+
+## Developement
 
 ```
 npm start
@@ -35,6 +35,14 @@ you can avoid to build the app by
 
 ```
 npm start -- --no-build
+```
+
+### optional
+
+Install gulp globally if you want to access all the build commands
+
+```
+npm install gulp -g
 ```
 
 additional commands can be find with:
