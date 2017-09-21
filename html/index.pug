@@ -1,6 +1,6 @@
 doctype html
-- var isProd = env === 'prod'
-html(lang="en", manifest= isProd ? "cache.manifest" : undefined)
+- var isProd = env === 'production'
+html(lang="en")
   head
     meta(charset="utf-8")
     meta(http-equiv="X-UA-Compatible", content="IE=edge")

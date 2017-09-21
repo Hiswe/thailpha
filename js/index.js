@@ -1,6 +1,6 @@
 'use strict';
 
-require('fastclick')(document.body);
+// require('fastclick')(document.body);
 require('viewport-units-buggyfill').init();
 
 // Velocity will expose itself globally :(
