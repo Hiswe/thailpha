@@ -138,46 +138,46 @@ var write = lazypipe()
 
 //----- LIBRARIES
 
-var libs = [
+var npmLibs = [
   'mithril',
   'fastclick',
   'viewport-units-buggyfill',
-  'dominus',
   'inobounce',
   'pubsub-js',
   'velocity-animate',
 ];
 var basedir = __dirname + '/js';
 
-gulp.task('lib', function () {
-  var modernizr = gulp.src('html/modernizr.custom.js');
-  var lib       = browserify({
-    basedir: basedir,
-    noParse:  libs,
-    debug:    true,
+gulp.task('lib', () => {
+  var b         = browserify({
+    debug: true,
+    // need to parse for envify
+    // noParse: npmLibs,
   })
-  .require(libs)
+  npmLibs.forEach( lib => b.require(lib) )
+
+  return b
   .bundle()
   .pipe(source('lib.js'))
-  .pipe(vinylBuffer());
-
-  return mergeStream(modernizr, lib)
-  .pipe($.if(args.prod, compressLib(), sourcemapsLib()))
-  .pipe(write());
+  .pipe(vinylBuffer())
+  // .pipe($.if(args.prod, compressLib(), sourcemapsLib()))
+  .pipe(write())
 });
 
 //----- FRONT APPLICATION
 
 gulp.task('app', function () {
-  return browserify({
-    basedir: basedir,
-    debug: true,
+  const b =  browserify({
+    cache:        {},
+    packageCache: {},
+    debug:        isDev,
+    extensions:   ['.js'],
+    entries:      ['./js/index.js']
   })
-  .external(libs)
-  .require(basedir + '/index.js', {
-    expose: 'thailpha'
-  })
+  .external(npmLibs)
   .transform(babelify, {presets: ['es2015']})
+
+  return b
   .bundle()
   .on('error', onError)
   .pipe(source('thailpha.js'))
