@@ -7,6 +7,7 @@ const TIMEOUT     = 400
 const urlsToCache = [
   '/',
   '/?/',
+  '/?/settings',
   '/index.html',
   '/thailpha.css',
   '/thailpha.js',
