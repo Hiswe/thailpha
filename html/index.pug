@@ -7,7 +7,7 @@ html(lang="en")
     meta(name="mobile-web-app-capable", content="yes")
     meta(name="apple-mobile-web-app-capable", content="yes")
 
-    link(rel="icon" sizes="228x228" href="touch-icon-dev-iphone-6-plus.png")
+    link(rel="icon" sizes="228x228" href="touch-icon-iphone-6-plus.png")
 
     meta(name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0")
 
@@ -18,22 +18,10 @@ html(lang="en")
     link(rel="apple-touch-icon", sizes="180x180" href="touch-icon-iphone-6-plus.png")
 
     title= isProd ? 'Thailpha' : 'Thailpha Dev'
-    link(rel="stylesheet", href="index.css")
+    link(rel="stylesheet", href="thailpha.css")
 
   body
     include svg-symbols.svg
     #main
     script(src="thailpha-lib.js")
     script(src="thailpha.js")
-    if isProd
-      script(type='text/javascript').
-        // Double reload the app (search “Double-reload needed” in the link below)
-        // http://gregsramblings.com/2012/05/28/html5-application-cache-how-to/
-        if (window.applicationCache) {
-          applicationCache.addEventListener('updateready', function() {
-            if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {
-              window.applicationCache.swapCache();
-              window.location.reload();
-            }
-          });
-        }

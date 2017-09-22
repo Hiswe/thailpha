@@ -6,7 +6,6 @@ const del         = require( `del` )
 const mergeStream = require( `merge-stream` )
 const gulp        = require( `gulp` )
 const $           = require( `gulp-load-plugins` )()
-const run         = require( `run-sequence` )
 const lazypipe    = require( `lazypipe` )
 const browserSync = require( `browser-sync` ).create()
 const webpack     = require( `webpack` )
@@ -20,7 +19,7 @@ const dest        = {
   prod: 'dist',
   dev:  '.tmp',
 };
-const buildDir    = isDev ? '.tmp' : 'dist'
+const buildDir    = isDev ? '.tmp' : 'public'
 
 ////////
 // MISC
@@ -35,8 +34,29 @@ const onError = err => {
 }
 
 ////////
-// BUILD
+// JS
 ////////
+
+//----- APPLICATION
+
+const jsApp = done => {
+  bundler.run( (err, stat) => {
+    if (err) return done( err )
+    done()
+  } )
+}
+jsApp.description = `bundle the JS front application`
+
+//----- SERVICE WORKER
+
+const serviceWorker = () => {
+  return gulp
+  .src( './js/service-worker.js' )
+  .pipe( gulp.dest( buildDir ) )
+}
+jsApp.description = `bundle service-worker script`
+
+//----- DATA DICTIONNARY
 
 const mergeData = prefix => data => {
   const letters = Object.keys( data )
@@ -73,17 +93,15 @@ const data = () => {
   .pipe( $.defineModule('commonjs') )
   .pipe( gulp.dest('js/models') )
 }
+data.description = `update Thai dictionary to be consummable by the JS front application`
 
-////////
-// JS
-////////
+//----- ALL JS
 
-const js = done => {
-  bundler.run( (err, stat) => {
-    if (err) return done( err )
-    done()
-  } )
-}
+const js = gulp.series(
+  data,
+  gulp.parallel( jsApp, serviceWorker )
+)
+js.description = `build every JS files`
 
 ////////
 // CSS
@@ -113,11 +131,12 @@ const css = () => {
     autoprefixer(),
   ]) )
   .pipe( $.sourcemaps.write() )
-  .pipe( $.purgeSourcemaps() )
   .pipe( $.if(isProd, cssProd()) )
+  .pipe( $.rename( 'thailpha.css' ) )
   .pipe( gulp.dest(buildDir) )
   .pipe( reload({stream: true}) )
 }
+css.description = `build css files (from stylus)`
 
 ////////
 // ASSETS
@@ -138,6 +157,7 @@ const icons = () => {
   .pipe( $.if( /[.]svg$/, gulp.dest('html')) )
   .pipe( $.if( /[.]css$/, gulp.dest('css')) )
 }
+icons.description = `bundle SVG files`
 
 //----- APP ICON
 
@@ -162,8 +182,10 @@ const touchIcon = () => {
   .pipe( $.rename( path =>  path.basename = `${basename}-icon-iphone` ) )
   .pipe( gulp.dest(buildDir) )
 }
+touchIcon.description = `resize favicon for different devices`
 
 const assets = gulp.parallel(icons, touchIcon)
+assets.description = `build every assets`
 
 ////////
 // HTML
@@ -178,12 +200,14 @@ const html = () => {
   }) )
   .pipe( gulp.dest(buildDir) )
 }
+html.description = `build index.html`
 
 ////////
 // MISC
 ////////
 
-const clean = () => del(['dist'])
+const clean = () => del(['public'])
+clean.description = `clean everything in the production (public) folder`
 
 const bump = () => {
   const type = args.major ? 'major' : args.minor ? 'minor' : 'patch'
@@ -192,15 +216,16 @@ const bump = () => {
   .pipe( $.bump({type}) )
   .pipe( gulp.dest('./') )
 }
+bump.description = `bump versions in *.json files`
 
 ////////
 // DEV
 ////////
 
-const build = gulp.series(
-  isDev ? data : gulp.parallel( clean, data ),
-  gulp.parallel( assets, js, css, html )
-)
+const buildSteps = [  gulp.parallel( assets, js, css, html ) ]
+if (!isDev) buildSteps.unshift( clean )
+const build       = gulp.series( ...buildSteps )
+build.description = `build everything`
 
 const bs = () => {
   return browserSync.init({
@@ -214,9 +239,11 @@ const bs = () => {
 
 let hash
 const watch = () => {
-  gulp.watch( `data/**/*.json`,  data )
-  gulp.watch( `css/**/*.styl`,   css )
-  gulp.watch( `html/*.jade`,     html )
+  gulp.watch( `data/**/*.json`,                 data )
+  gulp.watch( `css/**/*.styl`,                  css )
+  gulp.watch( `html/*`,                         html )
+  gulp.watch( `js/service-worker.js`,           serviceWorker )
+  gulp.watch( `.tmp/service-worker.js`,         reload )
   bundler.watch( {}, (err, stats) => {
     if (err) return onError( err )
     if (hash !== stats.hash) {
@@ -225,6 +252,7 @@ const watch = () => {
     }
   })
 }
+watch.description = `watch & rebuild on change`
 
 const bsAndWatch = () => {
   bs()
@@ -233,6 +261,7 @@ const bsAndWatch = () => {
 
 const dev = args.build === false ? bsAndWatch() :
   gulp.series( build, bsAndWatch )
+dev.description = `build, watch & launch a dev server`
 
 gulp.task( `bump`,        bump )
 gulp.task( `html`,        html )
@@ -245,4 +274,4 @@ gulp.task( `assets`,      assets )
 gulp.task( `clean`,       clean )
 gulp.task( `build`,       build )
 gulp.task( `dev`,         dev )
-gulp.task( `bsAndWatch`,         bsAndWatch )
+gulp.task( `watch`,       watch )

@@ -8,47 +8,70 @@ Thai alphabet webapp
 
 ## Requirements:
 
-- [node](http://nodejs.org/download/)
+- [node](http://nodejs.org/download/) >= 8.0.0
 - GraphicsMagick `brew install graphicsmagick`
-
-## Configuration
-
-```
-npm install
-```
 
 ## Building
 
-```
+```sh
+npm install
 npm run build
+open public/index.html
 ```
 
 all will be in the **dist** folder
 
 ## Developement
 
+### building dependencies
+
+```sh
+npm install
 ```
-npm start
+
+### server with livereload
+
+
+```sh
+npm run dev
 ```
 
 you can avoid to build the app by
 
 ```
-npm start -- --no-build
+npm run dev -- --no-build
 ```
 
-### optional
+### building for dev
 
-Install gulp globally if you want to access all the build commands
-
-```
-npm install gulp -g
+```sh
+npm run build:dev
 ```
 
-additional commands can be find with:
+### dev static server
 
+```sh
+npm run serve:dev
 ```
-gulp doc
+
+### watching and recompiling
+
+```sh
+npm run watch
+```
+
+### all other commands
+
+see all commands with 
+
+```sh
+npx gulp --tasks
+```
+
+run a command (js for example)
+
+```sh
+npx gulp js
 ```
 
 # resources

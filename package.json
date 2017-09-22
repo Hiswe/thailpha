@@ -3,15 +3,24 @@
   "version": "0.6.3",
   "description": "Thai alhphabet webapp",
   "author": "Hiswe",
-  "main": "dist/index.html",
+  "main": "public/index.html",
   "repository": {
     "type": "git",
     "url": "git://github.com/Hiswe/thailpha"
   },
+  "engines": {
+    "node": "8.5.0",
+    "npm": "5.3.0"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npm run build && npm run serve",
     "build": "gulp build --prod",
-    "dev": "gulp dev"
+    "build:dev": "gulp build",
+    "dev": "gulp dev",
+    "serve": "http-server -p 3000 --silent -o",
+    "serve:dev": "http-server ./.tmp -p 3000 -o",
+    "watch": "gulp build && gulp watch"
   },
   "keywords": [
     "thai",
@@ -55,6 +64,7 @@
     "gulp-stylus": "^2.0.0",
     "gulp-svg-symbols": "^2.0.2",
     "gulp-util": "^3.0.3",
+    "http-server": "^0.10.0",
     "lazypipe": "^1.0.1",
     "merge-stream": "^1.0.1",
     "webpack": "^3.6.0",

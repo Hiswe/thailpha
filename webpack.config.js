@@ -7,13 +7,13 @@ const args    = require( `yargs` ).argv
 const env       = args.prod ? `production` : `development`
 const isDev     = env === `development`
 const isProd    = !isDev
-const destPath  = path.resolve( __dirname, isDev ? `.tmp` : `dist` )
+const destPath  = path.resolve( __dirname, isDev ? `.tmp` : `public` )
 
 const entry   = {
-  app:      `./js/index.js`,
+  thailpha: `./js/index.js`,
 }
 const output  = {
-  filename: `thailpha.js`,
+  filename: `[name].js`,
   path:     destPath,
 }
 const plugins = [

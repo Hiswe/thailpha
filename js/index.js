@@ -1,6 +1,6 @@
 'use strict';
 
-// require('fastclick')(document.body);
+require('fastclick').attach(document.body);
 require('viewport-units-buggyfill').init();
 
 // Velocity will expose itself globally :(
@@ -31,3 +31,18 @@ m.route( document.getElementById('main'), '/', {
   '/':                  require('./modules/home'),
   '/settings':          require('./modules/settings'),
 });
+
+
+(function() {
+  'use strict'
+
+  if (!navigator.serviceWorker) return
+
+  navigator
+  .serviceWorker
+  .register( '/service-worker.js' )
+  .catch( error => {
+    console.log('sorry', error)
+  })
+
+})()
