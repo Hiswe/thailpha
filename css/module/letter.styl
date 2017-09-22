@@ -133,74 +133,38 @@
   }
 }
 
-.no-flexbox {
-  .letter-container {
-    position: relative;
-
-    .thai-letter {
-      position: absolute;
-      top: 45px;
-      bottom: 50px;
-      left: 0;
-      right: 0;
-
-      +mq('landscape') {
-        left: 25%;
-      }
-    }
-
-    .letter-pronunciation {
-      position: absolute;
-      bottom: 50px;
-      left: 0;
-      right: 0;
-    }
-
-    .letter-hint {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-    }
-  }
+.letter-container {
+  display: flex;
+  flex-direction: column;
 }
-
-
-.flexbox {
-
-  .letter-container {
-    display: flex;
-    flex-direction: column;
-  }
-  .letter-meaning {
-    order: 1;
-  }
-  .letter-pronunciation {
-    order: 3;
-  }
-  .letter-hint {
-    order: 4;
-  }
-  .letter-container {
-    > .thai-letter {
-      order: 2;
-      flex-grow: 1;
-      display: flex;
-      flex-center();
-    }
-  }
-  .letter-variant {
-    order: 4;
+.letter-meaning {
+  order: 1;
+}
+.letter-pronunciation {
+  order: 3;
+}
+.letter-hint {
+  order: 4;
+}
+.letter-container {
+  > .thai-letter {
+    order: 2;
     flex-grow: 1;
     display: flex;
+    flex-center();
+  }
+}
+.letter-variant {
+  order: 4;
+  flex-grow: 1;
+  display: flex;
 
-    li {
-      display: flex;
-      flex-center();
+  li {
+    display: flex;
+    flex-center();
 
-      flex-grow: 1;
-      flex-basis: 1%;
+    flex-grow: 1;
+    flex-basis: 1%;
 
-    }
   }
 }

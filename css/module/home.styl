@@ -112,48 +112,17 @@
   }
 }
 
-
-.no-flexbox {
-  .preview-list-item {
-    float: left;
-
-    .thai-letter {
-      height: 50px;
-
-      &::before {
-        content: '';
-        height: 100%;
-        display: inline-block;
-        vertical-align: middle;
-      }
-    }
-  }
-
-  .preview-list-vowels .thai-letter {
-    height: 70px;
-  }
-
-  dd::after {
-    content: '';
-    display: table;
-    clear: both;
-
-  }
+.preview-list {
+  display: flex;
+  flex-wrap: wrap;
 }
+.preview-list-item {
+  display: inline-flex;
+  flex-direction: column;
 
-.flexbox {
-  .preview-list {
+  .thai-letter {
+    flex-grow: 1;
     display: flex;
-    flex-wrap: wrap;
-  }
-  .preview-list-item {
-    display: inline-flex;
-    flex-direction: column;
-
-    .thai-letter {
-      flex-grow: 1;
-      display: flex;
-      flex-center();
-    }
+    flex-center();
   }
 }
