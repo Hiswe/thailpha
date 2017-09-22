@@ -163,7 +163,7 @@ icons.description = `bundle SVG files`
 
 const touchIcon = () => {
   const basename    = 'touch-icon'
-  const iconSource  = env === 'prod' ? 'data/ios.png' : 'data/ios-dev.png'
+  const iconSource  = isProd ? 'data/ios.png' : 'data/ios-dev.png'
   return gulp
   .src( iconSource )
   .pipe( $.imageResize({width: 180, height: 180, upscale: true}) )
@@ -198,6 +198,8 @@ const html = () => {
     pretty: isDev,
     locals: { env }
   }) )
+  .pipe( gulp.dest(buildDir) )
+  .pipe( $.rename('200.html') )
   .pipe( gulp.dest(buildDir) )
 }
 html.description = `build index.html`
@@ -263,6 +265,15 @@ const dev = args.build === false ? bsAndWatch() :
   gulp.series( build, bsAndWatch )
 dev.description = `build, watch & launch a dev server`
 
+const domainName = args.domain ? args.domain : 'thailpha'
+function release() {
+  return $.surge({
+    project:  `./public`,
+    domain:   `https://${domainName}.surge.sh`,
+  })
+}
+release.description = `release to surge. type -- --domain=mydomain to change from default one`
+
 gulp.task( `bump`,        bump )
 gulp.task( `html`,        html )
 gulp.task( `css`,         css )
@@ -275,3 +286,4 @@ gulp.task( `clean`,       clean )
 gulp.task( `build`,       build )
 gulp.task( `dev`,         dev )
 gulp.task( `watch`,       watch )
+gulp.task( `release`,     release )
