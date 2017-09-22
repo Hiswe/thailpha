@@ -1,87 +1,75 @@
-'use strict';
 
-var consonants  = require('./dico-consonants.js');
-var shortVowels = require('./dico-short-vowels.js');
-var longVowels  = require('./dico-long-vowels.js');
-var numbers     = require('./dico-numbers.js');
-var Settings    = require('./settings.js');
+import consonants  from './dico-consonants.js'
+import shortVowels from './dico-short-vowels.js'
+import longVowels  from './dico-long-vowels.js'
+import numbers     from './dico-numbers.js'
+import Settings    from './settings.js'
 
-var allLetters  = [].concat(consonants, shortVowels, longVowels, numbers);
+const allLetters  = [].concat(consonants, shortVowels, longVowels, numbers)
+// const allLetters  = [...consonants, ...consonants, ...longVowels, ...numbers]
 
-var getConsonants    = function getConsonants() {
-  var settings = Settings.get();
+// console.log(allLetters)
+
+const getConsonants = () => {
+  const settings = Settings.get()
   if (settings.showObsolete === false) {
-    return consonants.filter(function (consonant) {
-      return consonant.obsolete !== true;
-    });
+    return consonants.filter( consonant => consonant.obsolete !== true )
   }
-  return consonants;
-};
-
-var getVowels       = function getVowels() {
-  return {
-    short:  shortVowels,
-    long:   longVowels,
-  };
-};
-
-var getNumbers      = function getNumbers() {
-  return numbers;
+  return consonants
 }
 
-var getByIds   = function getById(query) {
-  var settings  = Settings.get();
-  var ids       = Array.isArray(query) ? query : [query];
-  var result    = allLetters.filter(function (consonant) {
-    return ids.indexOf(consonant.id) !== -1;
-  });
+const getVowels = () => {
+  return {
+    short() { return shortVowels },
+    long()  { return longVowels },
+  }
+}
+
+const getNumbers = () => numbers
+
+const getByIds = query => {
+  const settings  = Settings.get()
+  const ids       = Array.isArray(query) ? query : [ query ]
+  let result      = allLetters.filter( consonant => {
+    return ids.indexOf(consonant.id) !== -1
+  })
 
   // take care of obsolete letters
   if (settings.showObsolete === false) {
-    result = result.filter(function (letter) {
-      return letter.obsolete !== true;
-    })
+    result = result.filter( letter =>  letter.obsolete !== true )
   }
 
   if (result.length === 0) {
     console.warn('no letter found for', ids.join(' '));
-    return result;
+    return result
   }
 
-  if (result.length === 1) {
-    return result;
-  }
+  if (result.length === 1) return result
 
   // sort by the query order
-  result = result.sort(function (a, b) {
-    var c = ids.indexOf(a.id);
-    var d = ids.indexOf(b.id);
-    // long version of compare as in mobile phone 'return c > d' doensn't work
-    if (c < d) return -1;
-    if (c > d) return 1;
+  return result.sort(  (a, b) => {
+    const c = ids.indexOf(a.id)
+    const d = ids.indexOf(b.id)
+    // long version of compare as in mobile phone 'return c > d' doesn't work
+    if (c < d) return -1
+    if (c > d) return 1
     return 0
-  });
+  })
+}
 
-  return result;
-};
+const filterConsonants = query => {
+  query = query.toLowerCase()
+  return consonants.filter( consonant => {
+    if (consonant.rtgs.indexOf(query) !== -1) return consonant
+    if (consonant.meaning.indexOf(query) !== -1) return consonant
+    return false
+  })
+}
 
-var filterConsonants = function filterConsonants(query) {
-  query = query.toLowerCase();
-  return consonants.filter(function (consonant) {
-    if (consonant.rtgs.indexOf(query) !== -1) {
-      return consonant;
-    }
-    if (consonant.meaning.indexOf(query) !== -1) {
-      return consonant;
-    }
-    return false;
-  });
-};
-
-module.exports = {
-  getConsonants:    getConsonants,
-  getVowels:        getVowels,
-  getNumbers:       getNumbers,
-  getByIds:         getByIds,
-  filterConsonants: filterConsonants,
-};
+export {
+  getConsonants,
+  getVowels,
+  getNumbers,
+  getByIds,
+  filterConsonants,
+}

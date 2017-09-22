@@ -40,8 +40,11 @@ const onError = err => {
 //----- APPLICATION
 
 const jsApp = done => {
-  bundler.run( (err, stat) => {
+  bundler.run( (err, stats) => {
+    // https://webpack.js.org/api/node/#error-handling
     if (err) return done( err )
+    const info = stats.toJson()
+    if ( stats.hasErrors() ) return done( info.errors )
     done()
   } )
 }
@@ -90,7 +93,7 @@ const data = () => {
   .pipe( $.jsoncombine('dico-numbers.js', mergeData('n-')) )
 
   return mergeStream(cons, shortVowels, longVowels, numbers)
-  .pipe( $.defineModule('commonjs') )
+  .pipe( $.defineModule('es6') )
   .pipe( gulp.dest('js/models') )
 }
 data.description = `update Thai dictionary to be consummable by the JS front application`
@@ -248,6 +251,8 @@ const watch = () => {
   gulp.watch( `.tmp/service-worker.js`,         reload )
   bundler.watch( {}, (err, stats) => {
     if (err) return onError( err )
+    const info = stats.toJson()
+    if ( stats.hasErrors() ) return info.errors.forEach( error => console.error(error) )
     if (hash !== stats.hash) {
       hash = stats.hash
       reload()
@@ -279,6 +284,7 @@ gulp.task( `html`,        html )
 gulp.task( `css`,         css )
 gulp.task( `data`,        data )
 gulp.task( `js`,          js )
+gulp.task( `js:app`,      jsApp )
 gulp.task( `icons`,       icons )
 gulp.task( `touch-icon`,  touchIcon )
 gulp.task( `assets`,      assets )

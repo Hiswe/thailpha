@@ -10,7 +10,7 @@ const isProd    = !isDev
 const destPath  = path.resolve( __dirname, isDev ? `.tmp` : `public` )
 
 const entry   = {
-  thailpha: `./js/index.js`,
+  thailpha: `./js/index.jsx`,
 }
 const output  = {
   filename: `[name].js`,

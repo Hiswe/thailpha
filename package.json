@@ -34,6 +34,11 @@
     "inobounce": "^0.1.5",
     "mithril": "^0.1.30",
     "pubsub-js": "^1.5.7",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
+    "react-router": "^4.2.0",
+    "react-router-dom": "^4.2.2",
+    "redux": "^3.7.2",
     "velocity-animate": "^1.5.0",
     "viewport-units-buggyfill": "^0.6.2"
   },
