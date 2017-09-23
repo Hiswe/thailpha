@@ -1,6 +1,7 @@
 import React from 'react'
 import { render } from 'react-dom'
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
+import { Provider, connect } from 'react-redux'
 
 import MainNav from './main-nav.jsx'
 import CharSection from './char-section.jsx'
@@ -8,7 +9,7 @@ import CharSubsection from './char-subsection.jsx'
 import CharList from './char-list.jsx'
 import Settings from './settings.jsx'
 import * as chars from './models/letters.js'
-
+import store from './store.js'
 
 const Consonnants = () => (
   <CharSection title="consonnants">
@@ -34,18 +35,20 @@ const Numbers = () => (
 )
 
 const App = props => (
-  <Router>
-    <div id="app-wrapper">
+  <Provider store={store}>
+    <Router>
+      <div id="app-wrapper">
 
-      <Route exact path="/" component={Consonnants} />
-      <Route exact path="/vowels" component={Vowels} />
-      <Route exact path="/numbers" component={Numbers} />
-      <Route exact path="/settings" component={Settings} />
+        <Route exact path="/" component={Consonnants} />
+        <Route exact path="/vowels" component={Vowels} />
+        <Route exact path="/numbers" component={Numbers} />
+        <Route exact path="/settings" component={Settings} />
 
-      <MainNav />
+        <MainNav />
 
-    </div>
-  </Router>
+      </div>
+    </Router>
+  </Provider>
 )
 
 render(
