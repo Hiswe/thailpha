@@ -1,0 +1,28 @@
+.settings {
+  height: 'calc(100vh - %s)' % $s-nav;
+  display: flex;
+  flex-direction: column;
+
+  > * {
+    padding: $gutter;
+  }
+
+  &__footer {
+    border-top: 1px solid $c-black;
+    padding-bottom: ($gutter/2);
+    background: white;
+    margin-top: auto;
+
+    > * {
+      margin: .5em 0 0;
+    }
+  }
+
+}
+
+.version {
+  font-size: 12px;
+  margin-top: 1em;
+  text-align: center;
+  color: $c-grey;
+}

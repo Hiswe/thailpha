@@ -1,22 +1,12 @@
 .main-nav {
   position: fixed;
-  top: 0;
+  bottom: 0;
   left: 0;
   right: 0;
   background: $c-black;
   text-decoration: none;
   color: $c-white;
-
-  a {
-    height: $s-nav;
-    padding: 1em $gutter;
-    color: $c-white;
-    text-decoration: none;
-    display: inline-block;
-    align-items: center;
-    position: relative;
-    z-index: 2;
-  }
+  display: flex;
 
   &__search {
     height: $s-nav;
@@ -27,21 +17,26 @@
     color: $c-white;
     outline: 0;
     border: 0;
-    width: 60%;
+    flex-grow: 1;
+
+    &:disabled {
+      &::-webkit-input-placeholder {  color: transparent; }
+      &::-moz-placeholder {           color: transparent; }
+      &:-ms-input-placeholder {       color: transparent; }
+      &:-moz-placeholder {            color: transparent; }
+    }
   }
-  .top-nav-back {
-    float: left;
-  }
-  &__settings {
-    float: right;
-  }
-  .top-nav-home {
-    text-align: center;
-    z-index: 1;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
+
+  &__btn {
+    flex-grow: 0;
+    flex-shrink: 0;
+    height: $s-nav;
+    padding: 1em $gutter;
+    color: $c-white;
+    text-decoration: none;
+
+    &.is-active {
+      background: $c-brand;
+    }
   }
 }

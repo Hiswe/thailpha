@@ -232,12 +232,16 @@ if (!isDev) buildSteps.unshift( clean )
 const build       = gulp.series( ...buildSteps )
 build.description = `build everything`
 
+const historyFallback = require( 'connect-history-api-fallback' )
 const bs = () => {
   return browserSync.init({
     open: false,
     server: {
       baseDir:  `./${buildDir}`,
       index:    `index.html`,
+      middleware: [
+        historyFallback(),
+      ],
     }
   })
 }
