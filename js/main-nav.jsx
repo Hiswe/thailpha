@@ -21,11 +21,12 @@ const MainNav = props => {
         numbers
       </NavLink>
 
-      <NavLink to="/settings" activeClassName="is-active" className="main-nav__btn">
+      {/* disable settings for now */}
+      {/* <NavLink to="/settings" activeClassName="is-active" className="main-nav__btn">
         <svg className="icon icon-settings" role="img">
           <use href="#icon-settings" />
         </svg>
-      </NavLink>
+      </NavLink> */}
 
     </nav>
   )
