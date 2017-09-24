@@ -70,12 +70,12 @@ const SimilarList = ({similar}) => {
 
 const CharDetail = props => {
   const { char } = props
-  console.dir( char )
   let wrapperClasses = `letter-container`
+  const back = char.isNumber ? '/numbers' : char.isVowel ? '/vowels' : '/'
   if ( char.isVowel ) wrapperClasses = `${wrapperClasses} is-vowel`
   
   return (
-    <div id="letter">
+    <div id="letter" onClick={ e => props.history.push( back ) }>
       <div className="content">
         <div className={wrapperClasses}>
           <strong className={`thai-letter ${char.longId }`}>{ char.letter }</strong>
