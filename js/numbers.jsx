@@ -16,6 +16,4 @@ const mapStateToProp = state => {
 
 const NumbersContainer = connect( mapStateToProp )( Numbers )
 
-export {
-  NumbersContainer as default,
-}
+export { NumbersContainer as default }

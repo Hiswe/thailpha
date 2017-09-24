@@ -21,12 +21,13 @@ const App = props => (
           <Route exact path="/" component={Consonnants} />
           <Route path="/vowels" component={Vowels} />
           <Route path="/numbers" component={Numbers} />
+          {/* settings are useless for now */}
           {/* <Route path="/settings" component={Settings} /> */}
           <Route path="/char/:longId" component={CharDetail} />
           <Redirect to="/" />
         </Switch>  
 
-        <MainNav />
+        <Route path="/" component={MainNav} />
 
       </div>
     </Router>

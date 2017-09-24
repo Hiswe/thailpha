@@ -16,6 +16,4 @@ const mapStateToProp = state => {
 
 const ConsonnantsContainer = connect( mapStateToProp )( Consonnants )
 
-export {
-  ConsonnantsContainer as default,
-}
+export { ConsonnantsContainer as default }

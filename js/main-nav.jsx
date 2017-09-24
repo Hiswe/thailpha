@@ -1,29 +1,40 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
+import { connect } from 'react-redux'
 
-const MainNav = props => (
-  <nav className="main-nav">
-    <input type="text" disabled className="main-nav__search" placeholder="search" />
+import { filterChar } from './actions.js'
 
-    <NavLink to="/" exact={true} activeClassName="is-active" className="main-nav__btn">
-      consonants
-    </NavLink>
+const MainNav = props => {
+  return (
+    <nav className="main-nav">
+      <input type="search" onInput={ props.filterChar } className="main-nav__search" placeholder="search" />
 
-    <NavLink to="/vowels" activeClassName="is-active" className="main-nav__btn">
-      vowels
-    </NavLink>
+      <NavLink to="/" exact={true} activeClassName="is-active" className="main-nav__btn">
+        consonants
+      </NavLink>
 
-    <NavLink to="/numbers" activeClassName="is-active" className="main-nav__btn">
-      numbers
-    </NavLink>
+      <NavLink to="/vowels" activeClassName="is-active" className="main-nav__btn">
+        vowels
+      </NavLink>
 
-    <NavLink to="/settings" activeClassName="is-active" className="main-nav__btn">
-      <svg className="icon icon-settings" role="img">
-        <use href="#icon-settings" />
-      </svg>
-    </NavLink>
+      <NavLink to="/numbers" activeClassName="is-active" className="main-nav__btn">
+        numbers
+      </NavLink>
 
-  </nav>
-)
+      <NavLink to="/settings" activeClassName="is-active" className="main-nav__btn">
+        <svg className="icon icon-settings" role="img">
+          <use href="#icon-settings" />
+        </svg>
+      </NavLink>
 
-export { MainNav as default }
+    </nav>
+  )
+}
+
+const mapDispatchToProps = {
+  filterChar,  
+}
+
+const MainNavContainer = connect( null, mapDispatchToProps )( MainNav )
+
+export { MainNavContainer as default }

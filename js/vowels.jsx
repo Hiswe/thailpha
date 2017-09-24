@@ -25,6 +25,4 @@ const mapStateToProp = state => {
 
 const VowelsContainer = connect( mapStateToProp )( Vowels )
 
-export {
-  VowelsContainer as default,
-}
+export { VowelsContainer as default }

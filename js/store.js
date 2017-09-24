@@ -23,7 +23,23 @@ const settings = ( state = INITIAL_SETTINGS , action ) => {
 
 const INITIAL_CHARS = crio( [...consonants, ...shortVowels, ...longVowels, ...numbers] )
 const chars       = ( state = INITIAL_CHARS , action ) => {
-  return state
+  switch (action.type) {
+    case 'FILTER_CHAR':
+      console.log( action )
+      const query = action.query.toLowerCase()
+      if ( !query ) return INITIAL_CHARS
+      // return state
+      return INITIAL_CHARS.filter( char => {
+        const { rtgs, meaning, letter, thai } = char
+        const inRtgs = rtgs.toLowerCase().includes( query )
+        const inMeaning = meaning && meaning.toLowerCase().includes( query )
+        const isLetter = query === letter
+        const inThai = thai.includes( query )
+        return (inRtgs || inMeaning || isLetter || inThai)
+      })
+    default:
+      return state
+  }
 }
 
 const reducers    = combineReducers({
