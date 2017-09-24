@@ -29,10 +29,6 @@ const chars       = ( state = INITIAL_CHARS , action ) => {
 const reducers    = combineReducers({
   settings,
   chars,
-  consonants: (state = crio(consonants)) => state,
-  shortVowels: (state = crio(shortVowels)) => state,
-  longVowels: (state = crio(longVowels)) => state,
-  numbers: (state = crio(numbers)) => state,
 })
 
 const INITIAL_STATE = loadState()

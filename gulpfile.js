@@ -66,9 +66,14 @@ const mergeData = prefix => data => {
   const result  = letters.map( (name, index) => {
     const letter    = data[ name ]
     letter.id       = prefix + ( index + 1 )
-    letter.isConsonant  = /^c/.test( letter.id )
-    letter.isVowel      = /^v/.test( letter.id )
-    letter.isNumber     = /^n/.test( letter.id )
+    ; /^c/.test( letter.id ) ? letter.isConsonant = true 
+    : /^n/.test( letter.id ) ? letter.isNumber = true
+    : letter.isVowel = true
+    if ( letter.isVowel ) {
+      ; /^vs/.test( letter.id ) ? letter.isShort = true
+      : /^vl/.test( letter.id ) ? letter.isLong = true
+      : ''
+    }
     letter.longId   = prefix + letter.rtgs.replace( ' ', '-' )
     return letter
   })
