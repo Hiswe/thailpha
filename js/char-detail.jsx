@@ -35,9 +35,9 @@ const makeIdFromThaiText = groupOfThaiLetters => {
 const Variant  = ({variant}) => {
   if ( !variant ) return null
   return (
-    <ul className="letter-variant">  
+    <ul className="letter-variant">
       { variant.map( v => <li className="thai-letter" key={ makeIdFromThaiText(v) }>{ v }</li> ) }
-    </ul>  
+    </ul>
   )
 }
 
@@ -71,19 +71,19 @@ const SimilarList = ({similar}) => {
 
 class CharDetail extends Component {
 
-  constructor(props) {
-    super(props)
-    this.handleClose = this.handleClose.bind(this)
+  constructor( props ) {
+    super( props )
+    this.handleClose = this.handleClose.bind( this )
   }
 
-  handleClose(e) {
-    // don't close on nav link 
+  handleClose( e ) {
+    // don't close on nav link
     if ( e.target.nodeName === 'A' ) return
     // go back to the good listing
     const { char, history } = this.props
     const back = char.isNumber ? '/numbers' : char.isVowel ? '/vowels' : '/'
     history.push( back )
-  } 
+  }
 
   render() {
     const { char } = this.props
@@ -101,7 +101,7 @@ class CharDetail extends Component {
             </p>
             <Pronunciation char={char} />
             <Variant variant={char.variant} />
-            <SimilarHint similar={char.similar} /> 
+            <SimilarHint similar={char.similar} />
           </div>
           <SimilarList similar={char.similar} />
         </div>

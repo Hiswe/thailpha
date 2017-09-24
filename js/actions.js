@@ -1,17 +1,15 @@
-const toggleSetting = event => {
-  const { target } = event
+const toggleSetting = ({key, value}) => {
   return {
     type:   'TOGGLE_SETTING',
-    key:    target.id,
-    value:  target.checked,
+    key,
+    value,
   }
 }
 
-const filterChar = event => {
-  const { target } = event
+const filterChar = query => {
   return {
     type:   'FILTER_CHAR',
-    query:  target.value,
+    query,
   }
 }
 

@@ -22,10 +22,12 @@ const settings = ( state = INITIAL_SETTINGS , action ) => {
 }
 
 const INITIAL_CHARS = crio( [...consonants, ...shortVowels, ...longVowels, ...numbers] )
-const chars       = ( state = INITIAL_CHARS , action ) => {
+const chars = ( state = INITIAL_CHARS , action ) => {
+  return state
+}
+const filtered = ( state = INITIAL_CHARS , action ) => {
   switch (action.type) {
     case 'FILTER_CHAR':
-      console.log( action )
       const query = action.query.toLowerCase()
       if ( !query ) return INITIAL_CHARS
       // return state
@@ -45,6 +47,7 @@ const chars       = ( state = INITIAL_CHARS , action ) => {
 const reducers    = combineReducers({
   settings,
   chars,
+  filtered,
 })
 
 const INITIAL_STATE = loadState()
@@ -60,7 +63,7 @@ store.subscribe( () => {
   const state = store.getState()
   if ( previousState.settings !== state.settings ) {
     // save only the settings in storage
-    // no need to save more :)    
+    // no need to save more :)
     saveSate( {settings: state.settings} )
   }
   previousState = state

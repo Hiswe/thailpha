@@ -17,9 +17,9 @@ const Vowels = ({shorts, longs}) => (
 )
 
 const mapStateToProp = state => {
-  return { 
-    shorts: state.chars.filter( char => char.isShort ),
-    longs:  state.chars.filter( char => char.isLong ),
+  return {
+    shorts: state.filtered.filter( char => char.isShort ),
+    longs:  state.filtered.filter( char => char.isLong ),
   }
 }
 
