@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 const CharItem = props => {
   let wrapperClasses  = `char-section__item`
@@ -8,9 +9,11 @@ const CharItem = props => {
 
   return (
     <li className={wrapperClasses}>
-      <p className="preview-list-item-rtgs">{props.rtgs}</p>
-      <p className={letterClasses}>{props.letter}</p>
-      <p className="preview-list-item-meaning">{props.meaning}</p>
+      <Link to={`/char/${props.longId}`} className="char-section__item-link" >
+        <p className="preview-list-item-rtgs">{props.rtgs}</p>
+        <p className={letterClasses}>{props.letter}</p>
+        <p className="preview-list-item-meaning">{props.meaning}</p>
+      </Link>
     </li>
   )
 }

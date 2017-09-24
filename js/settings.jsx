@@ -14,9 +14,6 @@ const Settings = props => {
         <label htmlFor="showObsolete">show obsolete letters</label>
         <input id="showNumbers" type="checkbox" checked={settings.showNumbers} onChange={toggleSetting} />
         <label htmlFor="showNumbers">show numbers</label>
-        {/* <p>
-          <button className="btn" >save</button>
-        </p> */}
       </form>
       <footer className="settings__footer">
         <p>

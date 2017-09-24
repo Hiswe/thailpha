@@ -14,13 +14,11 @@
   &__item {
     list-style: none;
     width: 25vw;
-    min-height: @width;
+    
     border: 1px solid $c-grey-light;
     border-width: 0 1px 1px  0;
     cursor: pointer;
     position: relative;
-    display: inline-flex;
-    flex-direction: column;
 
     @media $mq-small {
       &:nth-child(4n + 4) {
@@ -36,7 +34,6 @@
 
     @media $mq-big {
       width: (100%/7);
-      min-height: 140px;
 
       &:nth-child(7n + 7) {
         border-width: 0 0 1px 0;
@@ -86,6 +83,18 @@
         &.n-saen {  font-size: 35px;}
         &.n-lan {   font-size: 25px;}
       }
+    }
+  }
+
+  &__item-link {
+    display: flex;
+    flex-direction: column;
+    min-height: 25vw;
+    color: currentColor;
+    text-decoration: none;
+
+    @media $mq-big { 
+      min-height: 140px;
     }
   }
 }

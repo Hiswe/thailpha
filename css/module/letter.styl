@@ -2,7 +2,7 @@
   position: fixed;
   top:0;
   right: 0;
-  bottom: 0;
+  bottom: $s-nav;
   left: 0;
   overflow: auto;
   -webkit-overflow-scrolling: touch;
@@ -10,7 +10,7 @@
 }
 
 .letter-container {
-  min-height: 100vh;
+  height: 'calc(100vh - %s)' % ($s-nav);
 }
 .letter-hint,
 .letter-meaning,
