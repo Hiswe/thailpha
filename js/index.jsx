@@ -45,8 +45,7 @@ const App = props => (
           <Route exact path="/" component={Consonnants} />
           <Route path="/vowels" component={Vowels} />
           <Route path="/numbers" component={Numbers} />
-          <Route path="/settings" component={Settings} />
-          <Route path="/settings" component={Settings} />
+          {/* <Route path="/settings" component={Settings} /> */}
           <Route path="/char/:longId" component={CharDetail} />
           <Redirect to="/" />
         </Switch>  
