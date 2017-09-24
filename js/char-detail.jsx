@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import crio from 'crio'
+import { Link } from 'react-router-dom'
 
 const Pronunciation = ({char}) => {
   const { pronunciation } = char
@@ -49,7 +50,7 @@ const SimilarChar = ({char}) => {
   return (
     <tr>
       <td className="thai-letter">
-        <a>{ char.letter }</a>
+        <Link to={ `/char/${ char.longId }` }>{ char.letter }</Link>
       </td>
       <td>{ char.rtgs }</td>
       <td>{ char.pronunciation.initial }</td>
@@ -68,30 +69,45 @@ const SimilarList = ({similar}) => {
   </table>)
 }
 
-const CharDetail = props => {
-  const { char } = props
-  let wrapperClasses = `letter-container`
-  const back = char.isNumber ? '/numbers' : char.isVowel ? '/vowels' : '/'
-  if ( char.isVowel ) wrapperClasses = `${wrapperClasses} is-vowel`
-  
-  return (
-    <div id="letter" onClick={ e => props.history.push( back ) }>
-      <div className="content">
-        <div className={wrapperClasses}>
-          <strong className={`thai-letter ${char.longId }`}>{ char.letter }</strong>
-          <p className="letter-meaning">
-            <span className="letter-meaning-thai">{ char.thai }</span>
-            <span className="letter-meaning-rtgs">{ char.rtgs }</span>
-            <span className="letter-meaning-translation">{ char.meaning }</span>
-          </p>
-          <Pronunciation char={char} />
-          <Variant variant={char.variant} />
-          <SimilarHint similar={char.similar} /> 
+class CharDetail extends Component {
+
+  constructor(props) {
+    super(props)
+    this.handleClose = this.handleClose.bind(this)
+  }
+
+  handleClose(e) {
+    // don't close on nav link 
+    if ( e.target.nodeName === 'A' ) return
+    // go back to the good listing
+    const { char, history } = this.props
+    const back = char.isNumber ? '/numbers' : char.isVowel ? '/vowels' : '/'
+    history.push( back )
+  } 
+
+  render() {
+    const { char } = this.props
+    let wrapperClasses = `letter-container`
+    if ( char.isVowel ) wrapperClasses = `${wrapperClasses} is-vowel`
+    return (
+      <div id="letter" onClick={ this.handleClose }>
+        <div className="content">
+          <div className={wrapperClasses}>
+            <strong className={`thai-letter ${char.longId }`}>{ char.letter }</strong>
+            <p className="letter-meaning">
+              <span className="letter-meaning-thai">{ char.thai }</span>
+              <span className="letter-meaning-rtgs">{ char.rtgs }</span>
+              <span className="letter-meaning-translation">{ char.meaning }</span>
+            </p>
+            <Pronunciation char={char} />
+            <Variant variant={char.variant} />
+            <SimilarHint similar={char.similar} /> 
+          </div>
+          <SimilarList similar={char.similar} />
         </div>
-        <SimilarList similar={char.similar} />
       </div>
-    </div>
-  )
+    )
+  }
 }
 
 const mapStateToProp = ( state, ownProps) => {
