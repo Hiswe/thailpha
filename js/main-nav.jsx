@@ -1,52 +1,43 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { NavLink } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 import { filterChar } from './actions.js'
 
 
-class MainNav extends Component {
+const MainNav = props => {
+  const { handleSearch } = props
+  return (
+    <nav className="main-nav">
+      <input type="search" onInput={ handleSearch } className="main-nav__search" placeholder="search" />
 
-  constructor( props ) {
-    super( props )
-    this.handleSearch = this.handleSearch.bind( this )
-  }
+      <NavLink to="/" exact={true} activeClassName="is-active" className="main-nav__btn">
+        consonants
+      </NavLink>
 
-  handleSearch( e ) {
-    this.props.filterChar( e.target.value )
-  }
+      <NavLink to="/vowels" activeClassName="is-active" className="main-nav__btn">
+        vowels
+      </NavLink>
 
-  render() {
-    return (
-      <nav className="main-nav">
-        <input type="search" onInput={ this.handleSearch } className="main-nav__search" placeholder="search" />
+      <NavLink to="/numbers" activeClassName="is-active" className="main-nav__btn">
+        numbers
+      </NavLink>
 
-        <NavLink to="/" exact={true} activeClassName="is-active" className="main-nav__btn">
-          consonants
-        </NavLink>
+      {/* disable settings for now */}
+      {/* <NavLink to="/settings" activeClassName="is-active" className="main-nav__btn">
+        <svg className="icon icon-settings" role="img">
+          <use href="#icon-settings" />
+        </svg>
+      </NavLink> */}
 
-        <NavLink to="/vowels" activeClassName="is-active" className="main-nav__btn">
-          vowels
-        </NavLink>
-
-        <NavLink to="/numbers" activeClassName="is-active" className="main-nav__btn">
-          numbers
-        </NavLink>
-
-        {/* disable settings for now */}
-        {/* <NavLink to="/settings" activeClassName="is-active" className="main-nav__btn">
-          <svg className="icon icon-settings" role="img">
-            <use href="#icon-settings" />
-          </svg>
-        </NavLink> */}
-
-      </nav>
-    )
-  }
+    </nav>
+  )
 }
 
 const mapDispatchToProps = {
-  filterChar,
+  handleSearch( e ) {
+    return filterChar( e.target.value )
+  }
 }
 
 const MainNavContainer = connect( null, mapDispatchToProps )( MainNav )
