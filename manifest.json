@@ -1,0 +1,32 @@
+{
+  "name": "Thailpha",
+  "short_name": "Thailpha",
+  "start_url": ".",
+  "background_color": "#fff",
+  "theme_color": "black",
+  "description": "Thai Alphabet",
+  "lang": "en-US",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "icons": [{
+    "src": "touch-icon-icon-iphone.png",
+    "sizes": "57x57",
+    "type": "image/png"
+  }, {
+    "src": "touch-icon-icon-ipad.png",
+    "sizes": "76x76",
+    "type": "image/png"
+  }, {
+    "src": "touch-icon-ipad-retina.png",
+    "sizes": "120x120",
+    "type": "image/png"
+  }, {
+    "src": "touch-icon-ipad-retina.png",
+    "sizes": "152x152",
+    "type": "image/png"
+  }, {
+    "src": "touch-icon-iphone-6-plus.png",
+    "sizes": "180x180",
+    "type": "image/png"
+  }]
+}
