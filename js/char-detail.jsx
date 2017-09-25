@@ -2,7 +2,6 @@ import React from 'react'
 import { connect } from 'react-redux'
 import crio from 'crio'
 import { Link } from 'react-router-dom'
-// import zenscroll from 'zenscroll'
 
 const Pronunciation = ({char}) => {
   const { pronunciation } = char
