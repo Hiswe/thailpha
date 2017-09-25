@@ -22,7 +22,7 @@ const dest        = {
 const buildDir    = isDev ? '.tmp' : 'public'
 
 
-$.util.log( 'environment is', $.util.colors.magenta(env) )
+$.util.log( 'environment is', $.util.colors.magenta(env), {isProd} )
 
 ////////
 // MISC
@@ -34,7 +34,7 @@ function onError(err) {
   if (err.annotated)      { $.util.log(err.annotated) }
   else if (err.message)   { $.util.log(err.message) }
   else                    { $.util.log(err) }
-  return this.emit('end')
+  return this.emit( 'end' )
 }
 
 ////////
@@ -59,6 +59,7 @@ jsApp.description = `bundle the JS front application`
 const serviceWorker = () => {
   return gulp
   .src( './js/service-worker.js' )
+  .pipe( $.if(isProd, $.uglifyEs.default()) )
   .pipe( gulp.dest( buildDir ) )
 }
 jsApp.description = `bundle service-worker script`
@@ -238,10 +239,16 @@ bump.description = `bump versions in *.json files`
 // DEV
 ////////
 
-const buildSteps = [  gulp.parallel( assets, js, css, html ) ]
-if (!isDev) buildSteps.unshift( clean )
-const build       = gulp.series( ...buildSteps )
-build.description = `build everything`
+const showBundleSize = () => {
+  return gulp
+  .src( [`${buildDir}/*.js`, `${buildDir}/*.css`] )
+  .pipe( $.size({gzip: true, showFiles: true}) )
+}
+
+const buildDev  = gulp.parallel( assets, js, css, html )
+buildDev.description = `build everything (dev)`
+const buildProd = gulp.series( clean, buildDev, showBundleSize)
+buildProd.description = `build everything (prod)`
 
 const historyFallback = require( 'connect-history-api-fallback' )
 const bs = () => {
@@ -282,7 +289,7 @@ const bsAndWatch = () => {
 }
 
 const dev = args.build === false ? bsAndWatch() :
-  gulp.series( build, bsAndWatch )
+  gulp.series( buildDev, bsAndWatch )
 dev.description = `build, watch & launch a dev server`
 
 const domainName = args.domain ? args.domain : 'thailpha'
@@ -304,7 +311,8 @@ gulp.task( `icons`,       icons )
 gulp.task( `touch-icon`,  touchIcon )
 gulp.task( `assets`,      assets )
 gulp.task( `clean`,       clean )
-gulp.task( `build`,       build )
+gulp.task( `buildDev`,    buildDev )
+gulp.task( `buildProd`,   buildProd )
 gulp.task( `dev`,         dev )
 gulp.task( `watch`,       watch )
 gulp.task( `release`,     release )

@@ -1,8 +1,9 @@
 `use strict`
 
-const path    = require( `path` )
-const webpack = require( `webpack` )
-const args    = require( `yargs` ).argv
+const path                      = require( `path` )
+const webpack                   = require( `webpack` )
+const args                      = require( `yargs` ).argv
+const UglifyJSPlugin            = require( `uglifyjs-webpack-plugin` )
 
 const env       = args.prod ? `production` : `development`
 const isDev     = env === `development`
@@ -24,6 +25,15 @@ const plugins = [
     minChunks: m => m.context && m.context.indexOf( `node_modules` ) !== -1
   }),
 ]
+
+if ( isProd ) {
+  plugins.push( new UglifyJSPlugin() )
+  plugins.push( new webpack.DefinePlugin({
+    'process.env': {
+      'NODE_ENV': JSON.stringify('production')
+    }
+  }) )
+}
 
 const rules = [
   {
