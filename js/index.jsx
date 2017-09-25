@@ -2,6 +2,10 @@ import React from 'react'
 import { render } from 'react-dom'
 import { BrowserRouter as Router, Route,  Redirect, Switch } from 'react-router-dom'
 import { Provider } from 'react-redux'
+import Transition from 'react-transition-group/Transition'
+import TransitionGroup from 'react-transition-group/TransitionGroup'
+import CSSTransition from 'react-transition-group/CSSTransition'
+import { Component } from 'react'
 
 import store from './store.js'
 import Consonnants from './consonants.jsx'
@@ -11,28 +15,43 @@ import Settings from './settings.jsx'
 import CharDetail from './char-detail.jsx'
 import MainNav from './main-nav.jsx'
 
-const App = props => (
-  <Provider store={store}>
-    <Router>
-      <div id="app-wrapper">
-        <Switch>  
-          <Route exact path="/" component={ Consonnants } />
-          <Route path="/vowels" component={ Vowels } />
-          <Route path="/numbers" component={ Numbers } />
-          {/* settings are useless for now */}
-          {/* <Route path="/settings" component={ Settings } /> */}
-          <Route path="/char/:longId" component={ CharDetail } />
-          <Redirect to="/" />
-        </Switch>  
+// animation copied from
+// https://github.com/ReactTraining/react-router/issues/5279
+// and mostly
+// https://codesandbox.io/s/4RAqrkRkn?view=preview
+const timeout = { enter: 300, exit: 200 }
+const App = props => {
+  return (
+    <div id="app-wrapper">
+      <TransitionGroup>
+        <CSSTransition key={window.location.pathname} timeout={timeout} classNames="fade" appear>
 
-        <Route path="/" component={ MainNav } />
+          <Switch>
+            <Route exact path="/" component={ Consonnants } />
+            <Route path="/vowels" component={ Vowels } />
+            <Route path="/numbers" component={ Numbers } />
+            {/* settings are useless for now */}
+            {/* <Route path="/settings" component={ Settings } /> */}
+            <Route path="/char/:longId" component={ CharDetail } />
+            <Redirect to="/" />
+          </Switch>
 
-      </div>
-    </Router>
-  </Provider>
-)
+        </CSSTransition>
+      </TransitionGroup>
+
+      <Route path="/" component={ MainNav } />
+
+    </div>
+  )
+}
 
 render(
-  <App />,
+  (
+    <Provider store={store}>
+      <Router>
+        <App />
+      </Router>
+    </Provider>
+  ),
   document.getElementById( 'main' )
 )

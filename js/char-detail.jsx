@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import crio from 'crio'
 import { Link } from 'react-router-dom'
-import zenscroll from 'zenscroll'
+// import zenscroll from 'zenscroll'
 
 const Pronunciation = ({char}) => {
   const { pronunciation } = char
@@ -78,17 +78,12 @@ class CharDetail extends Component {
   }
 
   componentDidMount() {
-    // console.log( 'component Did Mount' )
-    this.zenscroll = zenscroll.createScroller( document.getElementById('letter') )
+    // animation seems to rerender everything.
+    // no need for zenscroll anymore
+    // this.zenscroll = zenscroll.createScroller( document.getElementById('letter') )
   }
-
-  // componentWillUpdate() {
-  //   console.log( 'component will Update' )
-  // }
-
   componentDidUpdate() {
-    // console.log( 'component Did Update' )
-    this.zenscroll.toY(0)
+    // this.zenscroll.toY(0)
   }
 
   handleClose( e ) {
