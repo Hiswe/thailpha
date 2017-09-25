@@ -34,12 +34,22 @@ const rules = [
     use: {
       loader: 'babel-loader',
       options: {
-        presets: ['es2015', 'react'],
-        plugins: ['transform-object-rest-spread'],
+        presets: [ 'es2015' ],
+        plugins: [
+          'transform-object-rest-spread',
+          [ 'transform-react-jsx', { pragma: 'h' } ]
+        ],
       },
     },
   },
 ]
+
+const resolve = {
+  alias: {
+    'react': 'preact-compat',
+    'react-dom': 'preact-compat',
+  },
+}
 
 module.exports = {
   entry,
@@ -47,6 +57,7 @@ module.exports = {
   watch:    true,
   devtool:  'inline-source-map',
   plugins,
+  resolve,
   module: {
     rules,
   },

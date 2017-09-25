@@ -1,11 +1,9 @@
-import React from 'react'
-import { render } from 'react-dom'
+import { h, render } from 'preact'
 import { BrowserRouter as Router, Route,  Redirect, Switch } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import Transition from 'react-transition-group/Transition'
 import TransitionGroup from 'react-transition-group/TransitionGroup'
 import CSSTransition from 'react-transition-group/CSSTransition'
-import { Component } from 'react'
 
 import store from './store.js'
 import Consonnants from './consonants.jsx'
@@ -56,3 +54,17 @@ render(
   ),
   document.getElementById( 'main' )
 )
+
+// (function() {
+//   'use strict'
+
+//   if (!navigator.serviceWorker) return
+
+//   navigator
+//   .serviceWorker
+//   .register( '/service-worker.js' )
+//   .catch( error => {
+//     console.log('sorry', error)
+//   })
+
+// })()

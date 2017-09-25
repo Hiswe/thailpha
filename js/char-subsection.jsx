@@ -1,4 +1,4 @@
-import React from 'react'
+import { h } from 'preact'
 
 const CharSubsection = props => (
   <dl className="char-subsection">

@@ -21,6 +21,9 @@ const dest        = {
 };
 const buildDir    = isDev ? '.tmp' : 'public'
 
+
+$.util.log( 'environment is', $.util.colors.magenta(env) )
+
 ////////
 // MISC
 ////////

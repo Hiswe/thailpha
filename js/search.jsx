@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import { h } from 'preact'
 import { filterChar } from './actions.js'
 import { connect } from 'react-redux'
 

@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import { h } from 'preact'
 import { NavLink } from 'react-router-dom'
 
 const MainNav = props => {

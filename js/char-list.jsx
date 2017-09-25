@@ -1,4 +1,4 @@
-import React from 'react'
+import { h } from 'preact'
 
 import CharItem from './char-item.jsx'
 

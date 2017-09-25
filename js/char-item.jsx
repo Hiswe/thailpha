@@ -1,4 +1,4 @@
-import React from 'react'
+import { h } from 'preact'
 import { Link } from 'react-router-dom'
 
 const CharItem = props => {
