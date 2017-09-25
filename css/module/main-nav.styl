@@ -8,35 +8,28 @@
   color: $c-white;
   display: flex;
 
-  &__search {
-    height: $s-nav;
-    margin: 0 $gutter;
-    flex-grow: 1;
-    background: none;
-    font-size: 18px;
-    color: $c-white;
-    outline: 0;
-    border: 0;
-    flex-grow: 1;
-
-    &:disabled {
-      &::-webkit-input-placeholder {  color: transparent; }
-      &::-moz-placeholder {           color: transparent; }
-      &:-ms-input-placeholder {       color: transparent; }
-      &:-moz-placeholder {            color: transparent; }
-    }
-  }
-
   &__btn {
     flex-grow: 0;
     flex-shrink: 0;
-    height: $s-nav;
-    padding: 1em $gutter;
+    height: var(--nav-height);
+    padding: 0 1em;
     color: $c-white;
     text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    &--chars {
+      font-size: fluid-fs(0.45);
+      flex-grow: 1;
+    }
 
     &.is-active {
       background: $c-brand;
     }
+  }
+
+  svg {
+    fill: currentColor;
   }
 }

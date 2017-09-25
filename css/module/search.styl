@@ -1,0 +1,28 @@
+.search {
+  height: var(--nav-height);
+  display: flex;
+  border: solid var(--c-primary);
+  border-width: 5px 0 5px 5px;
+
+  &__input {
+    flex-grow: 1;
+    border: 0;
+    font-size: 18px;
+    padding: 0 $gutter;
+  }
+  &__reset {
+    border: 0;
+    background: var(--c-primary);
+    margin: 0;
+    width: var(--nav-height);
+    flex-shrink: 0;
+
+    svg {
+      fill: var(--c-primary-contrast);
+    }
+  }
+}
+
+.search-no-result {
+  text-align: center;
+}

@@ -10,7 +10,7 @@
 }
 
 .letter-container {
-  height: 'calc(100vh - %s)' % ($s-nav);
+  height: calc(100vh - var(--nav-height));
 }
 .letter-hint,
 .letter-meaning,
@@ -52,13 +52,23 @@
 
 .letter-container {
   > .thai-letter {
-    font-size: 90vw;
+    font-size: fluid-fs( 10 );
     font-weight: 400;
     line-height: 1;
+
+    @media $mq-big {
+      font-size: fluid-fs( 5 );
+    }
   }
 
   &.is-vowel > .thai-letter {
-    font-size: 45vw;
+    font-size: fluid-fs( 5 );
+
+    @media $mq-big {
+      $ffs    = 2.5
+      $ffsX2  = $ffs * 2
+      font-size: fluid-fs( 2.5 );
+    }
   }
 
   .thai-letter {
@@ -123,16 +133,6 @@
     }
   }
 }
-
-+mq('big') {
-  .letter-container {
-    .thai-letter {
-      font-size: 55vw;
-      line-height: 0;
-    }
-  }
-}
-
 .letter-container {
   display: flex;
   flex-direction: column;

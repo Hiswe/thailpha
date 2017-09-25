@@ -11,7 +11,7 @@ const Numbers = ({chars}) => (
 )
 
 const mapStateToProp = state => {
-  return { chars: state.filtered.filter( char => char.isNumber )  }
+  return { chars: state.chars.filter( char => char.isNumber )  }
 }
 
 const NumbersContainer = connect( mapStateToProp )( Numbers )

@@ -11,7 +11,7 @@ const Consonnants = ({chars}) => (
 )
 
 const mapStateToProp = state => {
-  return { chars: state.filtered.filter( char => char.isConsonant )  }
+  return { chars: state.chars.filter( char => char.isConsonant )  }
 }
 
 const ConsonnantsContainer = connect( mapStateToProp )( Consonnants )

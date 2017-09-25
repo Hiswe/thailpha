@@ -21,6 +21,11 @@ mq($$size) {
   }
 }
 
+fluid-fs( $ffs = 1) {
+  $ffsX2 = $ffs * 2
+  'calc(%svw + %svh + %svmin)' % ($ffsX2 $ffsX2 $ffs);
+}
+
 hide() {
   border: 0 !important;
   clip: rect(0 0 0 0) !important;
