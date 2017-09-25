@@ -25,7 +25,8 @@ const buildDir    = isDev ? '.tmp' : 'public'
 // MISC
 ////////
 
-const onError = err => {
+// no arrow function: we're using `this`
+function onError(err) {
   $.util.beep()
   if (err.annotated)      { $.util.log(err.annotated) }
   else if (err.message)   { $.util.log(err.message) }
@@ -66,7 +67,7 @@ const mergeData = prefix => data => {
   const result  = letters.map( (name, index) => {
     const letter    = data[ name ]
     letter.id       = prefix + ( index + 1 )
-    ; /^c/.test( letter.id ) ? letter.isConsonant = true 
+    ; /^c/.test( letter.id ) ? letter.isConsonant = true
     : /^n/.test( letter.id ) ? letter.isNumber = true
     : letter.isVowel = true
     if ( letter.isVowel ) {
