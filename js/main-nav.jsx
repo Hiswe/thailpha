@@ -24,11 +24,12 @@ const MainNav = props => {
       </NavLink>
 
       {/* disable settings for now */}
-      {/* <NavLink to="/settings" activeClassName="is-active" className="main-nav__btn">
-        <svg className="icon icon-settings" role="img">
+      <NavLink to="/about" activeClassName="is-active" className="main-nav__btn">
+        ?
+        {/* <svg className="icon icon-settings" role="img">
           <use href="#icon-settings" />
-        </svg>
-      </NavLink> */}
+        </svg> */}
+      </NavLink>
 
     </nav>
   )
