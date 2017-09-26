@@ -1,7 +1,7 @@
 {
   "name": "Thailpha",
   "short_name": "Thailpha",
-  "start_url": ".",
+  "start_url": "/?utm_source=homescreen",
   "background_color": "#fff",
   "theme_color": "black",
   "description": "Thai Alphabet",

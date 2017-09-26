@@ -237,7 +237,7 @@ html.description = `build index.html`
 // MISC
 ////////
 
-const clean = () => del(['public'])
+const clean = () => del(['public/*', '!public/.surgeignore'])
 clean.description = `clean everything in the production (public) folder`
 
 const bump = () => {
