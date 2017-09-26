@@ -20,24 +20,25 @@ body {
 body {
   background: $c-grey-light;
 }
-#main {
+
+body,
+.smooth-container {
+  scroll-behavior: smooth;
+}
+
+#app-wrapper {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   background: $c-white;
-
-  > *:first-child {
-    padding-top: $s-nav;
-  }
+  padding-bottom: $s-nav;
 
   +mq('big') {
     max-width: 1280px;
     margin: 0 auto;
   }
 }
-header {
-  position: relative;
-}
+
 dl,
 dd {
   padding:  0;
@@ -55,35 +56,24 @@ body > svg {
   fill: currentColor;
 }
 
-header,
-.main,
-footer {
-  padding: $gutter;
+//----- REACT ANIMATIONS
+
+.fade-appear,
+.fade-enter {
+  opacity: 0;
 }
 
-footer {
-  border-top: 1px solid $c-black;
-  padding-bottom: ($gutter/2);
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: white;
-
-  > * {
-    margin: .5em 0 0;
-  }
+.fade-appear-active,
+.fade-enter-active {
+  transition: opacity .3s linear;
+  opacity: 1;
 }
 
-// .main {
-//   flex-grow: 1;
-//   display: flex;
-//   flex-direction: column;
-// }
+.fade-exit {
+  transition: opacity .2s linear;
+  opacity: 1;
+}
 
-.version {
-  font-size: 12px;
-  margin-top: 1em;
-  text-align: center;
-  color: $c-grey;
+.fade-exit-active {
+  opacity: 0;
 }

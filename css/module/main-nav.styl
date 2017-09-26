@@ -1,0 +1,35 @@
+.main-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: $c-black;
+  text-decoration: none;
+  color: $c-white;
+  display: flex;
+
+  &__btn {
+    flex-grow: 0;
+    flex-shrink: 0;
+    height: var(--nav-height);
+    padding: 0 1em;
+    color: $c-white;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    &--chars {
+      font-size: fluid-fs(0.45);
+      flex-grow: 1;
+    }
+
+    &.is-active {
+      background: $c-brand;
+    }
+  }
+
+  svg {
+    fill: currentColor;
+  }
+}

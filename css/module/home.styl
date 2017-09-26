@@ -1,25 +1,101 @@
-.preview-list {
-  margin: 0;
-  padding: 0;
-  border: solid $c-grey-light;
-  border-width: 1px 0 0;
-}
-.preview-list-item {
-  list-style: none;
-  width: 25vw;
-  min-height: @width;
-  border: 1px solid $c-grey-light;
-  border-width: 0 1px 1px  0;
-  cursor: pointer;
-  position: relative;
-
-  p {
+.char-section {
+  &__header {
+    position: relative;
+    padding: $gutter;
+  }
+  &__list {
     margin: 0;
-    text-align: center;
+    padding: 0;
+    border: solid $c-grey-light;
+    border-width: 1px 0 0;
+    display: flex;
+    flex-wrap: wrap;
+  }
+  &__item {
+    list-style: none;
+    width: 25vw;
+    
+    border: 1px solid $c-grey-light;
+    border-width: 0 1px 1px  0;
+    cursor: pointer;
+    position: relative;
+
+    @media $mq-small {
+      &:nth-child(4n + 4) {
+        border-width: 0 0 1px 0;
+      }
+      &:nth-child(8n + 1),
+      &:nth-child(8n + 2),
+      &:nth-child(8n + 3),
+      &:nth-child(8n + 4) {
+        background: $c-grey-lightest;
+      }
+    }
+
+    @media $mq-big {
+      width: (100%/7);
+
+      &:nth-child(7n + 7) {
+        border-width: 0 0 1px 0;
+      }
+      &:nth-child(14n + 1),
+      &:nth-child(14n + 2),
+      &:nth-child(14n + 3),
+      &:nth-child(14n + 4),
+      &:nth-child(14n + 5),
+      &:nth-child(14n + 6),
+      &:nth-child(14n + 7) {
+        background: $c-grey-lightest;
+      }
+    }
+
+    p {
+      margin: 0;
+      text-align: center;
+    }
+
+    .thai-letter {
+      font-size: 15vw;
+      flex-grow: 1;
+      display: flex;
+      flex-center();
+
+      &--vowel {
+        font-size: 10vw;
+      }
+
+      &.n-roi  { font-size: 12vw;}
+      &.n-phan { font-size: 9vw;}
+      &.n-muen { font-size: 7vw;}
+      &.n-saen { font-size: 6vw;}
+      &.n-lan {  font-size: 5.5vw;}
+
+      @media $mq-big {
+        font-size: 80px;
+
+        &--vowel {
+          font-size: 60px;
+        }
+
+        &.n-roi {   font-size: 70px;}
+        &.n-phan {  font-size: 55px;}
+        &.n-muen {  font-size: 45px;}
+        &.n-saen {  font-size: 35px;}
+        &.n-lan {   font-size: 25px;}
+      }
+    }
   }
 
-  .thai-letter {
-    font-size: 15vw;
+  &__item-link {
+    display: flex;
+    flex-direction: column;
+    min-height: 25vw;
+    color: currentColor;
+    text-decoration: none;
+
+    @media $mq-big { 
+      min-height: 140px;
+    }
   }
 }
 
@@ -27,7 +103,10 @@
   font-size: 3vw;
   padding: .5em 0 .25em;
   white-space: pre;
-  // order: -1;
+
+  @media $mq-big {
+    font-size: 16px;
+  }
 
   .class-low &::before,
   .class-high &::before {
@@ -49,80 +128,8 @@
 .preview-list-item-meaning {
   color: $c-grey;
   font-size: 3vw;
-}
 
-.preview-list-vowels {
-  .thai-letter {
-    font-size: 10vw;
-  }
-}
-.thai-letter.n-roi  { font-size: 12vw;}
-.thai-letter.n-phan { font-size: 9vw;}
-.thai-letter.n-muen { font-size: 7vw;}
-.thai-letter.n-saen { font-size: 6vw;}
-.thai-letter.n-lan {  font-size: 5.5vw;}
-
-+mq('small-only') {
-  .preview-list-item {
-    &:nth-child(4n + 4) {
-      border-width: 0 0 1px 0;
-    }
-    &:nth-child(8n + 1),
-    &:nth-child(8n + 2),
-    &:nth-child(8n + 3),
-    &:nth-child(8n + 4) {
-      background: $c-grey-lightest;
-    }
-  }
-}
-
-+mq('big') {
-  .preview-list-item {
-    width: (100%/7);
-    min-height: 140px;
-
-    &:nth-child(7n + 7) {
-      border-width: 0 0 1px 0;
-    }
-    &:nth-child(14n + 1),
-    &:nth-child(14n + 2),
-    &:nth-child(14n + 3),
-    &:nth-child(14n + 4),
-    &:nth-child(14n + 5),
-    &:nth-child(14n + 6),
-    &:nth-child(14n + 7) {
-      background: $c-grey-lightest;
-    }
-    .thai-letter {
-      font-size: 80px;
-
-      .preview-list-vowels & {
-        font-size: 60px;
-      }
-      &.n-roi {   font-size: 70px;}
-      &.n-phan {  font-size: 55px;}
-      &.n-muen {  font-size: 45px;}
-      &.n-saen {  font-size: 35px;}
-      &.n-lan {   font-size: 25px;}
-    }
-  }
-  .preview-list-item-meaning,
-  .preview-list-item-rtgs {
+  @media $mq-big {
     font-size: 16px;
-  }
-}
-
-.preview-list {
-  display: flex;
-  flex-wrap: wrap;
-}
-.preview-list-item {
-  display: inline-flex;
-  flex-direction: column;
-
-  .thai-letter {
-    flex-grow: 1;
-    display: flex;
-    flex-center();
   }
 }

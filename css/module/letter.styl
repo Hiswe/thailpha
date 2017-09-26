@@ -2,7 +2,7 @@
   position: fixed;
   top:0;
   right: 0;
-  bottom: 0;
+  bottom: $s-nav;
   left: 0;
   overflow: auto;
   -webkit-overflow-scrolling: touch;
@@ -10,7 +10,7 @@
 }
 
 .letter-container {
-  min-height: 100vh;
+  height: calc(100vh - var(--nav-height));
 }
 .letter-hint,
 .letter-meaning,
@@ -52,13 +52,23 @@
 
 .letter-container {
   > .thai-letter {
-    font-size: 90vw;
+    font-size: fluid-fs( 10 );
     font-weight: 400;
     line-height: 1;
+
+    @media $mq-big {
+      font-size: fluid-fs( 5 );
+    }
   }
 
   &.is-vowel > .thai-letter {
-    font-size: 45vw;
+    font-size: fluid-fs( 5 );
+
+    @media $mq-big {
+      $ffs    = 2.5
+      $ffsX2  = $ffs * 2
+      font-size: fluid-fs( 2.5 );
+    }
   }
 
   .thai-letter {
@@ -89,13 +99,13 @@
   }
 }
 
-+mq('landscape') {
+@media $mq-landscape {
   .letter-container {
     position: relative;
     align-items: flex-end;
 
     .thai-letter {
-      font-size: 30vw;
+      font-size: fluid-fs( 5 );
       width: 75%;
       border-left: 1px solid $c-grey-light;
     }
@@ -123,16 +133,6 @@
     }
   }
 }
-
-+mq('big') {
-  .letter-container {
-    .thai-letter {
-      font-size: 55vw;
-      line-height: 0;
-    }
-  }
-}
-
 .letter-container {
   display: flex;
   flex-direction: column;
@@ -159,12 +159,29 @@
   flex-grow: 1;
   display: flex;
 
-  li {
+  &:empty {
+    display: none;
+  }
+
+  @media $mq-landscape {
+    width: 75%;
+    margin: 0;
+    border-left: 1px solid $c-grey-light;
+  }
+
+  .thai-letter {
     display: flex;
     flex-center();
-
     flex-grow: 1;
     flex-basis: 1%;
 
+    @media $mq-landscape {
+      margin: $gutter;
+      font-size: fluid-fs( 3 );
+
+      & + .thai-letter {
+        margin-left: 0;
+      }
+    }
   }
 }

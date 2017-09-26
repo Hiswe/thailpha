@@ -21,16 +21,20 @@ const dest        = {
 };
 const buildDir    = isDev ? '.tmp' : 'public'
 
+
+$.util.log( 'environment is', $.util.colors.magenta(env) )
+
 ////////
 // MISC
 ////////
 
-const onError = err => {
+// no arrow function: we're using `this`
+function onError(err) {
   $.util.beep()
   if (err.annotated)      { $.util.log(err.annotated) }
   else if (err.message)   { $.util.log(err.message) }
   else                    { $.util.log(err) }
-  return this.emit('end')
+  return this.emit( 'end' )
 }
 
 ////////
@@ -40,8 +44,11 @@ const onError = err => {
 //----- APPLICATION
 
 const jsApp = done => {
-  bundler.run( (err, stat) => {
+  bundler.run( (err, stats) => {
+    // https://webpack.js.org/api/node/#error-handling
     if (err) return done( err )
+    const info = stats.toJson()
+    if ( stats.hasErrors() ) return done( info.errors )
     done()
   } )
 }
@@ -52,6 +59,8 @@ jsApp.description = `bundle the JS front application`
 const serviceWorker = () => {
   return gulp
   .src( './js/service-worker.js' )
+  .pipe( $.if(isProd, $.stripDebug()) )
+  .pipe( $.if(isProd, $.uglifyEs.default()) )
   .pipe( gulp.dest( buildDir ) )
 }
 jsApp.description = `bundle service-worker script`
@@ -63,7 +72,14 @@ const mergeData = prefix => data => {
   const result  = letters.map( (name, index) => {
     const letter    = data[ name ]
     letter.id       = prefix + ( index + 1 )
-    letter.isVowel  = /^v/.test( letter.id )
+    ; /^c/.test( letter.id ) ? letter.isConsonant = true
+    : /^n/.test( letter.id ) ? letter.isNumber = true
+    : letter.isVowel = true
+    if ( letter.isVowel ) {
+      ; /^vs/.test( letter.id ) ? letter.isShort = true
+      : /^vl/.test( letter.id ) ? letter.isLong = true
+      : ''
+    }
     letter.longId   = prefix + letter.rtgs.replace( ' ', '-' )
     return letter
   })
@@ -90,7 +106,7 @@ const data = () => {
   .pipe( $.jsoncombine('dico-numbers.js', mergeData('n-')) )
 
   return mergeStream(cons, shortVowels, longVowels, numbers)
-  .pipe( $.defineModule('commonjs') )
+  .pipe( $.defineModule('es6') )
   .pipe( gulp.dest('js/models') )
 }
 data.description = `update Thai dictionary to be consummable by the JS front application`
@@ -144,7 +160,7 @@ css.description = `build css files (from stylus)`
 
 const cleanIcon = require( `gulp-cheerio-clean-svg` )
 
-//----- ICONS
+//----- ICONS (not used for now)
 
 const icons = () => {
   return gulp
@@ -172,6 +188,9 @@ const touchIcon = () => {
   .pipe( $.imageResize({width: 152, height: 152, upscale: true}) )
   .pipe( $.rename( path =>  path.basename = `${basename}-ipad-retina` ) )
   .pipe( gulp.dest(buildDir) )
+  .pipe( $.imageResize({width: 144, height: 144, upscale: true}) )
+  .pipe( $.rename( path =>  path.basename = `${basename}-web-app` ) )
+  .pipe( gulp.dest(buildDir) )
   .pipe( $.imageResize({width: 120, height: 120, upscale: true}) )
   .pipe( $.rename( path =>  path.basename = `${basename}-iphone-retina` ) )
   .pipe( gulp.dest(buildDir) )
@@ -184,7 +203,17 @@ const touchIcon = () => {
 }
 touchIcon.description = `resize favicon for different devices`
 
-const assets = gulp.parallel(icons, touchIcon)
+//----- WEB MANIFEST
+
+const webManifest = () => {
+  return gulp
+  .src( 'manifest.json' )
+  .pipe( gulp.dest(buildDir) )
+}
+webManifest.description = `cpy the web manifest to the right place`
+
+// const assets = gulp.parallel(icons, touchIcon)
+const assets = gulp.parallel( webManifest, touchIcon )
 assets.description = `build every assets`
 
 ////////
@@ -208,7 +237,7 @@ html.description = `build index.html`
 // MISC
 ////////
 
-const clean = () => del(['public'])
+const clean = () => del(['public/*', '!public/.surgeignore'])
 clean.description = `clean everything in the production (public) folder`
 
 const bump = () => {
@@ -224,23 +253,34 @@ bump.description = `bump versions in *.json files`
 // DEV
 ////////
 
-const buildSteps = [  gulp.parallel( assets, js, css, html ) ]
-if (!isDev) buildSteps.unshift( clean )
-const build       = gulp.series( ...buildSteps )
-build.description = `build everything`
+const showBundleSize = () => {
+  return gulp
+  .src( [`${buildDir}/*.js`, `${buildDir}/*.css`] )
+  .pipe( $.size({gzip: true, showFiles: true}) )
+}
 
+const buildDev  = gulp.parallel( assets, js, css, html )
+buildDev.description = `build everything (dev)`
+const buildProd = gulp.series( clean, buildDev, showBundleSize)
+buildProd.description = `build everything (prod)`
+
+const historyFallback = require( 'connect-history-api-fallback' )
 const bs = () => {
   return browserSync.init({
     open: false,
     server: {
       baseDir:  `./${buildDir}`,
       index:    `index.html`,
+      middleware: [
+        historyFallback(),
+      ],
     }
   })
 }
 
 let hash
 const watch = () => {
+  gulp.watch( `manifest.json`,                  webManifest )
   gulp.watch( `data/**/*.json`,                 data )
   gulp.watch( `css/**/*.styl`,                  css )
   gulp.watch( `html/*`,                         html )
@@ -248,6 +288,8 @@ const watch = () => {
   gulp.watch( `.tmp/service-worker.js`,         reload )
   bundler.watch( {}, (err, stats) => {
     if (err) return onError( err )
+    const info = stats.toJson()
+    if ( stats.hasErrors() ) return info.errors.forEach( error => console.error(error) )
     if (hash !== stats.hash) {
       hash = stats.hash
       reload()
@@ -262,7 +304,7 @@ const bsAndWatch = () => {
 }
 
 const dev = args.build === false ? bsAndWatch() :
-  gulp.series( build, bsAndWatch )
+  gulp.series( buildDev, bsAndWatch )
 dev.description = `build, watch & launch a dev server`
 
 const domainName = args.domain ? args.domain : 'thailpha'
@@ -279,11 +321,13 @@ gulp.task( `html`,        html )
 gulp.task( `css`,         css )
 gulp.task( `data`,        data )
 gulp.task( `js`,          js )
-gulp.task( `icons`,       icons )
+gulp.task( `js:app`,      jsApp )
+// gulp.task( `icons`,       icons )
 gulp.task( `touch-icon`,  touchIcon )
 gulp.task( `assets`,      assets )
 gulp.task( `clean`,       clean )
-gulp.task( `build`,       build )
+gulp.task( `buildDev`,    buildDev )
+gulp.task( `buildProd`,   buildProd )
 gulp.task( `dev`,         dev )
 gulp.task( `watch`,       watch )
 gulp.task( `release`,     release )

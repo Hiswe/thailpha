@@ -1,8 +1,9 @@
 `use strict`
 
-const path    = require( `path` )
-const webpack = require( `webpack` )
-const args    = require( `yargs` ).argv
+const path                      = require( `path` )
+const webpack                   = require( `webpack` )
+const args                      = require( `yargs` ).argv
+const UglifyJSPlugin            = require( `uglifyjs-webpack-plugin` )
 
 const env       = args.prod ? `production` : `development`
 const isDev     = env === `development`
@@ -10,7 +11,7 @@ const isProd    = !isDev
 const destPath  = path.resolve( __dirname, isDev ? `.tmp` : `public` )
 
 const entry   = {
-  thailpha: `./js/index.js`,
+  thailpha: `./js/index.jsx`,
 }
 const output  = {
   filename: `[name].js`,
@@ -25,6 +26,15 @@ const plugins = [
   }),
 ]
 
+if ( isProd ) {
+  plugins.push( new UglifyJSPlugin() )
+  plugins.push( new webpack.DefinePlugin({
+    'process.env': {
+      'NODE_ENV': JSON.stringify('production')
+    }
+  }) )
+}
+
 const rules = [
   {
     test:     /\.jsx?$/,
@@ -34,11 +44,22 @@ const rules = [
     use: {
       loader: 'babel-loader',
       options: {
-        presets: ['es2015', 'react'],
+        presets: [ 'es2015' ],
+        plugins: [
+          'transform-object-rest-spread',
+          [ 'transform-react-jsx', { pragma: 'h' } ]
+        ],
       },
     },
   },
 ]
+
+const resolve = {
+  alias: {
+    'react': 'preact-compat',
+    'react-dom': 'preact-compat',
+  },
+}
 
 module.exports = {
   entry,
@@ -46,6 +67,7 @@ module.exports = {
   watch:    true,
   devtool:  'inline-source-map',
   plugins,
+  resolve,
   module: {
     rules,
   },
