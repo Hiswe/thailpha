@@ -19,7 +19,7 @@ const About = props => {
         <a href="http://en.wikipedia.org/wiki/Thai_alphabet" target="_blank" className="link">wikipedia</a>
       </p>
       <p>
-        <span>The app can be shared with this link</span>
+        <span>The app can be shared with this link </span>
         <a href="https://thailpha.surge.sh/">https://thailpha.surge.sh/</a>
       </p>
       <p>

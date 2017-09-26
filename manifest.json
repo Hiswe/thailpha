@@ -20,6 +20,11 @@
     "src": "touch-icon-ipad-retina.png",
     "sizes": "120x120",
     "type": "image/png"
+    }, {
+      "src": "touch-icon-web-app.png",
+      "sizes": "144x144",
+      "type": "image/png"
+    }, {
   }, {
     "src": "touch-icon-ipad-retina.png",
     "sizes": "152x152",
@@ -28,5 +33,9 @@
     "src": "touch-icon-iphone-6-plus.png",
     "sizes": "180x180",
     "type": "image/png"
+  }],
+  "related_applications": [{
+    "platform": "web",
+    "url": "https://thailpha.surge.sh/"
   }]
 }

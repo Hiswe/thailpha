@@ -188,6 +188,9 @@ const touchIcon = () => {
   .pipe( $.imageResize({width: 152, height: 152, upscale: true}) )
   .pipe( $.rename( path =>  path.basename = `${basename}-ipad-retina` ) )
   .pipe( gulp.dest(buildDir) )
+  .pipe( $.imageResize({width: 144, height: 144, upscale: true}) )
+  .pipe( $.rename( path =>  path.basename = `${basename}-web-app` ) )
+  .pipe( gulp.dest(buildDir) )
   .pipe( $.imageResize({width: 120, height: 120, upscale: true}) )
   .pipe( $.rename( path =>  path.basename = `${basename}-iphone-retina` ) )
   .pipe( gulp.dest(buildDir) )
@@ -200,8 +203,17 @@ const touchIcon = () => {
 }
 touchIcon.description = `resize favicon for different devices`
 
+//----- WEB MANIFEST
+
+const webManifest = () => {
+  return gulp
+  .src( 'manifest.json' )
+  .pipe( gulp.dest(buildDir) )
+}
+webManifest.description = `cpy the web manifest to the right place`
+
 // const assets = gulp.parallel(icons, touchIcon)
-const assets = touchIcon
+const assets = gulp.parallel( webManifest, touchIcon )
 assets.description = `build every assets`
 
 ////////
@@ -268,6 +280,7 @@ const bs = () => {
 
 let hash
 const watch = () => {
+  gulp.watch( `manifest.json`,                  webManifest )
   gulp.watch( `data/**/*.json`,                 data )
   gulp.watch( `css/**/*.styl`,                  css )
   gulp.watch( `html/*`,                         html )
