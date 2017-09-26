@@ -1,6 +1,6 @@
 {
   "name": "thailpha",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "Thai alhphabet webapp",
   "author": "Hiswe",
   "main": "public/index.html",
@@ -20,11 +20,12 @@
     "build:prod": "npm run build --prod",
     "build:dev": "gulp buildDev",
     "build:js": "gulp js",
+    "deploy": "npm run release",
     "dev": "gulp dev",
     "release": "npm run build && gulp release",
     "serve": "http-server -p 3000 --silent -o",
     "serve:dev": "http-server ./.tmp -p 3000 -o",
-    "watch": "gulp build && gulp watch"
+    "watch": "gulp buildProd --prod && gulp watch --prod"
   },
   "keywords": [
     "thai",

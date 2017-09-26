@@ -20,7 +20,7 @@ const About = props => {
       </p>
       <p>
         <span>The app can be shared with this link </span>
-        <a href="https://thailpha.surge.sh/">https://thailpha.surge.sh/</a>
+        <a href="https://thailpha-9e56f.firebaseapp.com">https://thailpha-9e56f.firebaseapp.com</a>
       </p>
       <p>
         <span>any suggestions? </span>
