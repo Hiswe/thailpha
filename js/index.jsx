@@ -24,7 +24,7 @@ const App = props => {
     <div id="app-wrapper">
       <TransitionGroup>
         <CSSTransition key={window.location.pathname} timeout={timeout} classNames="fade" appear>
-
+          {/* warning! check service-worker.js if adding or removing routes */}
           <Switch>
             <Route exact path="/" component={ Consonnants } />
             <Route path="/vowels" component={ Vowels } />
@@ -55,16 +55,12 @@ render(
   document.getElementById( 'main' )
 )
 
-// (function() {
-//   'use strict'
-
-//   if (!navigator.serviceWorker) return
-
-//   navigator
-//   .serviceWorker
-//   .register( '/service-worker.js' )
-//   .catch( error => {
-//     console.log('sorry', error)
-//   })
-
-// })()
+;(function() {
+  if (!navigator.serviceWorker) return
+  navigator
+  .serviceWorker
+  .register( '/service-worker.js' )
+  .catch( error => {
+    console.log('sorry', error)
+  })
+})()

@@ -6,13 +6,10 @@ const CACHE_NAME  = 'cache-v1'
 const TIMEOUT     = 400
 const urlsToCache = [
   '/',
-  '/?/',
-  '/?/settings',
   '/index.html',
   '/thailpha.css',
   '/thailpha.js',
   '/thailpha-lib.js',
-  '/index.html',
 
   '/touch-icon-icon-ipad.png',
   '/touch-icon-icon-iphone.png',
@@ -54,6 +51,7 @@ function fromNetwork(request, timeout = TIMEOUT) {
   const dfd       = defer()
   // Reject in case of timeout.
   const timeoutId = setTimeout( dfd.reject, timeout )
+  console.log( 'try from network for:', request.url )
   // Fulfill in case of success.
   fetch( request )
   .then( response => {
@@ -68,11 +66,23 @@ function fromNetwork(request, timeout = TIMEOUT) {
 // Open the cache where the assets were stored and search for the requested
 // resource. Notice that in case of no matching, the promise still resolves
 // but it does with `undefined` as value.
+// If it's coming from a route, serve ths index.html
+const isRoute = request => {
+  const { url } = request
+  const routeTest = /\/(vowels|numbers|about|search|char\/)/
+  return routeTest.test( url )
+}
 const fromCache = request => {
-  console.log( 'serving assets from cache' )
+  console.log( 'serving assets from cache for:', request.url )
+
   return caches
   .open( CACHE_NAME )
   .then( cache => {
+    if ( isRoute(request) ) {
+      const indexUrl = `${request.referrer}index.html`
+      console.log( 'serve', indexUrl, `instead` )
+      request = new Request( indexUrl )
+    }
     return cache
     .match( request )
     .then( matching =>  matching || Promise.reject('no-match') )
@@ -90,9 +100,8 @@ const onInstall = event => {
 // from the server.
 const onFetch = event => {
   const { request } = event
-  console.log( 'The service worker is serving the asset.' )
   // Try network and if it fails, go for the cached copy.
-  event.respondWith( fromNetwork(request).catch( () => fromCache(request) ) )
+  event.respondWith( fromNetwork( request ).catch( () => fromCache(request) ) )
 
 }
 

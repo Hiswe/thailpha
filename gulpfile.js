@@ -22,7 +22,7 @@ const dest        = {
 const buildDir    = isDev ? '.tmp' : 'public'
 
 
-$.util.log( 'environment is', $.util.colors.magenta(env), {isProd} )
+$.util.log( 'environment is', $.util.colors.magenta(env) )
 
 ////////
 // MISC
@@ -59,6 +59,7 @@ jsApp.description = `bundle the JS front application`
 const serviceWorker = () => {
   return gulp
   .src( './js/service-worker.js' )
+  .pipe( $.if(isProd, $.stripDebug()) )
   .pipe( $.if(isProd, $.uglifyEs.default()) )
   .pipe( gulp.dest( buildDir ) )
 }
@@ -159,7 +160,7 @@ css.description = `build css files (from stylus)`
 
 const cleanIcon = require( `gulp-cheerio-clean-svg` )
 
-//----- ICONS
+//----- ICONS (not used for now)
 
 const icons = () => {
   return gulp
@@ -199,7 +200,8 @@ const touchIcon = () => {
 }
 touchIcon.description = `resize favicon for different devices`
 
-const assets = gulp.parallel(icons, touchIcon)
+// const assets = gulp.parallel(icons, touchIcon)
+const assets = touchIcon
 assets.description = `build every assets`
 
 ////////
@@ -307,7 +309,7 @@ gulp.task( `css`,         css )
 gulp.task( `data`,        data )
 gulp.task( `js`,          js )
 gulp.task( `js:app`,      jsApp )
-gulp.task( `icons`,       icons )
+// gulp.task( `icons`,       icons )
 gulp.task( `touch-icon`,  touchIcon )
 gulp.task( `assets`,      assets )
 gulp.task( `clean`,       clean )
