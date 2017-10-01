@@ -73,18 +73,8 @@ const CharDetail = props => {
   const { char } = props
   let wrapperClasses = `letter-container`
   if ( char.isVowel ) wrapperClasses = `${wrapperClasses} is-vowel`
-
-  const handleClose = e => {
-    // don't close on nav link
-    if ( e.target.nodeName === 'A' ) return
-    // go back to the good listing
-    const { history } = props
-    const back = char.isNumber ? '/numbers' : char.isVowel ? '/vowels' : '/'
-    history.push( back )
-  }
-
   return (
-    <div id="letter" onClick={ e => handleClose(e, props) }>
+    <div id="letter">
       <div className="content">
         <div className={wrapperClasses}>
           <strong className={`thai-letter ${char.longId }`}>{ char.letter }</strong>
