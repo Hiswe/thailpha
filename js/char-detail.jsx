@@ -1,4 +1,4 @@
-import { h } from 'preact'
+import { h, Component } from 'preact'
 import { connect } from 'react-redux'
 import crio from 'crio'
 import { Link } from 'react-router-dom'
@@ -69,28 +69,50 @@ const SimilarList = ({similar}) => {
   </table>)
 }
 
-const CharDetail = props => {
-  const { char } = props
-  let wrapperClasses = `letter-container`
-  if ( char.isVowel ) wrapperClasses = `${wrapperClasses} is-vowel`
-  return (
-    <div id="letter">
-      <div className="content">
-        <div className={wrapperClasses}>
-          <strong className={`thai-letter ${char.longId }`}>{ char.letter }</strong>
-          <p className="letter-meaning">
-            <span className="letter-meaning-thai">{ char.thai }</span>
-            <span className="letter-meaning-rtgs">{ char.rtgs }</span>
-            <span className="letter-meaning-translation">{ char.meaning }</span>
-          </p>
-          <Pronunciation char={char} />
-          <Variant variant={char.variant} />
-          <SimilarHint similar={char.similar} />
+class CharDetail extends Component {
+
+  constructor( props ) {
+    super( props )
+    this._onEsc = this._onEsc.bind( this )
+  }
+
+  componentWillMount() {
+    document.addEventListener( 'keydown', this._onEsc )
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener( 'keydown', this._onEsc )
+  }
+
+  _onEsc( e ) {
+    if ( e.key !== 'Escape' ) return
+    const { history } = this.props
+    history.goBack()
+  }
+
+  render( props ) {
+    const { char } = props
+    let wrapperClasses = `letter-container`
+    if ( char.isVowel ) wrapperClasses = `${wrapperClasses} is-vowel`
+    return (
+      <div id="letter">
+        <div className="content">
+          <div className={wrapperClasses}>
+            <strong className={`thai-letter ${char.longId }`}>{ char.letter }</strong>
+            <p className="letter-meaning">
+              <span className="letter-meaning-thai">{ char.thai }</span>
+              <span className="letter-meaning-rtgs">{ char.rtgs }</span>
+              <span className="letter-meaning-translation">{ char.meaning }</span>
+            </p>
+            <Pronunciation char={char} />
+            <Variant variant={char.variant} />
+            <SimilarHint similar={char.similar} />
+          </div>
+          <SimilarList similar={char.similar} />
         </div>
-        <SimilarList similar={char.similar} />
       </div>
-    </div>
-  )
+    )
+  }
 }
 
 const mapStateToProp = ( state, ownProps) => {
