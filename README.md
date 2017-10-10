@@ -4,7 +4,7 @@ Thai alphabet webapp
 
 ## Demo
 
-[here](https://www.googledrive.com/host/0B5WqGSF-8XAVfkZGYWJOUkxYaVlUb2l1UkNTM1E3X3VEY1lDMHI5NGp5UzFZdE9UWE1oQ28) or [goo.gl/5sJrpQ](goo.gl/5sJrpQ)
+[https://thailpha-9e56f.firebaseapp.com/](https://thailpha-9e56f.firebaseapp.com/)
 
 ## Requirements:
 
