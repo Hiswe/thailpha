@@ -44,7 +44,7 @@ const rules = [
     use: {
       loader: 'babel-loader',
       options: {
-        presets: [ 'es2015' ],
+        presets: [ 'env' ],
         plugins: [
           'transform-object-rest-spread',
           [ 'transform-react-jsx', { pragma: 'h' } ]
