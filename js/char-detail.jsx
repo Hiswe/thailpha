@@ -124,7 +124,7 @@ const mapStateToProp = ( state, ownProps) => {
 
   const similar = ( char.get( 'similar' ) || crio([]) )
     .map( charId => chars.find( char => char.id === charId ) )
-  return { char: char.setIn( 'similar', similar ) }
+  return { char: char.set( 'similar', similar ) }
 }
 
 const CharDetailContainer = connect( mapStateToProp )( CharDetail )
