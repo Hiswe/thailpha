@@ -1,9 +1,11 @@
 {
   "letter": "เ◌อ",
   "variant": [
-    "เ◌อ◌"
+    "เ◌อ◌",
+    "เอิ◌"
   ],
   "thai": "สระเออ",
-  "rtgs": "Sara oe",
-  "pronunciation": "oe (u in burn)"
+  "rtgs": "Sara eer",
+  "ipa": "ɤ",
+  "pronunciation": "eer (u in burn)"
 }

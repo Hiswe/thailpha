@@ -21,7 +21,6 @@ const dest        = {
 };
 const buildDir    = isDev ? '.tmp' : 'public'
 
-
 $.util.log( 'environment is', $.util.colors.magenta(env) )
 
 ////////
@@ -78,7 +77,7 @@ const mergeData = prefix => data => {
     if ( letter.isVowel ) {
       ; /^vs/.test( letter.id ) ? letter.isShort = true
       : /^vl/.test( letter.id ) ? letter.isLong = true
-      : ''
+      : letter.isDiphtongOrMisc = true
     }
     letter.longId   = prefix + letter.rtgs.replace( ' ', '-' )
     return letter
@@ -101,11 +100,15 @@ const data = () => {
   .pipe( $.plumber(onError) )
   .pipe( $.jsoncombine('dico-long-vowels.js', mergeData('vl-')) )
 
+  const diphtongsMisc = gulp.src('data/vowels/diphthongs-and-misc/*.json')
+  .pipe( $.plumber(onError) )
+  .pipe( $.jsoncombine('dico-diphtongs-misc.js', mergeData('dm-')) )
+
   const numbers = gulp.src('data/numbers/*.json')
   .pipe( $.plumber(onError) )
   .pipe( $.jsoncombine('dico-numbers.js', mergeData('n-')) )
 
-  return mergeStream(cons, shortVowels, longVowels, numbers)
+  return mergeStream(cons, shortVowels, longVowels, numbers, diphtongsMisc)
   .pipe( $.defineModule('es6') )
   .pipe( gulp.dest('js/models') )
 }
@@ -210,7 +213,7 @@ const webManifest = () => {
   .src( 'manifest.json' )
   .pipe( gulp.dest(buildDir) )
 }
-webManifest.description = `cpy the web manifest to the right place`
+webManifest.description = `copy the web manifest to the right place`
 
 // const assets = gulp.parallel(icons, touchIcon)
 const assets = gulp.parallel( webManifest, touchIcon )

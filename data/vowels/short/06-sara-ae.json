@@ -1,9 +1,12 @@
 {
   "letter": "แ◌ะ",
   "variant": [
-    "แ◌"
+    "แ◌",
+    "แอ็◌",
+    "แ◌ะ"
   ],
   "thai": "สระแอะ",
   "rtgs": "Sara ae",
+  "ipa": "ɛ",
   "pronunciation": "ae (a in at)"
 }

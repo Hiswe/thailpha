@@ -1,9 +1,11 @@
 {
   "letter": "เ◌ะ",
   "variant": [
-    "เ◌"
+    "เ◌",
+    "เอ็◌"
   ],
   "thai": "สระเอะ",
   "rtgs": "Sara e",
+  "ipa": "e",
   "pronunciation": "e (e in neck)"
 }
