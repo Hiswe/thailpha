@@ -237,7 +237,7 @@ html.description = `build index.html`
 // MISC
 ////////
 
-const clean = () => del(['public/*', '!public/.surgeignore'])
+const clean = () => del(['public/*'])
 clean.description = `clean everything in the production (public) folder`
 
 const bump = () => {
@@ -307,15 +307,6 @@ const dev = args.build === false ? bsAndWatch() :
   gulp.series( buildDev, bsAndWatch )
 dev.description = `build, watch & launch a dev server`
 
-const domainName = args.domain ? args.domain : 'thailpha'
-function release() {
-  return $.surge({
-    project:  `./public`,
-    domain:   `https://${domainName}.surge.sh`,
-  })
-}
-release.description = `release to surge. type -- --domain=mydomain to change from default one`
-
 gulp.task( `bump`,        bump )
 gulp.task( `html`,        html )
 gulp.task( `css`,         css )
@@ -330,4 +321,3 @@ gulp.task( `buildDev`,    buildDev )
 gulp.task( `buildProd`,   buildProd )
 gulp.task( `dev`,         dev )
 gulp.task( `watch`,       watch )
-gulp.task( `release`,     release )
