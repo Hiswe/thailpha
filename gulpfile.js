@@ -79,7 +79,7 @@ const mergeData = prefix => data => {
       : /^vl/.test( letter.id ) ? letter.isLong = true
       : letter.isDiphtongOrMisc = true
     }
-    letter.longId   = prefix + letter.rtgs.replace( ' ', '-' )
+    letter.longId   = prefix + letter.rtgs.replace( ' ', '-' ).toLowerCase()
     return letter
   })
   return new Buffer( JSON.stringify(result, null, 2) )
