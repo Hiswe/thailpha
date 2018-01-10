@@ -104,11 +104,22 @@ const data = () => {
   .pipe( $.plumber(onError) )
   .pipe( $.jsoncombine('dico-diphtongs-misc.js', mergeData('dm-')) )
 
-  const numbers = gulp.src('data/numbers/*.json')
+  const numbers   = gulp.src('data/numbers/*.json')
   .pipe( $.plumber(onError) )
   .pipe( $.jsoncombine('dico-numbers.js', mergeData('n-')) )
 
-  return mergeStream(cons, shortVowels, longVowels, numbers, diphtongsMisc)
+  const allFiles    = mergeStream(cons, shortVowels, longVowels, numbers, diphtongsMisc)
+  const allCombined = allFiles
+  .pipe( $.plumber(onError) )
+  .pipe( $.jsoncombine('dico-all.js', data => {
+    const dictionaries = Object.keys(data)
+    const result = dictionaries.reduce( (accumulator, dictionary) => {
+      return accumulator.concat( data[dictionary] )
+    }, [] )
+    return new Buffer( JSON.stringify(result, null, 2) )
+  }) )
+
+  return mergeStream(allFiles, allCombined)
   .pipe( $.defineModule('es6') )
   .pipe( gulp.dest('js/models') )
 }
