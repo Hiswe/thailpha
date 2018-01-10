@@ -78,6 +78,9 @@ const mergeData = prefix => data => {
       ; /^vs/.test( letter.id ) ? letter.isShort = true
       : /^vl/.test( letter.id ) ? letter.isLong = true
       : letter.isDiphtongOrMisc = true
+      if (!Array.isArray(letter.variant) || !letter.variant.length) {
+        letter.variant = false
+      }
     }
     letter.longId   = prefix + letter.rtgs.replace( ' ', '-' ).toLowerCase()
     return letter
