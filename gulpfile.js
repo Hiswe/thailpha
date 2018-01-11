@@ -177,6 +177,38 @@ css.description = `build css files (from stylus)`
 
 const cleanIcon = require( `gulp-cheerio-clean-svg` )
 
+//----- CHARACTERS
+const characters = () => {
+  return gulp
+  .src( `characters/*.svg` )
+  .pipe( $.cheerio({
+    run: $ => {
+      // Affinity Designer wrap all symbols into a square
+      // remove that
+      const $wrapper  = $( `svg > rect` )
+      const content   = $wrapper.html()
+      $wrapper.replaceWith( content )
+    },
+    parserOptions: {
+      xmlMode: true,
+    },
+  }) )
+  .pipe( $.svgSymbols({
+    id:     `char-%f`,
+    class:  `.char-%f`,
+    templates: [
+      `default-svg`,
+      `default-css`,
+      `default-demo`,
+    ],
+  }) )
+  .pipe( $.rename({basename: `svg-chars`}) )
+  .pipe( $.if( /[.]svg$/, gulp.dest(`html`)) )
+  .pipe( $.if( /[.]html$/, gulp.dest('.tmp')) )
+  .pipe( $.if( /[.]css$/, gulp.dest(`css`)) )
+}
+characters.description = `bundle SVG characters`
+
 //----- ICONS (not used for now)
 
 const icons = () => {
@@ -184,8 +216,8 @@ const icons = () => {
   .src( `icons/*.svg` )
   .pipe( $.cheerio(cleanIcon()) )
   .pipe( $.svgSymbols({
-    id:         `icon-%f`,
-    className:  `.icon-%f`,
+    id:     `icon-%f`,
+    class:  `.icon-%f`,
   }) )
   .pipe( $.if( /[.]svg$/, gulp.dest('html')) )
   .pipe( $.if( /[.]css$/, gulp.dest('css')) )
@@ -229,8 +261,7 @@ const webManifest = () => {
 }
 webManifest.description = `copy the web manifest to the right place`
 
-// const assets = gulp.parallel(icons, touchIcon)
-const assets = gulp.parallel( webManifest, touchIcon )
+const assets = gulp.parallel( characters,  webManifest, touchIcon )
 assets.description = `build every assets`
 
 ////////
@@ -330,7 +361,7 @@ gulp.task( `css`,         css )
 gulp.task( `data`,        data )
 gulp.task( `js`,          js )
 gulp.task( `js:app`,      jsApp )
-// gulp.task( `icons`,       icons )
+gulp.task( `characters`,  characters )
 gulp.task( `touch-icon`,  touchIcon )
 gulp.task( `assets`,      assets )
 gulp.task( `clean`,       clean )
