@@ -183,11 +183,16 @@ const characters = () => {
   .src( `characters/*.svg` )
   .pipe( $.cheerio({
     run: $ => {
-      // Affinity Designer wrap all symbols into a square
-      // remove that
-      const $wrapper  = $( `svg > rect` )
-      const content   = $wrapper.html()
-      $wrapper.replaceWith( content )
+      // remove Affinity Designer's rectangle  wrapper
+      const $rects  = $( `svg > rect` )
+      $rects.each( (i, el) => {
+        const $el   = $(el)
+        const style = $el.attr(`style`)
+        // test if it's the empty background rect or part of the char
+        if (style !== `fill:none;`) return
+        const content   = $el.html()
+        $el.replaceWith( content )
+      })
     },
     parserOptions: {
       xmlMode: true,
@@ -204,6 +209,7 @@ const characters = () => {
   }) )
   .pipe( $.rename({basename: `svg-chars`}) )
   .pipe( $.if( /[.]svg$/, gulp.dest(`html`)) )
+  .pipe( $.if( /[.]svg$/, gulp.dest(`.tmp`)) )
   .pipe( $.if( /[.]html$/, gulp.dest('.tmp')) )
   .pipe( $.if( /[.]css$/, gulp.dest(`css`)) )
 }

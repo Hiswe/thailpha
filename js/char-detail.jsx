@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 import crio from 'crio'
 import { Link } from 'react-router-dom'
 
+import { Char } from './svg-symbol.jsx'
+
 const Pronunciation = ({char}) => {
   const { pronunciation } = char
   if ( !pronunciation ) return null
@@ -32,11 +34,14 @@ const makeIdFromThaiText = groupOfThaiLetters => {
   .join( '-' )
 }
 
-const Variant  = ({variant}) => {
+const Variant  = ({char}) => {
+  const {variant, longId} = char
   if ( !variant ) return null
+  const variantSvgID = variant.map( (v, i) => `${longId}-variant-${i}`)
+  console.log( variantSvgID )
   return (
     <ul className="letter-variant">
-      { variant.map( v => <li className="thai-letter" key={ makeIdFromThaiText(v) }>{ v }</li> ) }
+      { variantSvgID.map( (v) => <li className="thai-letter" key={ v }><Char svgId={v} /></li> ) }
     </ul>
   )
 }
@@ -50,7 +55,9 @@ const SimilarChar = ({char}) => {
   return (
     <tr>
       <td className="thai-letter">
-        <Link to={ `/char/${ char.longId }` }>{ char.letter }</Link>
+        <Link to={ `/char/${ char.longId }` }>
+          <Char svgId={char.longId} />
+        </Link>
       </td>
       <td>{ char.rtgs }</td>
       <td>{ char.pronunciation.initial }</td>
@@ -98,14 +105,16 @@ class CharDetail extends Component {
       <div id="letter">
         <div className="content">
           <div className={wrapperClasses}>
-            <strong className={`thai-letter ${char.longId }`}>{ char.letter }</strong>
+            <strong className={`thai-letter ${char.longId }`}>
+              <Char svgId={char.longId} />
+            </strong>
             <p className="letter-meaning">
               <span className="letter-meaning-thai">{ char.thai }</span>
               <span className="letter-meaning-rtgs">{ char.rtgs }</span>
               <span className="letter-meaning-translation">{ char.meaning }</span>
             </p>
             <Pronunciation char={char} />
-            <Variant variant={char.variant} />
+            <Variant char={char} />
             <SimilarHint similar={char.similar} />
           </div>
           <SimilarList similar={char.similar} />
