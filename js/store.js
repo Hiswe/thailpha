@@ -1,11 +1,7 @@
 import { createStore, applyMiddleware, combineReducers, compose } from 'redux'
 import crio from 'crio'
 
-import consonants  from './models/dico-consonants.js'
-import shortVowels from './models/dico-short-vowels.js'
-import longVowels  from './models/dico-long-vowels.js'
-import diphtongsAndMisc  from './models/dico-diphtongs-misc.js'
-import numbers     from './models/dico-numbers.js'
+import dictionary from './models/dico-all.js'
 import { loadState, saveSate } from './storage.js'
 
 const INITIAL_SETTINGS = crio({
@@ -22,13 +18,7 @@ const settings = ( state = INITIAL_SETTINGS , action ) => {
   }
 }
 
-const INITIAL_CHARS = crio( [
-  ...consonants,
-  ...shortVowels,
-  ...longVowels,
-  ...diphtongsAndMisc,
-  ...numbers,
-] )
+const INITIAL_CHARS = crio( dictionary )
 const chars = ( state = INITIAL_CHARS , action ) => {
   return state
 }

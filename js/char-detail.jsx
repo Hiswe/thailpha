@@ -11,34 +11,26 @@ const Pronunciation = ({char}) => {
   if ( typeof pronunciation === 'string' ) {
     return (
       <div className="letter-pronunciation">
-        <span>{ pronunciation }</span>
+        <span className="letter-pronunciation__full">{ pronunciation }</span>
       </div>
     )
   }
   return (
-    <div className="letter-pronunciation">
-      <span className="letter-pronunciation-label">start</span>
-      <span>{ pronunciation.initial }</span>
-      <span className="letter-pronunciation-label">final</span>
-      <span>{ pronunciation.final }</span>
-      <span className="letter-pronunciation-label">class</span>
-      <span>{ char.class }</span>
-    </div>
+    <dl className="letter-pronunciation">
+      <dt className="letter-pronunciation__label">start</dt>
+      <dd className="letter-pronunciation__value">{ pronunciation.initial }</dd>
+      <dt className="letter-pronunciation__label">final</dt>
+      <dd className="letter-pronunciation__value">{ pronunciation.final }</dd>
+      <dt className="letter-pronunciation__label">class</dt>
+      <dd className="letter-pronunciation__value">{ char.class }</dd>
+    </dl>
   )
-}
-
-const makeIdFromThaiText = groupOfThaiLetters => {
-  return Array
-  .from( {length: groupOfThaiLetters.length} )
-  .map( (value, index) => groupOfThaiLetters.codePointAt( index ) )
-  .join( '-' )
 }
 
 const Variant  = ({char}) => {
   const {variant, longId} = char
   if ( !variant ) return null
   const variantSvgID = variant.map( (v, i) => `${longId}-variant-${i}`)
-  console.log( variantSvgID )
   return (
     <ul className="letter-variant">
       { variantSvgID.map( (v) => <li className="thai-letter" key={ v }><Char svgId={v} /></li> ) }
@@ -97,22 +89,22 @@ class CharDetail extends Component {
     history.goBack()
   }
 
-  render( props ) {
-    const { char } = props
+  render( {char} ) {
     let wrapperClasses = `letter-container`
-    if ( char.isVowel ) wrapperClasses = `${wrapperClasses} is-vowel`
+    if ( char.hasVariant ) wrapperClasses = `${wrapperClasses} has-variant`
+    if ( char.hasSimilar ) wrapperClasses = `${wrapperClasses} has-similar`
     return (
       <div id="letter">
         <div className="content">
           <div className={wrapperClasses}>
+            <p className="letter-meaning">
+              <span className="letter-meaning__thai">{ char.thai }</span>
+              <span className="letter-meaning__rtgs">{ char.rtgs }</span>
+              <span className="letter-meaning__translation">{ char.meaning }</span>
+            </p>
             <strong className={`thai-letter ${char.longId }`}>
               <Char svgId={char.longId} />
             </strong>
-            <p className="letter-meaning">
-              <span className="letter-meaning-thai">{ char.thai }</span>
-              <span className="letter-meaning-rtgs">{ char.rtgs }</span>
-              <span className="letter-meaning-translation">{ char.meaning }</span>
-            </p>
             <Pronunciation char={char} />
             <Variant char={char} />
             <SimilarHint similar={char.similar} />
@@ -131,7 +123,8 @@ const mapStateToProp = ( state, ownProps) => {
   // maybe do a redirect here o_O ?
   if ( !char  ) return { back: true }
 
-  const similar = ( char.get( 'similar' ) || crio([]) )
+  // expand the similarList with the full char
+  const similar = char.get( 'similar' )
     .map( charId => chars.find( char => char.id === charId ) )
   return { char: char.set( 'similar', similar ) }
 }

@@ -33,7 +33,7 @@ body,
   background: $c-white;
   padding-bottom: $s-nav;
 
-  +mq('big') {
+  @media $mq-big {
     max-width: 1280px;
     margin: 0 auto;
   }
@@ -44,10 +44,6 @@ dd {
   padding:  0;
   margin:   0;
 }
-dt {
-  padding: $gutter $gutter ($gutter/2);
-  background: $c-grey-lightest;
-}
 
 body > svg {
   hide();
@@ -56,7 +52,7 @@ body > svg {
   fill: currentColor;
 }
 .svg-char {
-  fill: currentColor;
+  fill: var(--c-primary);
 }
 
 //----- REACT ANIMATIONS

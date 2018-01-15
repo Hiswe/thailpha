@@ -4,17 +4,26 @@
     padding: $gutter;
   }
   &__list {
+    --min-size: 25%;
     margin: 0;
     padding: 0;
     border: solid $c-grey-light;
     border-width: 1px 0 0;
     display: flex;
     flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax( var(--min-size), 1fr));
+
+    @media $mq-big {
+      // we could have use a px size
+      // but with this we can't know for sure how many colums there will be
+      // and without a row selector we can't have a clean way of doing this
+      // https://github.com/w3c/csswg-drafts/issues/1943
+      --min-size: (100%/7);
+    }
   }
   &__item {
     list-style: none;
-    width: 25vw;
-    
     border: 1px solid $c-grey-light;
     border-width: 0 1px 1px  0;
     cursor: pointer;
@@ -33,7 +42,6 @@
     }
 
     @media $mq-big {
-      width: (100%/7);
 
       &:nth-child(7n + 7) {
         border-width: 0 0 1px 0;
@@ -55,33 +63,14 @@
     }
 
     .thai-letter {
-      font-size: 15vw;
+      --char-size: 2.5vw;
       flex-grow: 1;
       display: flex;
       flex-center();
-
-      &--vowel {
-        font-size: 10vw;
-      }
-
-      &.n-roi  { font-size: 12vw;}
-      &.n-phan { font-size: 9vw;}
-      &.n-muen { font-size: 7vw;}
-      &.n-saen { font-size: 6vw;}
-      &.n-lan {  font-size: 5.5vw;}
+      font-size: var(--char-size);
 
       @media $mq-big {
-        font-size: 80px;
-
-        &--vowel {
-          font-size: 60px;
-        }
-
-        &.n-roi {   font-size: 70px;}
-        &.n-phan {  font-size: 55px;}
-        &.n-muen {  font-size: 45px;}
-        &.n-saen {  font-size: 35px;}
-        &.n-lan {   font-size: 25px;}
+        --char-size: 1em;
       }
     }
   }
@@ -93,7 +82,7 @@
     color: currentColor;
     text-decoration: none;
 
-    @media $mq-big { 
+    @media $mq-big {
       min-height: 140px;
     }
   }

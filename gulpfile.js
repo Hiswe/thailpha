@@ -74,13 +74,17 @@ const mergeData = prefix => data => {
     ; /^c/.test( letter.id ) ? letter.isConsonant = true
     : /^n/.test( letter.id ) ? letter.isNumber = true
     : letter.isVowel = true
+    // normalize arrays
+    ;[`similar`, `variant`].forEach( key => {
+      const hasKey      = Array.isArray(letter[key]) && letter[key].length
+      const booleanKey      = `has${ key.charAt(0).toUpperCase() + key.substr(1) }`
+      letter[ booleanKey ]  = hasKey > 0
+      letter[ key ]         = letter[ booleanKey ] ? letter[ key ] : []
+    })
     if ( letter.isVowel ) {
       ; /^vs/.test( letter.id ) ? letter.isShort = true
       : /^vl/.test( letter.id ) ? letter.isLong = true
       : letter.isDiphtongOrMisc = true
-      if (!Array.isArray(letter.variant) || !letter.variant.length) {
-        letter.variant = false
-      }
     }
     letter.longId   = prefix + letter.rtgs.replace( ' ', '-' ).toLowerCase()
     return letter
@@ -199,8 +203,9 @@ const characters = () => {
     },
   }) )
   .pipe( $.svgSymbols({
-    id:     `char-%f`,
-    class:  `.char-%f`,
+    id:       `char-%f`,
+    class:    `.char-%f`,
+    fontSize: 16,
     templates: [
       `default-svg`,
       `default-css`,
@@ -313,7 +318,11 @@ const showBundleSize = () => {
   .pipe( $.size({gzip: true, showFiles: true}) )
 }
 
-const buildDev  = gulp.parallel( assets, js, css, html )
+const buildDev  = gulp.series(
+  // assets first for css to include the right SVG files
+  assets,
+  gulp.parallel( js, css, html )
+)
 buildDev.description = `build everything (dev)`
 const buildProd = gulp.series( clean, buildDev, showBundleSize)
 buildProd.description = `build everything (prod)`

@@ -1,8 +1,8 @@
 import { h } from 'preact'
 
 const Char = ({svgId}) => (
-  <svg role="img" class={`svg-char ${svgId}`}>
-    <use xlinkHref={`/svg-Chars.svg#char-${svgId }`}></use>
+  <svg role="img" class={`svg-char char-${svgId}`}>
+    <use xlinkHref={`/svg-chars.svg#char-${svgId }`}></use>
   </svg>
 )
 
