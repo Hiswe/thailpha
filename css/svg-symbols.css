@@ -8,17 +8,22 @@
   height: 18px;
 }
 
-.icon-ic_close_black_24px {
+.icon-close {
   width: 24px;
   height: 24px;
 }
 
-.icon-ic_info_outline_black_24px {
+.icon-help-outline {
   width: 24px;
   height: 24px;
 }
 
-.icon-ic_search_black_24px {
+.icon-info-outline {
+  width: 24px;
+  height: 24px;
+}
+
+.icon-search {
   width: 24px;
   height: 24px;
 }

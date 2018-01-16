@@ -234,6 +234,13 @@ characters.description = `bundle SVG characters`
 const icons = () => {
   return gulp
   .src( `icons/*.svg` )
+  .pipe( $.rename( path => {
+    const { basename }    = path
+    const materialNameReg = /ic_([^\d]*)_black_24px/
+    const isMaterialIcon  = materialNameReg.test(basename)
+    if (!isMaterialIcon) return
+    path.basename = materialNameReg.exec(basename)[1].replace(/_/g, `-`)
+  }) )
   .pipe( $.cheerio(cleanIcon()) )
   .pipe( $.svgSymbols({
     id:     `icon-%f`,
@@ -386,6 +393,7 @@ gulp.task( `data`,        data )
 gulp.task( `js`,          js )
 gulp.task( `js:app`,      jsApp )
 gulp.task( `characters`,  characters )
+gulp.task( `icons`,       icons )
 gulp.task( `touch-icon`,  touchIcon )
 gulp.task( `assets`,      assets )
 gulp.task( `clean`,       clean )
