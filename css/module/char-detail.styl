@@ -9,6 +9,10 @@
   background: $c-white;
 }
 
+:root {
+  --variant-height: 25vh;
+}
+
 .letter-container {
   height: calc(100vh - var(--nav-height));
   display: flex;
@@ -23,7 +27,7 @@
       "pronunciation  letter";
 
     &.has-variant {
-      grid-template-rows: $gutter 75px 1fr 1fr 75px $gutter;
+      grid-template-rows: $gutter var(--variant-height) 1fr 1fr var(--variant-height) $gutter;
       grid-template-areas:
       "meaning        letter"\
       "meaning        letter"\
@@ -41,17 +45,17 @@
       "similar-hint   similar-hint";
     }
   }
+}
+.thai-letter--principal {
+  flex-grow: 1;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-center();
 
-  > .thai-letter {
-    flex-grow: 1;
-    font-size: fluid-fs( 1.5 );
-    display: flex;
-    flex-center();
-
-    @media $mq-landscape {
-      font-size: fluid-fs( .75 );
-      grid-area: letter;
-    }
+  @media $mq-landscape {
+    justify-self: stretch;
+    grid-area: letter;
   }
 }
 .letter-hint,
@@ -96,8 +100,8 @@
 
   &__full {
     grid-column: 1 / span 2;
+    text-align: center;
   }
-
   &__label,
   &__value {
     display: inline-block;
@@ -139,15 +143,50 @@
     border-left: 1px solid $c-grey-light;
   }
 
-  .thai-letter {
+  &__item {
     flex-center();
+    height: var(--variant-height);
     display: flex;
     box-shadow:0 0 0 1px $c-grey-light;
   }
 }
 
+.thai-letter--variant {
+  width: 100%;
+  height: 100%;
+}
+
 .letter-hint {
   @media $mq-landscape {
     grid-area: similar-hint;
+  }
+}
+
+.letter-similar {
+  width: 100%;
+  border-spacing: 0;
+  border: solid $c-grey-light;
+  border-width: 1px 0 0;
+
+  &__row:nth-child(odd) {
+    background: $c-grey-lightest;
+  }
+
+  &__col {
+    border-collapse: collapse;
+    border: solid $c-grey-light;
+    border-width: 0 0 1px;
+    font-size: 20px;
+    padding: $gutter 0;
+
+    &:first-child {
+      padding: var(--quarter-gutter) 0 var(--quarter-gutter) var(--gutter);
+    }
+    &:last-child {
+      padding-right: var(--gutter);
+    }
+    &.thai-letter--similar {
+      font-size: .5em;
+    }
   }
 }

@@ -27,16 +27,25 @@ const Pronunciation = ({char}) => {
   )
 }
 
-const Variant  = ({char}) => {
+const VariantChar = ({svgId}) => {
+  return (
+    <li className="letter-variant__item" key={ svgId }>
+      <Char svgId={ svgId } additionalClass="thai-letter thai-letter--variant" />
+    </li>
+  )
+}
+
+const VariantList  = ({char}) => {
   const {variant, longId} = char
   if ( !variant ) return null
   const variantSvgID = variant.map( (v, i) => `${longId}-variant-${i}`)
   return (
     <ul className="letter-variant">
-      { variantSvgID.map( (v) => <li className="thai-letter" key={ v }><Char svgId={v} /></li> ) }
+      { variantSvgID.map( svgId => <VariantChar svgId={ svgId } /> ) }
     </ul>
   )
 }
+
 
 const SimilarHint = ({similar}) => {
   if (!similar.length) return null
@@ -45,15 +54,15 @@ const SimilarHint = ({similar}) => {
 
 const SimilarChar = ({char}) => {
   return (
-    <tr>
-      <td className="thai-letter">
+    <tr className="letter-similar__row">
+      <td className="letter-similar__col thai-letter thai-letter--similar">
         <Link to={ `/char/${ char.longId }` }>
           <Char svgId={char.longId} />
         </Link>
       </td>
-      <td>{ char.rtgs }</td>
-      <td>{ char.pronunciation.initial }</td>
-      <td>{ char.pronunciation.final }</td>
+      <td className="letter-similar__col">{ char.rtgs }</td>
+      <td className="letter-similar__col">{ char.pronunciation.initial }</td>
+      <td className="letter-similar__col">{ char.pronunciation.final }</td>
     </tr>
   )
 }
@@ -61,7 +70,7 @@ const SimilarChar = ({char}) => {
 const SimilarList = ({similar}) => {
   if ( !similar.length ) return null
   return (
-  <table>
+  <table className="letter-similar">
     <tbody>
       { similar.map( similarChar => <SimilarChar key={similarChar.id} char={similarChar} /> ) }
     </tbody>
@@ -102,11 +111,12 @@ class CharDetail extends Component {
               <span className="letter-meaning__rtgs">{ char.rtgs }</span>
               <span className="letter-meaning__translation">{ char.meaning }</span>
             </p>
-            <strong className={`thai-letter ${char.longId }`}>
+            <Char svgId={char.longId} additionalClass="thai-letter thai-letter--principal" />
+            {/* {<strong className={`thai-letter ${char.longId }`}>
               <Char svgId={char.longId} />
-            </strong>
+            </strong>} */}
             <Pronunciation char={char} />
-            <Variant char={char} />
+            <VariantList char={char} />
             <SimilarHint similar={char.similar} />
           </div>
           <SimilarList similar={char.similar} />
