@@ -112,9 +112,6 @@ class CharDetail extends Component {
               <span className="letter-meaning__translation">{ char.meaning }</span>
             </p>
             <Char svgId={char.longId} additionalClass="thai-letter thai-letter--principal" />
-            {/* {<strong className={`thai-letter ${char.longId }`}>
-              <Char svgId={char.longId} />
-            </strong>} */}
             <Pronunciation char={char} />
             <VariantList char={char} />
             <SimilarHint similar={char.similar} />
