@@ -120,8 +120,8 @@ class CharDetail extends Component {
         <div className="content">
           <div className={wrapperClasses}>
             <p className="letter-meaning">
-              <span className="letter-meaning__thai">{ char.thai }</span>
               <span className="letter-meaning__rtgs">{ char.rtgs }</span>
+              <span className="letter-meaning__thai">{ char.thai }</span>
               <span className="letter-meaning__translation">{ char.meaning }</span>
             </p>
             <Char svgId={char.longId} additionalClass="thai-letter thai-letter--principal" />

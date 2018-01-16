@@ -26,6 +26,23 @@ const About = ({version}) => {
         </dd>
       </dl>
       <dl className="about__section">
+        <dt className="about__topic">Detail disposition</dt>
+        <dd className="about__detail">
+          <p>
+            When clicking on a character you access a more complete view of it.<br />
+          </p>
+          <ul>
+            <li>
+              When your device is in <strong>landscape mode, a full description</strong> will be provided.
+            </li>
+            <li>
+              The <strong>consonants</strong> are always presentend as two words. (ex: <cite>ko kai</cite>).<br />
+              The <strong>translation</strong> refers always to <strong>the second part of the letter name</strong> (in the previous example <cite>“kai”</cite> only tranlate to <cite>“chicken”</cite>)
+            </li>
+          </ul>
+        </dd>
+      </dl>
+      <dl className="about__section">
         <dt className="about__topic">Share the app</dt>
         <dd className="about__detail">
           <p>The app can be shared with this link </p>
@@ -33,18 +50,17 @@ const About = ({version}) => {
         </dd>
       </dl>
       <dl className="about__section">
-        <dt className="about__topic">Any suggestions?</dt>
-        <dd className="about__detail">
-          <a href="https://github.com/Hiswe/thailpha/issues" target="_blank" className="link">send here</a>
-        </dd>
-      </dl>
-      <dl className="about__section">
-        <dt className="about__topic">The author?</dt>
+        <dt className="about__topic">Author &amp; suggestions</dt>
         <dd className="about__detail">
           <p>brought to you by Yannick “Hiswe” Aïvayan</p>
           <ul>
             <li>working at <a href="https://www.goodenough.agency/">goodenough</a></li>
             <li>drawing on <a href="https://hiswe.deviantart.com/">deviantart</a> &amp; <a href="http://hiswe.tumblr.com/">tumblr</a></li>
+          </ul>
+          <p>Any suggestions can be send:</p>
+          <ul>
+            <li>using the form on <a href="http://www.hiswe.net/contact" target="_blank" className="link">hiswe.net</a></li>
+            <li>creating a ticket on <a href="https://github.com/Hiswe/thailpha/issues" target="_blank" className="link">the github repo</a></li>
           </ul>
         </dd>
       </dl>

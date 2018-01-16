@@ -66,11 +66,11 @@
 }
 .letter-meaning,
 .letter-additional-info {
-  font-size: 7vw;
+  font-size: fluid-fs(1);
   padding: $gutter;
   font-weight: 300;
+
   @media $mq-landscape {
-    font-size: 4vw;
     border-right: 1px solid $c-grey-light;
   }
 }
@@ -85,6 +85,10 @@
   }
   &__thai {
     display: none;
+
+    @media $mq-landscape {
+      display: block;
+    }
   }
 }
 
