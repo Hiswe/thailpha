@@ -9,7 +9,7 @@ import store from './store.js'
 import Consonnants from './consonants.jsx'
 import Vowels from './vowels.jsx'
 import Numbers from './numbers.jsx'
-import Settings from './settings.jsx'
+import About from './about.jsx'
 import Search from './search.jsx'
 import CharDetail from './char-detail.jsx'
 import MainNav from './main-nav.jsx'
@@ -29,7 +29,7 @@ const App = props => {
             <Route exact path="/" component={ Consonnants } />
             <Route path="/vowels" component={ Vowels } />
             <Route path="/numbers" component={ Numbers } />
-            <Route path="/about" component={ Settings } />
+            <Route path="/about" component={ About } />
             <Route path="/search" component={ Search } />
             <Route path="/char/:longId" component={ CharDetail } />
             <Redirect to="/" />

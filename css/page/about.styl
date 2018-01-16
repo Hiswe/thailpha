@@ -1,0 +1,38 @@
+.about {
+  min-height: calc(100vh - var(--nav-height));
+
+  @media $mq-big {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: var(--gutter);
+  }
+
+  &__title,
+  &__topic,
+  &__detail,
+  &__footer {
+    padding: var(--gutter);
+  }
+  &__title,
+  &__footer {
+    grid-column: 1 / span 2;
+  }
+  &__topic {
+    padding-bottom: var(--half-gutter);
+    text-transform: uppercase;
+    background: var(--c-grey-lightest);
+  }
+  &__detail {
+    padding-top: var(--half-gutter);
+  }
+  &__footer {
+    align-self: end;
+  }
+}
+
+.version {
+  font-size: 12px;
+  margin: 0;
+  text-align: center;
+  color: $c-grey;
+}
