@@ -1,0 +1,10 @@
+{
+  "letter": " ้",
+  "thai": "ไม้โท",
+  "rtgs": "mai tho",
+  "initialConsonant": {
+    "low": "high",
+    "mid": "falling",
+    "high": "falling"
+  }
+}

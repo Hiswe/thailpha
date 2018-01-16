@@ -1,0 +1,10 @@
+{
+  "letter": "่",
+  "thai": "ไม้เอก",
+  "rtgs": "mai ek",
+  "initialConsonant": {
+    "low": "falling",
+    "mid": "low",
+    "high": "low"
+  }
+}

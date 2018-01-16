@@ -23,26 +23,26 @@
     grid-template-columns: 25% 1fr;
     grid-template-rows: 1fr 1fr;
     grid-template-areas:
-      "meaning        letter"\
-      "pronunciation  letter";
+      "meaning          letter"\
+      "additional-info  letter";
 
     &.has-variant {
       grid-template-rows: $gutter var(--variant-height) 1fr 1fr var(--variant-height) $gutter;
       grid-template-areas:
-      "meaning        letter"\
-      "meaning        letter"\
-      "meaning        letter"\
-      "pronunciation  letter"\
-      "pronunciation  variant"\
-      "pronunciation  gutter";
+      "meaning          letter"\
+      "meaning          letter"\
+      "meaning          letter"\
+      "additional-info  letter"\
+      "additional-info  variant"\
+      "additional-info  gutter";
     }
 
     &.has-similar {
       grid-template-rows: 1fr 1fr 50px;
       grid-template-areas:
-      "meaning        letter"\
-      "pronunciation  letter"\
-      "similar-hint   similar-hint";
+      "meaning          letter"\
+      "additional-info  letter"\
+      "similar-hint     similar-hint";
     }
   }
 }
@@ -61,11 +61,11 @@
 .letter-hint,
 .letter-meaning,
 .letter-thai,
-.letter-pronunciation {
+.letter-additional-info {
   text-align: center;
 }
 .letter-meaning,
-.letter-pronunciation {
+.letter-additional-info {
   font-size: 7vw;
   padding: $gutter;
   font-weight: 300;
@@ -88,10 +88,10 @@
   }
 }
 
-.letter-pronunciation {
+.letter-additional-info {
 
   @media $mq-landscape {
-    grid-area: pronunciation;
+    grid-area: additional-info;
     border-top: 1px solid $c-grey-light;
     text-align: left;
     display: grid;

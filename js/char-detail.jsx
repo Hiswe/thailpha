@@ -5,24 +5,40 @@ import { Link } from 'react-router-dom'
 
 import { Char } from './svg-symbol.jsx'
 
-const Pronunciation = ({char}) => {
-  const { pronunciation } = char
+const AdditionalInfos = ({char}) => {
+  const { pronunciation, isToneMark } = char
+  if ( isToneMark ) {
+    const { initialConsonant } = char
+    const modification = Object
+      .keys( char.initialConsonant )
+      // .map( key => [key, char.initialConsonant[key]] )
+    return (
+      <dl className="letter-additional-info">
+        { Object.keys( initialConsonant ).map( key => {
+          return ([
+            <dt className="letter-additional-info__label">{ key }</dt>,
+            <dd className="letter-additional-info__value">{ initialConsonant[ key ] }</dd>,
+          ])
+        }) }
+      </dl>
+    )
+  }
   if ( !pronunciation ) return null
   if ( typeof pronunciation === 'string' ) {
     return (
-      <div className="letter-pronunciation">
-        <span className="letter-pronunciation__full">{ pronunciation }</span>
+      <div className="letter-additional-info">
+        <span className="letter-additional-info__full">{ pronunciation }</span>
       </div>
     )
   }
   return (
-    <dl className="letter-pronunciation">
-      <dt className="letter-pronunciation__label">start</dt>
-      <dd className="letter-pronunciation__value">{ pronunciation.initial }</dd>
-      <dt className="letter-pronunciation__label">final</dt>
-      <dd className="letter-pronunciation__value">{ pronunciation.final }</dd>
-      <dt className="letter-pronunciation__label">class</dt>
-      <dd className="letter-pronunciation__value">{ char.class }</dd>
+    <dl className="letter-additional-info">
+      <dt className="letter-additional-info__label">start</dt>
+      <dd className="letter-additional-info__value">{ pronunciation.initial }</dd>
+      <dt className="letter-additional-info__label">final</dt>
+      <dd className="letter-additional-info__value">{ pronunciation.final }</dd>
+      <dt className="letter-additional-info__label">class</dt>
+      <dd className="letter-additional-info__value">{ char.class }</dd>
     </dl>
   )
 }
@@ -112,7 +128,7 @@ class CharDetail extends Component {
               <span className="letter-meaning__translation">{ char.meaning }</span>
             </p>
             <Char svgId={char.longId} additionalClass="thai-letter thai-letter--principal" />
-            <Pronunciation char={char} />
+            <AdditionalInfos char={char} />
             <VariantList char={char} />
             <SimilarHint similar={char.similar} />
           </div>
