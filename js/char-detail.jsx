@@ -9,9 +9,6 @@ const AdditionalInfos = ({char}) => {
   const { pronunciation, isToneMark } = char
   if ( isToneMark ) {
     const { initialConsonant } = char
-    const modification = Object
-      .keys( char.initialConsonant )
-      // .map( key => [key, char.initialConsonant[key]] )
     return (
       <dl className="letter-additional-info">
         { Object.keys( initialConsonant ).map( key => {
