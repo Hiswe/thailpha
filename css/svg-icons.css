@@ -1,11 +1,6 @@
 .icon-arrow-back {
-  width: 16px;
-  height: 16px;
-}
-
-.icon-home {
-  width: 20px;
-  height: 18px;
+  width: 24px;
+  height: 24px;
 }
 
 .icon-close {
@@ -14,6 +9,11 @@
 }
 
 .icon-help-outline {
+  width: 24px;
+  height: 24px;
+}
+
+.icon-home {
   width: 24px;
   height: 24px;
 }
@@ -29,7 +29,7 @@
 }
 
 .icon-settings {
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
 }
 

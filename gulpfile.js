@@ -188,7 +188,12 @@ css.description = `build css files (from stylus)`
 // ASSETS
 ////////
 
-const cleanIcon = require( `gulp-cheerio-clean-svg` )
+const cleanIcon     = require( `gulp-cheerio-clean-svg` )
+const svgTemplates  = [
+  `default-svg`,
+  `default-css`,
+  `default-demo`,
+]
 
 //----- CHARACTERS
 const characters = () => {
@@ -215,11 +220,7 @@ const characters = () => {
     id:       `char-%f`,
     class:    `.char-%f`,
     fontSize: 16,
-    templates: [
-      `default-svg`,
-      `default-css`,
-      `default-demo`,
-    ],
+    templates: svgTemplates,
   }) )
   .pipe( $.rename({basename: `svg-chars`}) )
   .pipe( $.if( /[.]svg$/, gulp.dest(`html`)) )
@@ -246,7 +247,9 @@ const icons = () => {
     id:     `icon-%f`,
     class:  `.icon-%f`,
   }) )
+  .pipe( $.rename({basename: `svg-icons`}) )
   .pipe( $.if( /[.]svg$/, gulp.dest('html')) )
+  .pipe( $.if( /[.]html$/, gulp.dest('.tmp')) )
   .pipe( $.if( /[.]css$/, gulp.dest('css')) )
 }
 icons.description = `bundle SVG files`
@@ -288,7 +291,7 @@ const webManifest = () => {
 }
 webManifest.description = `copy the web manifest to the right place`
 
-const assets = gulp.parallel( characters,  webManifest, touchIcon )
+const assets = gulp.parallel( characters, icons, webManifest, touchIcon )
 assets.description = `build every assets`
 
 ////////
