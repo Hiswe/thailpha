@@ -1,4 +1,4 @@
-import { h } from 'preact'
+import React from 'react'
 import { connect } from 'react-redux'
 
 import { version } from '../package.json'
@@ -17,9 +17,9 @@ const About = ({version}) => {
             <li><a href="http://thai-language.com/ref/vowels" target="_blank" className="link">thai-language.com</a> (mainly for the vowels)</li>
           </ul>
           <p>About transcription from Thai char to latin char:</p>
-          <blockquote class="blockquote" cite="http://thai-language.com/ref/phonemic-transcription">
+          <blockquote className="blockquote" cite="http://thai-language.com/ref/phonemic-transcription">
             <p>There is no standardized romanization scheme for Thai, and many different schemes are in use by different texts and websites.</p>
-            <footer class="blockquote__footer">
+            <footer className="blockquote__footer">
               <a href="http://thai-language.com/ref/phonemic-transcription" target="_blank" className="link">thai-language.com</a>
             </footer>
           </blockquote>

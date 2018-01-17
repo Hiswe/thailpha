@@ -1,4 +1,4 @@
-import { h, Component } from 'preact'
+import React from 'react'
 import { connect } from 'react-redux'
 import crio from 'crio'
 import { Link } from 'react-router-dom'
@@ -90,7 +90,7 @@ const SimilarList = ({similar}) => {
   </table>)
 }
 
-class CharDetail extends Component {
+class CharDetail extends React.Component {
 
   constructor( props ) {
     super( props )
@@ -111,7 +111,8 @@ class CharDetail extends Component {
     history.goBack()
   }
 
-  render( {char} ) {
+  render() {
+    const { char } = this.props
     let wrapperClasses = `letter-container`
     if ( char.hasVariant ) wrapperClasses = `${wrapperClasses} has-variant`
     if ( char.hasSimilar ) wrapperClasses = `${wrapperClasses} has-similar`

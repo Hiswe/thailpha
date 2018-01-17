@@ -1,4 +1,4 @@
-import { h } from 'preact'
+import React from 'react'
 import { NavLink } from 'react-router-dom'
 
 import { Icon } from './svg-symbol.jsx'

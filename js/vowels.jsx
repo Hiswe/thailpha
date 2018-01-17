@@ -1,4 +1,4 @@
-import { h } from 'preact'
+import React from 'react'
 import { connect } from 'react-redux'
 
 import CharSection from './char-section.jsx'

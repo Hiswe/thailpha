@@ -47,8 +47,9 @@ const rules = [
         presets: [ 'env' ],
         plugins: [
           'transform-object-rest-spread',
-          // change React.createElement to `h`
-          [ 'transform-react-jsx', { pragma: 'h' } ]
+          'transform-react-jsx',
+          // // change React.createElement to `h`
+          // [ 'transform-react-jsx', { pragma: 'h' } ]
         ],
       },
     },
@@ -56,10 +57,10 @@ const rules = [
 ]
 
 const resolve = {
-  alias: {
-    'react':     'preact-compat',
-    'react-dom': 'preact-compat',
-  },
+  // alias: {
+  //   'react':     'preact-compat',
+  //   'react-dom': 'preact-compat',
+  // },
 }
 
 module.exports = {
