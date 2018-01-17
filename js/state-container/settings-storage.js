@@ -5,7 +5,7 @@ const STORE_NAME = 'THAILPHA'
 // taken from
 // https://egghead.io/lessons/javascript-redux-persisting-the-state-to-the-local-storage
 
-const loadState = () => {
+const loadSettings = () => {
   // `try/catch` because users can forbid access to `localStorage` with privacy settings
   try {
     const serializedState = localStorage.getItem( STORE_NAME )
@@ -16,7 +16,7 @@ const loadState = () => {
   }
 }
 
-const saveSate = state => {
+const saveSettings = state => {
   try {
     const serializedState = JSON.stringify( state )
     localStorage.setItem( STORE_NAME, serializedState )
@@ -26,6 +26,6 @@ const saveSate = state => {
 }
 
 export {
-  loadState,
-  saveSate,
+  loadSettings,
+  saveSettings,
 }

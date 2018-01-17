@@ -6,7 +6,7 @@ import Transition from 'react-transition-group/Transition'
 import TransitionGroup from 'react-transition-group/TransitionGroup'
 import CSSTransition from 'react-transition-group/CSSTransition'
 
-import store from './store.js'
+import store from './state-container'
 import Consonnants from './consonants.jsx'
 import Vowels from './vowels.jsx'
 import Numbers from './numbers.jsx'

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import crio from 'crio'
 import { Link } from 'react-router-dom'
@@ -90,7 +90,7 @@ const SimilarList = ({similar}) => {
   </table>)
 }
 
-class CharDetail extends React.Component {
+class CharDetail extends Component {
 
   constructor( props ) {
     super( props )
