@@ -9,8 +9,11 @@ const $           = require( `gulp-load-plugins` )()
 const lazypipe    = require( `lazypipe` )
 const browserSync = require( `browser-sync` ).create()
 const webpack     = require( `webpack` )
-const { reload }  = browserSync
+const magenta     = require( `ansi-magenta` )
+const log         = require( `fancy-log` )
+const beeper      = require( `beeper` )
 
+const { reload }  = browserSync
 const env         = args.prod ? `production` : `development`
 const isDev       = env === `development`
 const isProd      = !isDev
@@ -21,7 +24,7 @@ const dest        = {
 };
 const buildDir    = isDev ? '.tmp' : 'public'
 
-$.util.log( 'environment is', $.util.colors.magenta(env) )
+log( 'environment is', magenta(env) )
 
 ////////
 // MISC
@@ -29,10 +32,10 @@ $.util.log( 'environment is', $.util.colors.magenta(env) )
 
 // no arrow function: we're using `this`
 function onError(err) {
-  $.util.beep()
-  if (err.annotated)      { $.util.log(err.annotated) }
-  else if (err.message)   { $.util.log(err.message) }
-  else                    { $.util.log(err) }
+  beeper()
+  if (err.annotated)      { log(err.annotated) }
+  else if (err.message)   { log(err.message) }
+  else                    { log(err) }
   return this.emit( 'end' )
 }
 
