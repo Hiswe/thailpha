@@ -64,6 +64,16 @@ const About = ({version}) => {
           </ul>
         </dd>
       </dl>
+      <dl className="about__section">
+        <dt className="about__topic">Ressources</dt>
+        <dd className="about__detail">
+          <ul>
+            <li>Icons coming from: <a href="https://material.io/icons" target="_blank" className="link">Google Material Icon</a></li>
+            <li>Font used for the blue chars <a href="http://www.f0nt.com/release/th-sarabun-new/" target="_blank" className="link">TH Sarabun New</a></li>
+          </ul>
+        </dd>
+      </dl>
+      {/*  */}
       <footer className="about__footer">
         <p className="version">
           <span> version </span>
