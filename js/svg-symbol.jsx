@@ -8,7 +8,13 @@ const Char = ({svgId, additionalClass = ''}) => {
   )
 }
 
-const Icon = props => null
+const Icon = ({svgId, additionalClass = ''}) => {
+  return (
+    <svg role="img" className={`svg-icon icon-${svgId} ${additionalClass}`}>
+      <use xlinkHref={`#icon-${svgId }`}></use>
+    </svg>
+  )
+}
 
 export {
   Char,

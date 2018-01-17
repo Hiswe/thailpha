@@ -238,6 +238,15 @@ characters.description = `bundle SVG characters`
 const icons = () => {
   return gulp
   .src( `icons/*.svg` )
+  .pipe( $.cheerio({
+    run: $ => {
+      // remove Google's background path
+      $( `path[fill=none]` ).remove()
+    },
+    parserOptions: {
+      xmlMode: true,
+    },
+  }) )
   .pipe( $.rename( path => {
     const { basename }    = path
     const materialNameReg = /ic_([^\d]*)_black_24px/
@@ -247,8 +256,10 @@ const icons = () => {
   }) )
   .pipe( $.cheerio(cleanIcon()) )
   .pipe( $.svgSymbols({
-    id:     `icon-%f`,
-    class:  `.icon-%f`,
+    id:         `icon-%f`,
+    class:      `.icon-%f`,
+    templates:  svgTemplates,
+    svgAttrs:   { class: `svg-icon-library` },
   }) )
   .pipe( $.rename({basename: `svg-icons`}) )
   .pipe( $.if( /[.]svg$/, gulp.dest('html')) )
