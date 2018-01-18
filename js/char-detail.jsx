@@ -126,7 +126,7 @@ class CharDetail extends Component {
             <p className="letter-meaning">
               <span className="letter-meaning__rtgs">{ char.rtgs }</span>
               <span className="letter-meaning__thai">{ char.thai }</span>
-              <span className="letter-meaning__translation">{ char.meaning }</span>
+              <span className="letter-meaning__translation">{ char.longMeaning }</span>
             </p>
             <Char svgId={char.longId} additionalClass="thai-letter thai-letter--principal" />
             <AdditionalInfos char={char} />

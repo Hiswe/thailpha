@@ -90,6 +90,9 @@ const mergeData = prefix => data => {
       : prefix === `vl`  ? letter.isLong = true
       : letter.isDiphtongOrMisc = true
     }
+    if ( letter.meaning ) {
+      letter.longMeaning = `${letter.rtgs.split(' ')[1]}: ${letter.meaning}`
+    }
     letter.longId   = `${ prefix }-${ letter.rtgs.replace( ' ', '-' ).toLowerCase() }`
     return letter
   })
@@ -380,6 +383,8 @@ const watch = () => {
   gulp.watch( `data/**/*.json`,                 data )
   gulp.watch( `css/**/*.styl`,                  css )
   gulp.watch( `html/*`,                         html )
+  gulp.watch( `characters/*.svg`,               characters )
+  gulp.watch( `icons/*.svg`,                    icons )
   gulp.watch( `js/service-worker.js`,           serviceWorker )
   gulp.watch( `.tmp/service-worker.js`,         reload )
   bundler.watch( {}, (err, stats) => {
