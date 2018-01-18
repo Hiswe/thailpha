@@ -60,7 +60,7 @@ render(
   if (!navigator.serviceWorker) return
   navigator
   .serviceWorker
-  .register( '/service-worker.js' )
+  .register( '/thailpha-service-worker.js' )
   .catch( error => {
     console.log('sorry', error)
   })

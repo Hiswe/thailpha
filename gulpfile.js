@@ -60,7 +60,7 @@ jsApp.description = `bundle the JS front application`
 
 const serviceWorker = () => {
   return gulp
-  .src( './js/service-worker.js' )
+  .src( './js/thailpha-service-worker.js' )
   .pipe( $.if(isProd, $.stripDebug()) )
   .pipe( $.if(isProd, $.uglifyEs.default()) )
   .pipe( gulp.dest( buildDir ) )
@@ -229,7 +229,7 @@ const characters = () => {
     templates: svgTemplates,
   }) )
   .pipe( $.rename({basename: `svg-chars`}) )
-  .pipe( $.if( /[.]svg$/, gulp.dest(`html`)) )
+  .pipe( $.if( /[.]svg$/, gulp.dest(`public`)) )
   .pipe( $.if( /[.]svg$/, gulp.dest(`.tmp`)) )
   .pipe( $.if( /[.]html$/, gulp.dest('.tmp')) )
   .pipe( $.if( /[.]css$/, gulp.dest(`css`)) )
@@ -361,6 +361,7 @@ const bs = () => {
     server: {
       baseDir:  `./${buildDir}`,
       index:    `index.html`,
+      https:    true,
       middleware: [
         // Fallback to index.html for applications that are using the HTML 5 history API
         historyFallback(),
@@ -371,14 +372,14 @@ const bs = () => {
 
 let hash
 const watch = () => {
-  gulp.watch( `manifest.json`,                  webManifest )
-  gulp.watch( `data/**/*.json`,                 data )
-  gulp.watch( `css/**/*.styl`,                  css )
-  gulp.watch( `html/*`,                         html )
-  gulp.watch( `characters/*.svg`,               characters )
-  gulp.watch( `icons/*.svg`,                    icons )
-  gulp.watch( `js/service-worker.js`,           serviceWorker )
-  gulp.watch( `.tmp/service-worker.js`,         reload )
+  gulp.watch( `manifest.json`,                    webManifest )
+  gulp.watch( `data/**/*.json`,                   data )
+  gulp.watch( `css/**/*.styl`,                    css )
+  gulp.watch( `html/*`,                           html )
+  gulp.watch( `characters/*.svg`,                 characters )
+  gulp.watch( `icons/*.svg`,                      icons )
+  gulp.watch( `js/thailpha-service-worker.js`,    serviceWorker )
+  gulp.watch( `.tmp/thailpha-service-worker.js`,  reload )
   bundler.watch( {}, (err, stats) => {
     if (err) return onError( err )
     const info = stats.toJson()

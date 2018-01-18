@@ -2,14 +2,16 @@
 
 // https://github.com/mozilla/serviceworker-cookbook/blob/master/strategy-network-or-cache/service-worker.js
 
-const CACHE_NAME  = 'cache-v1'
+const CACHE_NAME  = 'thailpha-cache-v1'
 const TIMEOUT     = 400
 const urlsToCache = [
   '/',
   '/index.html',
+  '/svg-chars.svg',
   '/thailpha.css',
   '/thailpha.js',
   '/thailpha-lib.js',
+  '/manifest.json',
 
   '/touch-icon-icon-ipad.png',
   '/touch-icon-icon-iphone.png',
@@ -66,7 +68,7 @@ function fromNetwork(request, timeout = TIMEOUT) {
 // Open the cache where the assets were stored and search for the requested
 // resource. Notice that in case of no matching, the promise still resolves
 // but it does with `undefined` as value.
-// If it's coming from a route, serve ths index.html
+// If it's coming from a route, serve the index.html
 const isRoute = request => {
   const { url } = request
   const routeTest = /\/(vowels|numbers|about|search|char\/)/
@@ -100,6 +102,9 @@ const onInstall = event => {
 // from the server.
 const onFetch = event => {
   const { request } = event
+  const { url } = request
+  // Ignore what should be ignored
+  if ( /\/browser-sync\//.test(url) ) return
   // Try network and if it fails, go for the cached copy.
   event.respondWith( fromNetwork( request ).catch( () => fromCache(request) ) )
 
