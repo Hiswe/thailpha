@@ -335,15 +335,6 @@ html.description = `build index.html`
 const clean = () => del(['public/*'])
 clean.description = `clean everything in the production (public) folder`
 
-const bump = () => {
-  const type = args.major ? 'major' : args.minor ? 'minor' : 'patch'
-  return gulp
-  .src( './package*.json' )
-  .pipe( $.bump({type}) )
-  .pipe( gulp.dest('./') )
-}
-bump.description = `bump versions in *.json files`
-
 ////////
 // DEV
 ////////
@@ -371,6 +362,7 @@ const bs = () => {
       baseDir:  `./${buildDir}`,
       index:    `index.html`,
       middleware: [
+        // Fallback to index.html for applications that are using the HTML 5 history API
         historyFallback(),
       ],
     }
@@ -408,7 +400,6 @@ const dev = args.build === false ? bsAndWatch() :
   gulp.series( buildDev, bsAndWatch )
 dev.description = `build, watch & launch a dev server`
 
-gulp.task( `bump`,        bump )
 gulp.task( `html`,        html )
 gulp.task( `css`,         css )
 gulp.task( `data`,        data )
