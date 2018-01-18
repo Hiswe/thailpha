@@ -6,6 +6,7 @@ import { Char } from './svg-symbol.jsx'
 const CharItem = props => {
   let wrapperClasses  = `char-section__item`
   if ( props.class ) wrapperClasses = `${ wrapperClasses } class-${props.class}`
+  if ( props.obsolete ) wrapperClasses = `${wrapperClasses} is-obsolete`
   let letterClasses   = `thai-letter ${props.longId}`
   if ( props.isVowel ) letterClasses = `${letterClasses} thai-letter--vowel`
 

@@ -4,46 +4,82 @@ import { connect } from 'react-redux'
 import CharSection from './char-section.jsx'
 import CharSubsection from './char-subsection.jsx'
 import CharList from './char-list.jsx'
-import { Icon } from './svg-symbol.jsx'
-import { toggleSetting } from './actions.js'
+import { Char, Icon } from './svg-symbol.jsx'
+import { toggleSetting } from './state-container/actions.js'
 
-// const Consonants = ({consonants, toneMarks}) => (
-//   <CharSection title="consonnants">
-//     <CharList chars={ consonants } />
-//     <CharSubsection title="Tone marks">
-//       <CharList chars={ toneMarks } />
-//     </CharSubsection>
-//   </CharSection>
-// )
+////////
+// CUSTOM TITLE
+////////
 
-const ConsonantTitle = () => {
+const ConsonantTitlePresentational = ({onClick, isActive}) => {
+  const btnClass = `char-section__help-button ${ isActive ? 'char-section__help-button--active' : '' }`
   return (
     <Fragment>
       consonnants
-      <Icon svgId="help-outline" />
+      <button className={ btnClass } onClick={ onClick }>
+        <Icon svgId="help-outline" />
+      </button>
     </Fragment>
   )
 }
-
-
-class ConsonantsSection extends Component {
-
-  constructor( props ) {
-    super( props )
-  }
-
-  render() {
-    const {consonants, toneMarks} = this.props
-    return (
-      <CharSection title={ <ConsonantTitle /> }>
-        <CharList chars={ consonants } />
-        <CharSubsection title="Tone marks">
-          <CharList chars={ toneMarks } />
-        </CharSubsection>
-      </CharSection>
-    )
+const consonantTitleState2Prop = state => {
+  return {
+    isActive: state.settings.get( 'showConsonantsHelp' ),
   }
 }
+const consonantTitleDispatch2Prop = {
+  onClick( e ) {
+    return toggleSetting({
+      key: 'showConsonantsHelp',
+    })
+  }
+}
+const ConsonantTitle = connect( consonantTitleState2Prop, consonantTitleDispatch2Prop )( ConsonantTitlePresentational )
+
+////////
+// CONSONANT EXPLANATION
+////////
+
+const ConsonantExplanationPresentational = ({isVisible, close}) => {
+  if (!isVisible) return null
+  return (
+    <div className="consonant-explanation" onClick={ close }>
+      <Icon svgId="close" additionalClass="consonant-explanation__close" />
+      <Char svgId="consonant-explanation" additionalClass="consonant-explanation__content" />
+    </div>
+  )
+}
+
+const consonantExplanationState2Prop = state => {
+  return {
+    isVisible: state.settings.get( 'showConsonantsHelp' ),
+  }
+}
+const consonantExplanationDispatch2Prop = {
+  close( e ) {
+    return toggleSetting({
+      key:  'showConsonantsHelp',
+      value: false,
+    })
+  }
+}
+const ConsonantExplanation = connect( consonantExplanationState2Prop, consonantExplanationDispatch2Prop )( ConsonantExplanationPresentational )
+
+////////
+// CONSONANT PAGE
+////////
+
+const ConsonantsPresentational = ({consonants, toneMarks, toggleConsonantsHelp}) => (
+  <Fragment>
+    <CharSection title={ <ConsonantTitle /> }>
+      <CharList chars={ consonants } />
+      <CharSubsection title="Tone marks">
+        <CharList chars={ toneMarks } />
+      </CharSubsection>
+    </CharSection>
+    <ConsonantExplanation />
+  </Fragment>
+)
 
 const mapStateToProp = state => {
   return {
@@ -52,6 +88,6 @@ const mapStateToProp = state => {
   }
 }
 
-const ConsonantsContainer = connect( mapStateToProp )( ConsonantsSection )
+const Consonants = connect( mapStateToProp )( ConsonantsPresentational )
 
-export { ConsonantsContainer as default }
+export { Consonants as default }

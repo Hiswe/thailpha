@@ -2,7 +2,6 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import { version } from '../package.json'
-import { toggleSetting } from './actions.js'
 
 const About = ({version}) => {
   return (

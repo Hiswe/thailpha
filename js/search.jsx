@@ -1,7 +1,7 @@
 import React from 'react'
-import { filterChar } from './actions.js'
 import { connect } from 'react-redux'
 
+import { filterChar } from './state-container/actions.js'
 import CharSection from './char-section.jsx'
 import CharList from './char-list.jsx'
 

@@ -3,6 +3,18 @@
     position: relative;
     padding: $gutter;
   }
+  &__help-button {
+    padding: 0 0 0 var(--gutter);
+    background: none;
+    border: 0 none;
+
+    &--active {
+      color: var(--c-contrast);
+    }
+    .svg-icon {
+      fill: currentColor;
+    }
+  }
   &__list {
     --min-size: 25%;
     margin: 0;
@@ -127,5 +139,27 @@
 
   @media $mq-big {
     font-size: 16px;
+  }
+}
+
+.consonant-explanation {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: var(--nav-height);
+  left: 0;
+  background: rgba(0, 0, 0, .75);
+  display: flex;
+  flex-center();
+
+  &__content {
+    max-width: 90%;
+  }
+
+  &__close {
+    position: absolute;
+    top: var(--gutter);
+    right: var(--gutter);
+    fill: white;
   }
 }

@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import crio from 'crio'
 import { Link } from 'react-router-dom'
@@ -12,10 +12,12 @@ const AdditionalInfos = ({char}) => {
     return (
       <dl className="letter-additional-info">
         { Object.keys( initialConsonant ).map( key => {
-          return ([
-            <dt className="letter-additional-info__label">{ key }</dt>,
-            <dd className="letter-additional-info__value">{ initialConsonant[ key ] }</dd>,
-          ])
+          return (
+            <Fragment>
+              <dt className="letter-additional-info__label">{ key }</dt>
+              <dd className="letter-additional-info__value">{ initialConsonant[ key ] }</dd>
+            </Fragment>
+          )
         }) }
       </dl>
     )
@@ -36,6 +38,7 @@ const AdditionalInfos = ({char}) => {
       <dd className="letter-additional-info__value">{ pronunciation.final }</dd>
       <dt className="letter-additional-info__label">class</dt>
       <dd className="letter-additional-info__value">{ char.class }</dd>
+      { char.obsolete ? <dt className="letter-additional-info__full">obsolete letter</dt> : null}
     </dl>
   )
 }
