@@ -34,10 +34,6 @@ const About = ({version}) => {
             <li>
               When your device is in <strong>landscape mode, a full description</strong> will be provided.
             </li>
-            <li>
-              The <strong>consonants</strong> are always presentend as two words. (ex: <cite>ko kai</cite>).<br />
-              The <strong>translation</strong> refers always to <strong>the second part of the letter name</strong> (in the previous example <cite>“kai”</cite> only tranlate to <cite>“chicken”</cite>)
-            </li>
           </ul>
         </dd>
       </dl>
