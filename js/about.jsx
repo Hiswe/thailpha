@@ -13,7 +13,7 @@ const About = ({version}) => {
           <p>All information are provided by: </p>
           <ul>
             <li><a href="http://en.wikipedia.org/wiki/Thai_alphabet" target="_blank" className="link">wikipedia</a></li>
-            <li><a href="http://thai-language.com/ref/vowels" target="_blank" className="link">thai-language.com</a> (mainly for the vowels)</li>
+            <li><a href="http://thai-language.com" target="_blank" className="link">thai-language.com</a> (mainly for the <a href="http://thai-language.com/ref/vowels" target="_blank" className="link">vowels</a>)</li>
           </ul>
           <p>About transcription from Thai char to latin char:</p>
           <blockquote className="blockquote" cite="http://thai-language.com/ref/phonemic-transcription">
@@ -64,7 +64,7 @@ const About = ({version}) => {
         <dd className="about__detail">
           <ul>
             <li>Icons coming from: <a href="https://material.io/icons" target="_blank" className="link">Google Material Icon</a></li>
-            <li>Font used for the blue chars <a href="http://www.f0nt.com/release/th-sarabun-new/" target="_blank" className="link">TH Sarabun New</a></li>
+            <li>Font used for the colored chars <a href="http://www.f0nt.com/release/th-sarabun-new/" target="_blank" className="link">TH Sarabun New</a></li>
           </ul>
         </dd>
       </dl>
