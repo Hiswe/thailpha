@@ -103,38 +103,41 @@ const data = () => {
   const cons = gulp
   .src( 'data/consonants/*.json' )
   .pipe( $.plumber(onError) )
-  .pipe( $.jsoncombine('dico-consonants.js', mergeData('c')) )
+  .pipe( $.jsoncombine('01-dico-consonants.js', mergeData('c')) )
 
   const shortVowels = gulp
   .src('data/vowels/short/*.json')
   .pipe( $.plumber(onError) )
-  .pipe( $.jsoncombine('dico-short-vowels.js', mergeData('vs')) )
+  .pipe( $.jsoncombine('02-dico-short-vowels.js', mergeData('vs')) )
 
   const longVowels = gulp
   .src('data/vowels/long/*.json')
   .pipe( $.plumber(onError) )
-  .pipe( $.jsoncombine('dico-long-vowels.js', mergeData('vl')) )
+  .pipe( $.jsoncombine('03-dico-long-vowels.js', mergeData('vl')) )
 
   const diphtongsMisc = gulp
   .src('data/vowels/diphthongs-and-misc/*.json')
   .pipe( $.plumber(onError) )
-  .pipe( $.jsoncombine('dico-diphtongs-misc.js', mergeData('dm')) )
+  .pipe( $.jsoncombine('04-dico-diphtongs-misc.js', mergeData('dm')) )
 
   const toneMarks = gulp
   .src( 'data/tone-marks/*.json' )
   .pipe( $.plumber(onError) )
-  .pipe( $.jsoncombine('dico-tone-marks.js', mergeData('tm')) )
+  .pipe( $.jsoncombine('05-dico-tone-marks.js', mergeData('tm')) )
 
   const numbers   = gulp
   .src('data/numbers/*.json')
   .pipe( $.plumber(onError) )
-  .pipe( $.jsoncombine('dico-numbers.js', mergeData('n')) )
+  .pipe( $.jsoncombine('06-dico-numbers.js', mergeData('n')) )
 
   const allFiles    = mergeStream(cons, shortVowels, longVowels, toneMarks, numbers, diphtongsMisc)
   const allCombined = allFiles
+  // rename to help keep the good keys in jsonCombine
+  .pipe( $.rename({'extname': '.json'})  )
   .pipe( $.plumber(onError) )
   .pipe( $.jsoncombine('dico-all.js', data => {
-    const dictionaries = Object.keys(data)
+    // fix dictionaries that arrive in random order
+    const dictionaries = Object.keys(data).sort()
     const result = dictionaries.reduce( (accumulator, dictionary) => {
       return accumulator.concat( data[dictionary] )
     }, [] )

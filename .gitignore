@@ -5,4 +5,4 @@ yarn-error.log
 /public/*
 !/public/.surgeignore
 /.tmp
-/js/models/dico-*
+/js/models
