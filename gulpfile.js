@@ -69,15 +69,25 @@ jsApp.description = `bundle service-worker script`
 
 //----- DATA DICTIONNARY
 
+const charType = {
+  c:  `isConsonant`,
+  tm: `isToneMark`,
+  vs: `isVowel`,
+  vl: `isVowel`,
+  ds: `isDiphtong`,
+  dl: `isDiphtong`,
+  gs: `isGlide`,
+  gl: `isGlide`,
+  m:  `isMiscellanous`,
+  n:  `isNumber`,
+}
+
 const mergeData = prefix => data => {
   const letters = Object.keys( data )
   const result  = letters.map( (name, index) => {
     const letter    = data[ name ]
     letter.id       = `${ prefix }-${ index + 1 }`
-    ; prefix === `c` ? letter.isConsonant = true
-    : prefix === `n` ? letter.isNumber = true
-    : prefix === `tm` ? letter.isToneMark = true
-    : letter.isVowel = true
+    letter[ charType[prefix] ] = true
     // normalize arrays
     ;[`similar`, `variant`].forEach( key => {
       const hasKey      = Array.isArray(letter[key]) && letter[key].length
@@ -85,11 +95,8 @@ const mergeData = prefix => data => {
       letter[ booleanKey ]  = hasKey > 0
       letter[ key ]         = letter[ booleanKey ] ? letter[ key ] : []
     })
-    if ( letter.isVowel ) {
-      ; prefix === `vs` ? letter.isShort = true
-      : prefix === `vl`  ? letter.isLong = true
-      : letter.isDiphtongOrMisc = true
-    }
+    if ( /^[vdg]l$/.test(prefix) ) letter.isLong = true
+    if ( /^[vdg]s$/.test(prefix) ) letter.isShort = true
     if ( letter.meaning ) {
       letter.longMeaning = `${letter.rtgs.split(' ')[1]}: ${letter.meaning}`
     }
@@ -103,37 +110,66 @@ const data = () => {
   const cons = gulp
   .src( 'data/consonants/*.json' )
   .pipe( $.plumber(onError) )
-  .pipe( $.jsoncombine('01-dico-consonants.js', mergeData('c')) )
-
-  const shortVowels = gulp
-  .src('data/vowels/short/*.json')
-  .pipe( $.plumber(onError) )
-  .pipe( $.jsoncombine('02-dico-short-vowels.js', mergeData('vs')) )
-
-  const longVowels = gulp
-  .src('data/vowels/long/*.json')
-  .pipe( $.plumber(onError) )
-  .pipe( $.jsoncombine('03-dico-long-vowels.js', mergeData('vl')) )
-
-  const diphtongsMisc = gulp
-  .src('data/vowels/diphthongs-and-misc/*.json')
-  .pipe( $.plumber(onError) )
-  .pipe( $.jsoncombine('04-dico-diphtongs-misc.js', mergeData('dm')) )
+  .pipe( $.jsoncombine('01-dico-consonants.json', mergeData('c')) )
 
   const toneMarks = gulp
   .src( 'data/tone-marks/*.json' )
   .pipe( $.plumber(onError) )
-  .pipe( $.jsoncombine('05-dico-tone-marks.js', mergeData('tm')) )
+  .pipe( $.jsoncombine('02-dico-tone-marks.json', mergeData('tm')) )
+
+  const shortVowels = gulp
+  .src( 'data/vowels/short/*.json' )
+  .pipe( $.plumber(onError) )
+  .pipe( $.jsoncombine('03-dico-short-vowels.json', mergeData('vs')) )
+
+  const longVowels = gulp
+  .src( 'data/vowels/long/*.json' )
+  .pipe( $.plumber(onError) )
+  .pipe( $.jsoncombine('04-dico-long-vowels.json', mergeData('vl')) )
+
+  const shortDiphtongs = gulp
+  .src( 'data/diphtongs/short/*.json' )
+  .pipe( $.plumber(onError) )
+  .pipe( $.jsoncombine('05-dico-short-diphtongs.json', mergeData('ds')) )
+
+  const longDiphtongs = gulp
+  .src( 'data/diphtongs/long/*.json' )
+  .pipe( $.plumber(onError) )
+  .pipe( $.jsoncombine('06-dico-long-diphtongs.json', mergeData('dl')) )
+
+  const shortGlides = gulp
+  .src( 'data/glides/short/*.json' )
+  .pipe( $.plumber(onError) )
+  .pipe( $.jsoncombine('07-dico-short-glides.json', mergeData('gs')) )
+
+  const longGlides = gulp
+  .src( 'data/glides/long/*.json' )
+  .pipe( $.plumber(onError) )
+  .pipe( $.jsoncombine('08-dico-long-glides.json', mergeData('gl')) )
+
+  const miscellaneous = gulp
+  .src( 'data/miscellaneous/*.json' )
+  .pipe( $.plumber(onError) )
+  .pipe( $.jsoncombine('09-dico-miscellaneous.json', mergeData('m')) )
 
   const numbers   = gulp
-  .src('data/numbers/*.json')
+  .src( 'data/numbers/*.json' )
   .pipe( $.plumber(onError) )
-  .pipe( $.jsoncombine('06-dico-numbers.js', mergeData('n')) )
+  .pipe( $.jsoncombine('10-dico-numbers.json', mergeData('n')) )
 
-  const allFiles    = mergeStream(cons, shortVowels, longVowels, toneMarks, numbers, diphtongsMisc)
-  const allCombined = allFiles
-  // rename to help keep the good keys in jsonCombine
-  .pipe( $.rename({'extname': '.json'})  )
+  return mergeStream(
+    cons,
+    toneMarks,
+    shortVowels,
+    longVowels,
+    shortDiphtongs,
+    longDiphtongs,
+    shortGlides,
+    longGlides,
+    miscellaneous,
+    numbers
+  )
+  .pipe( gulp.dest('js/models') )
   .pipe( $.plumber(onError) )
   .pipe( $.jsoncombine('dico-all.js', data => {
     // fix dictionaries that arrive in random order
@@ -143,10 +179,9 @@ const data = () => {
     }, [] )
     return new Buffer( JSON.stringify(result, null, 2) )
   }) )
-
-  return mergeStream(allFiles, allCombined)
   .pipe( $.defineModule('es6') )
   .pipe( gulp.dest('js/models') )
+
 }
 data.description = `update Thai dictionary to be consummable by the JS front application`
 
