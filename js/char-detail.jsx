@@ -57,7 +57,7 @@ const VariantList  = ({char}) => {
   const variantSvgID = variant.map( (v, i) => `${longId}-variant-${i}`)
   return (
     <ul className="letter-variant">
-      { variantSvgID.map( svgId => <VariantChar svgId={ svgId } /> ) }
+      { variantSvgID.map( svgId => <VariantChar key={ svgId } svgId={ svgId } /> ) }
     </ul>
   )
 }
