@@ -316,6 +316,9 @@ const touchIcon = () => {
   const iconSource  = isProd ? 'data/ios.png' : 'data/ios-dev.png'
   return gulp
   .src( iconSource )
+  .pipe( $.imageResize({width: 192, height: 192, upscale: true}) )
+  .pipe( $.rename( path =>  path.basename = `launcher-icon-${basename}-4x` ) )
+  .pipe( gulp.dest(buildDir) )
   .pipe( $.imageResize({width: 180, height: 180, upscale: true}) )
   .pipe( $.rename( path =>  path.basename = `${basename}-iphone-6-plus` ) )
   .pipe( gulp.dest(buildDir) )
@@ -411,6 +414,7 @@ const bs = () => {
 let hash
 const watch = () => {
   gulp.watch( `manifest.json`,                    webManifest )
+  gulp.watch( `.tmp/manifest.json`,               reload )
   gulp.watch( `data/**/*.json`,                   data )
   gulp.watch( `css/**/*.styl`,                    css )
   gulp.watch( `html/*`,                           html )
