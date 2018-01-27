@@ -22,7 +22,8 @@
     "serve:dev": "ws --https --port 5000 --directory .tmp --spa index.html --log.format tiny",
     "serve:dev-no-https": "ws --port 4000 --directory .tmp --spa index.html --log.format tiny",
     "watch:prod": "npm run build:prod --prod && gulp watch --prod",
-    "watch:dev": "npm run build:dev && gulp watch"
+    "watch:dev": "npm run build:dev && gulp watch",
+    "deploy": "gulp deploy --prod"
   },
   "keywords": [
     "thai",

@@ -354,9 +354,10 @@ touchIcon.description = `resize favicon for different devices`
 //----- WEB MANIFEST
 
 const webManifest = () => {
+  console.log( {newVersion, version})
   return gulp
   .src( 'manifest.json' )
-  .pipe( $.jsonEditor({name: appTitle, version}) )
+  .pipe( $.jsonEditor({name: appTitle, version: newVersion || version }) )
   .pipe( gulp.dest(buildDir) )
 }
 webManifest.description = `copy the web manifest to the right place`
@@ -487,6 +488,19 @@ function askVersion() {
 }
 exports.askVersion = askVersion
 
+function bump() {
+  return gulp
+  .src( `*.json` )
+  .pipe( $.jsonEditor({version: newVersion}) )
+  .pipe( gulp.dest(`.`) )
+}
+
+const deploy = gulp.series(
+  askVersion,
+  bump,
+  buildProd,
+)
+
 gulp.task( `html`,        html )
 gulp.task( `css`,         css )
 gulp.task( `data`,        data )
@@ -503,3 +517,4 @@ gulp.task( `build`,       build )
 gulp.task( `build:prod`,  buildProd )
 gulp.task( `dev`,         dev )
 gulp.task( `watch`,       watch )
+gulp.task( `deploy`,      deploy )
