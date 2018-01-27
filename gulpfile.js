@@ -488,17 +488,34 @@ function askVersion() {
 }
 exports.askVersion = askVersion
 
+function checkoutMaster(done) {
+  $.git.checkout( `master`, done )
+}
+
 function bump() {
   return gulp
-  .src( `*.json` )
+  .src( [`package.json`, `manifest.json`] )
   .pipe( $.jsonEditor({version: newVersion}) )
   .pipe( gulp.dest(`.`) )
+  // .pipe( $.git.commit(`BUMP – to ${newVersion}`) )
+}
+
+const checkoutGhPage = done => $.git.checkout( `gh-pages`, done )
+
+function commitNewVersion() {
+  return gulp
+  .src( `dist/*.*` )
+  .pipe( $.git.commit(`DEPLOY – versions ${newVersion}`) )
+
 }
 
 const deploy = gulp.series(
+  checkoutMaster,
   askVersion,
   bump,
   buildProd,
+  checkoutGhPage,
+  commitNewVersion,
 )
 
 gulp.task( `html`,        html )
