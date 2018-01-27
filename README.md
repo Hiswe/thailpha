@@ -51,7 +51,9 @@ this apply to this webapp.
 - [node](http://nodejs.org/download/) >= 8.0.0
 - GraphicsMagick `brew install graphicsmagick`
 - [Allowing https on localhost](https://improveandrepeat.com/2016/09/allowing-self-signed-certificates-on-localhost-with-chrome-and-firefox/) with invalid certificates. (`chrome://flags/#allow-insecure-localhost` for chrome, add an exception for Firefox)
-- optional: [yarn](https://yarnpkg.com/en/) every `npm/npx` command can be replaced with `yarn`
+- optional: 
+  - [yarn](https://yarnpkg.com/en/) every `npm/npx` command can be replaced with `yarn`
+  - [git](https://git-scm.com/) and [git-lfs(https://git-lfs.github.com/)
 
 ### Building
 

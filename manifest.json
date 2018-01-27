@@ -1,6 +1,6 @@
 {
   "manifest_version": 2,
-  "version": "2.0.1",
+  "version": "3.0.0",
   "name": "Thailpha",
   "short_name": "Thailpha",
   "background_color": "#fff",
@@ -22,12 +22,11 @@
     "src": "touch-icon-ipad-retina.png",
     "sizes": "120x120",
     "type": "image/png"
-    }, {
-      "src": "touch-icon-web-app.png",
-      "sizes": "144x144",
-      "type": "image/png"
-    }, {
   }, {
+    "src": "touch-icon-web-app.png",
+    "sizes": "144x144",
+    "type": "image/png"
+  }, {}, {
     "src": "touch-icon-ipad-retina.png",
     "sizes": "152x152",
     "type": "image/png"

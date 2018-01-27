@@ -354,7 +354,6 @@ touchIcon.description = `resize favicon for different devices`
 //----- WEB MANIFEST
 
 const webManifest = () => {
-  console.log( {newVersion, version})
   return gulp
   .src( 'manifest.json' )
   .pipe( $.jsonEditor({name: appTitle, version: newVersion || version }) )
@@ -482,40 +481,22 @@ function askVersion() {
   ])
   .then( result => {
     newVersion = result.newVersion
-    console.log( result )
     return true
   })
 }
 exports.askVersion = askVersion
-
-function checkoutMaster(done) {
-  $.git.checkout( `master`, done )
-}
 
 function bump() {
   return gulp
   .src( [`package.json`, `manifest.json`] )
   .pipe( $.jsonEditor({version: newVersion}) )
   .pipe( gulp.dest(`.`) )
-  // .pipe( $.git.commit(`BUMP – to ${newVersion}`) )
 }
 
-const checkoutGhPage = done => $.git.checkout( `gh-pages`, done )
-
-function commitNewVersion() {
-  return gulp
-  .src( `dist/*.*` )
-  .pipe( $.git.commit(`DEPLOY – versions ${newVersion}`) )
-
-}
-
-const deploy = gulp.series(
-  checkoutMaster,
+const preRelease = gulp.series(
   askVersion,
   bump,
   buildProd,
-  checkoutGhPage,
-  commitNewVersion,
 )
 
 gulp.task( `html`,        html )
@@ -534,4 +515,5 @@ gulp.task( `build`,       build )
 gulp.task( `build:prod`,  buildProd )
 gulp.task( `dev`,         dev )
 gulp.task( `watch`,       watch )
-gulp.task( `deploy`,      deploy )
+gulp.task( `pre-release`, preRelease )
+gulp.task( `ask-version`, askVersion )

@@ -1,6 +1,6 @@
 {
   "name": "thailpha",
-  "version": "2.0.1",
+  "version": "3.0.0",
   "description": "Thai alphabet webapp",
   "author": "Yannick Aïvayan <yannick.aivayan@hiswe.net> (http://hiswe.net)",
   "main": "dist/index.html",
@@ -15,15 +15,14 @@
     "build:prod": "gulp build:prod --prod",
     "build:dev": "gulp build",
     "build:js": "gulp js",
-    "deploy": "npm run release",
+    "pre-release": "gulp pre-release",
     "dev": "gulp dev",
-    "release": "npm run build && gulp release",
+    "release": "npm run pre-release && node ./bin/release.js",
     "serve:prod": "ws --https --port 5000 --directory dist --spa index.html",
     "serve:dev": "ws --https --port 5000 --directory .tmp --spa index.html --log.format tiny",
     "serve:dev-no-https": "ws --port 4000 --directory .tmp --spa index.html --log.format tiny",
     "watch:prod": "npm run build:prod --prod && gulp watch --prod",
-    "watch:dev": "npm run build:dev && gulp watch",
-    "deploy": "gulp deploy --prod"
+    "watch:dev": "npm run build:dev && gulp watch"
   },
   "keywords": [
     "thai",
@@ -38,7 +37,8 @@
     "react-redux": "^5.0.6",
     "react-router-dom": "^4.2.2",
     "react-transition-group": "^2.2.0",
-    "redux": "^3.7.2"
+    "redux": "^3.7.2",
+    "shelljs": "^0.8.1"
   },
   "devDependencies": {
     "ansi-magenta": "^0.1.1",
@@ -61,7 +61,6 @@
     "gulp-cheerio": "^0.6.2",
     "gulp-cheerio-clean-svg": "git+https://github.com/Hiswe/gulp-cheerio-clean-svg",
     "gulp-define-module": "^0.1.1",
-    "gulp-git": "^2.5.1",
     "gulp-gzip": "^1.1.0",
     "gulp-if": "^2.0.2",
     "gulp-image-resize": "^0.13.0",
