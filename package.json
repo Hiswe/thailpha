@@ -10,24 +10,25 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npm run build && npm run serve",
+    "start": "npm run build:prod && npm run serve:prod",
     "doctoc": "doctoc README.md --github",
-    "build": "gulp buildProd --prod",
-    "build:prod": "npm run build --prod",
-    "build:dev": "gulp buildDev",
+    "build:prod": "gulp build:prod --prod",
+    "build:dev": "gulp build",
     "build:js": "gulp js",
     "deploy": "npm run release",
     "dev": "gulp dev",
     "release": "npm run build && gulp release",
-    "serve": "ws --https --port 5000 --directory public  --spa index.html",
-    "serve:dev": "http-server ./.tmp -p 3000 -o",
-    "watch": "gulp buildProd --prod && gulp watch --prod"
+    "serve:prod": "ws --https --port 5000 --directory dist --spa index.html",
+    "serve:dev": "ws --https --port 5000 --directory .tmp --spa index.html --log.format tiny",
+    "serve:dev-no-https": "ws --port 4000 --directory .tmp --spa index.html --log.format tiny",
+    "watch:prod": "npm run build:prod --prod && gulp watch --prod",
+    "watch:dev": "npm run build:dev && gulp watch"
   },
   "keywords": [
     "thai",
     "alphabet"
   ],
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "babel-preset-env": "^1.6.1",
     "crio": "^5.0.0",
@@ -50,6 +51,7 @@
     "beeper": "^1.1.1",
     "browser-sync": "^2.23.5",
     "connect-history-api-fallback": "^1.3.0",
+    "connect-logger": "^0.0.1",
     "csswring": "^6.0.1",
     "del": "^3.0.0",
     "doctoc": "^1.3.0",
@@ -70,15 +72,14 @@
     "gulp-rename": "^1.2.0",
     "gulp-size": "^3.0.0",
     "gulp-sourcemaps": "^2.6.1",
-    "gulp-strip-debug": "^2.0.0",
     "gulp-stylus": "^2.0.0",
     "gulp-svg-symbols": "^3.0.0",
-    "gulp-uglify-es": "^1.0.0",
     "lazypipe": "^1.0.1",
     "local-web-server": "^2.3.1",
     "merge-stream": "^1.0.1",
     "uglifyjs-webpack-plugin": "^1.1.6",
     "webpack": "^3.6.0",
+    "workbox-build": "^2.1.2",
     "yargs": "^10.1.1"
   }
 }

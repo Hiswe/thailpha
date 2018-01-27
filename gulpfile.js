@@ -12,17 +12,14 @@ const webpack     = require( `webpack` )
 const magenta     = require( `ansi-magenta` )
 const log         = require( `fancy-log` )
 const beeper      = require( `beeper` )
+const workbox     = require( `workbox-build` )
 
 const { reload }  = browserSync
 const env         = args.prod ? `production` : `development`
 const isDev       = env === `development`
 const isProd      = !isDev
 const bundler     = webpack( require(`./webpack.config.js`) )
-const dest        = {
-  prod: 'dist',
-  dev:  '.tmp',
-};
-const buildDir    = isDev ? '.tmp' : 'public'
+const buildDir    = isDev ? '.tmp' : 'dist'
 
 log( 'environment is', magenta(env) )
 
@@ -56,16 +53,26 @@ const jsApp = done => {
 }
 jsApp.description = `bundle the JS front application`
 
-//----- SERVICE WORKER
+//----- WORKBOX
 
-const serviceWorker = () => {
-  return gulp
-  .src( './js/thailpha-service-worker.js' )
-  .pipe( $.if(isProd, $.stripDebug()) )
-  .pipe( $.if(isProd, $.uglifyEs.default()) )
-  .pipe( gulp.dest( buildDir ) )
+// all options are listed here
+// https://developers.google.com/web/tools/workbox/reference-docs/latest/module-workbox-build#.Configuration
+function workboxSW() {
+  return workbox.generateSW({
+    globDirectory:    buildDir,
+    globPatterns:     ['**\/*.{html,js,css,png,svg,json}'],
+    swDest:           `${buildDir}/thailpha-workbox-sw.js`,
+    cacheId:          `thailpha-cache-workbox-v2`,
+    navigateFallback: `/index.html`,
+    navigateFallbackWhitelist: [
+      /\/(vowels|numbers|about|search|char\/)/,
+    ],
+    // this is for allowing thailpha-lib.js in dev
+    maximumFileSizeToCacheInBytes: isDev ? 5000000 : 2097152,
+  }).catch( error  => console.warn('Service worker generation failed: ' + error) )
+
 }
-jsApp.description = `bundle service-worker script`
+workboxSW.description = `generate the service worker using workbox`
 
 //----- DATA DICTIONNARY
 
@@ -189,9 +196,9 @@ data.description = `update Thai dictionary to be consummable by the JS front app
 
 const js = gulp.series(
   data,
-  gulp.parallel( jsApp, serviceWorker )
+  jsApp
 )
-js.description = `build every JS files`
+js.description = `build JS files`
 
 ////////
 // CSS
@@ -267,7 +274,7 @@ const characters = () => {
     templates: svgTemplates,
   }) )
   .pipe( $.rename({basename: `svg-chars`}) )
-  .pipe( $.if( /[.]svg$/, gulp.dest(`public`)) )
+  .pipe( $.if( /[.]svg$/, gulp.dest(`dist`)) )
   .pipe( $.if( /[.]svg$/, gulp.dest(`.tmp`)) )
   .pipe( $.if( /[.]html$/, gulp.dest('.tmp')) )
   .pipe( $.if( /[.]css$/, gulp.dest(`css`)) )
@@ -373,8 +380,8 @@ html.description = `build index.html`
 // MISC
 ////////
 
-const clean = () => del(['public/*'])
-clean.description = `clean everything in the production (public) folder`
+const clean = () => del( `${buildDir}/*` )
+clean.description = `clean everything in the destination folder`
 
 ////////
 // DEV
@@ -386,16 +393,23 @@ const showBundleSize = () => {
   .pipe( $.size({gzip: true, showFiles: true}) )
 }
 
-const buildDev  = gulp.series(
+const build = gulp.series(
+  clean,
   // assets first for css to include the right SVG files
   assets,
-  gulp.parallel( js, css, html )
+  gulp.parallel( js, css, html ),
+  workboxSW
 )
-buildDev.description = `build everything (dev)`
-const buildProd = gulp.series( clean, buildDev, showBundleSize)
+build.description = `build everything (--prod for prod ^^)`
+
+const buildProd = gulp.series(
+  build,
+  showBundleSize
+)
 buildProd.description = `build everything (prod)`
 
-const historyFallback = require( 'connect-history-api-fallback' )
+const connectLogger   = require( `connect-logger` )
+const historyFallback = require( `connect-history-api-fallback` )
 const bs = () => {
   return browserSync.init({
     open: false,
@@ -404,6 +418,7 @@ const bs = () => {
       index:    `index.html`,
       https:    true,
       middleware: [
+        connectLogger(),
         // Fallback to index.html for applications that are using the HTML 5 history API
         historyFallback(),
       ],
@@ -440,7 +455,7 @@ const bsAndWatch = () => {
 }
 
 const dev = args.build === false ? bsAndWatch() :
-  gulp.series( buildDev, bsAndWatch )
+  gulp.series( build, bsAndWatch )
 dev.description = `build, watch & launch a dev server`
 
 gulp.task( `html`,        html )
@@ -448,12 +463,13 @@ gulp.task( `css`,         css )
 gulp.task( `data`,        data )
 gulp.task( `js`,          js )
 gulp.task( `js:app`,      jsApp )
+gulp.task( `js:workbox`,  workboxSW )
 gulp.task( `characters`,  characters )
 gulp.task( `icons`,       icons )
 gulp.task( `touch-icon`,  touchIcon )
 gulp.task( `assets`,      assets )
 gulp.task( `clean`,       clean )
-gulp.task( `buildDev`,    buildDev )
-gulp.task( `buildProd`,   buildProd )
+gulp.task( `build`,       build )
+gulp.task( `build:prod`,  buildProd )
 gulp.task( `dev`,         dev )
 gulp.task( `watch`,       watch )

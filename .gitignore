@@ -2,7 +2,6 @@
 .DS_Store
 npm-debug.log
 yarn-error.log
-/public/*
-!/public/.surgeignore
+/dist/*
 /.tmp
 /js/models

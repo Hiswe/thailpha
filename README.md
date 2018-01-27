@@ -16,7 +16,8 @@
       - [dev static server](#dev-static-server)
       - [watching and recompiling](#watching-and-recompiling)
       - [all other commands](#all-other-commands)
-- [resources](#resources)
+    - [powered by](#powered-by)
+    - [resources](#resources)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -49,13 +50,14 @@ this apply to this webapp.
 
 - [node](http://nodejs.org/download/) >= 8.0.0
 - GraphicsMagick `brew install graphicsmagick`
+- [Allowing https on localhost](https://improveandrepeat.com/2016/09/allowing-self-signed-certificates-on-localhost-with-chrome-and-firefox/) with invalid certificates. (`chrome://flags/#allow-insecure-localhost` for chrome, add an exception for Firefox)
+- optional: [yarn](https://yarnpkg.com/en/) every `npm/npx` command can be replaced with `yarn`
 
 ### Building
 
 ```sh
 npm install
-npm run build
-open public/index.html
+npm start
 ```
 
 all will be in the **dist** folder
@@ -113,6 +115,16 @@ run a command (js for example)
 npx gulp js
 ```
 
-# resources
+### powered by
 
-- https://dev.myscript.com/
+- [nodeJs](https://nodejs.org/en/)
+- [gulp](https://gulpjs.com/)
+- [webpack](https://webpack.js.org/)
+- [react](https://reactjs.org/)
+- [redux](https://redux.js.org/)
+- [crio](https://github.com/planttheidea/crio)
+- [workbox](https://developers.google.com/web/tools/workbox/)
+
+### resources
+
+- write recognition https://dev.myscript.com/
