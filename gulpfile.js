@@ -13,8 +13,10 @@ const magenta     = require( `ansi-magenta` )
 const log         = require( `fancy-log` )
 const beeper      = require( `beeper` )
 const workbox     = require( `workbox-build` )
+const inquirer    = require( `inquirer` )
 
 const { version } = require( `./package.json` )
+let newVersion    = false
 const { reload }  = browserSync
 const env         = args.prod ? `production` : `development`
 const isDev       = env === `development`
@@ -463,6 +465,27 @@ const bsAndWatch = () => {
 const dev = args.build === false ? bsAndWatch() :
   gulp.series( build, bsAndWatch )
 dev.description = `build, watch & launch a dev server`
+
+////////
+// DEPLOY
+////////
+
+function askVersion() {
+  return inquirer
+  .prompt([
+    {
+      name:     `newVersion`,
+      message:  `version number? (actual is ${version})`,
+      validate: value => /\d+\.\d+\.\d+/.test(value),
+    }
+  ])
+  .then( result => {
+    newVersion = result.newVersion
+    console.log( result )
+    return true
+  })
+}
+exports.askVersion = askVersion
 
 gulp.task( `html`,        html )
 gulp.task( `css`,         css )
