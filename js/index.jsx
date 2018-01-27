@@ -60,7 +60,7 @@ render(
   if (!`serviceWorker` in navigator) return
   navigator
   .serviceWorker
-  .register( '/thailpha-workbox-sw.js' )
+  .register( '/thailpha-sw.js' )
   .then( reg  => {
     reg.addEventListener( 'updatefound', () => {
       console.log( 'updatefound' )

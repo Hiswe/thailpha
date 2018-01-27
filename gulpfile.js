@@ -61,8 +61,8 @@ function workboxSW() {
   return workbox.generateSW({
     globDirectory:    buildDir,
     globPatterns:     ['**\/*.{html,js,css,png,svg,json}'],
-    swDest:           `${buildDir}/thailpha-workbox-sw.js`,
-    cacheId:          `thailpha-cache-workbox-v2`,
+    swDest:           `${buildDir}/thailpha-sw.js`,
+    cacheId:          `thailpha-cache-v3`,
     navigateFallback: `/index.html`,
     navigateFallbackWhitelist: [
       /\/(vowels|numbers|about|search|char\/)/,
