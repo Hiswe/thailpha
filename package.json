@@ -63,6 +63,7 @@
     "gulp-gzip": "^1.1.0",
     "gulp-if": "^2.0.2",
     "gulp-image-resize": "^0.13.0",
+    "gulp-json-editor": "^2.2.1",
     "gulp-jsoncombine": "^1.0.2",
     "gulp-load-plugins": "^1.5.0",
     "gulp-plumber": "^1.2.0",

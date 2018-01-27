@@ -1,5 +1,4 @@
 doctype html
-- var isProd = env === 'production'
 html(lang="en")
   head
     meta(charset="utf-8")
@@ -19,7 +18,7 @@ html(lang="en")
 
     link(rel="manifest" href="/manifest.json")
 
-    title= isProd ? 'Thailpha' : 'Thailpha Dev'
+    title= appTitle
     link(rel="stylesheet" href="/thailpha.css")
 
   body

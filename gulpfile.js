@@ -14,10 +14,12 @@ const log         = require( `fancy-log` )
 const beeper      = require( `beeper` )
 const workbox     = require( `workbox-build` )
 
+const { version } = require( `./package.json` )
 const { reload }  = browserSync
 const env         = args.prod ? `production` : `development`
 const isDev       = env === `development`
 const isProd      = !isDev
+const appTitle    = isDev ? `Thailpha dev` : `Thailpha`
 const bundler     = webpack( require(`./webpack.config.js`) )
 const buildDir    = isDev ? '.tmp' : 'dist'
 
@@ -352,6 +354,7 @@ touchIcon.description = `resize favicon for different devices`
 const webManifest = () => {
   return gulp
   .src( 'manifest.json' )
+  .pipe( $.jsonEditor({name: appTitle, version}) )
   .pipe( gulp.dest(buildDir) )
 }
 webManifest.description = `copy the web manifest to the right place`
@@ -368,7 +371,10 @@ const html = () => {
   .src( 'html/index.pug' )
   .pipe( $.pug({
     pretty: isDev,
-    locals: { env }
+    locals: {
+      env,
+      appTitle,
+    }
   }) )
   .pipe( gulp.dest(buildDir) )
   .pipe( $.rename('200.html') )
@@ -467,6 +473,7 @@ gulp.task( `js:workbox`,  workboxSW )
 gulp.task( `characters`,  characters )
 gulp.task( `icons`,       icons )
 gulp.task( `touch-icon`,  touchIcon )
+gulp.task( `manifest`,    webManifest )
 gulp.task( `assets`,      assets )
 gulp.task( `clean`,       clean )
 gulp.task( `build`,       build )
