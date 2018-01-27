@@ -3,7 +3,7 @@
   "version": "2.0.1",
   "description": "Thai alphabet webapp",
   "author": "Yannick Aïvayan <yannick.aivayan@hiswe.net> (http://hiswe.net)",
-  "main": "public/index.html",
+  "main": "dist/index.html",
   "repository": "git://github.com/Hiswe/thailpha",
   "engines": {
     "node": "8.9.4"

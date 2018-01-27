@@ -8,7 +8,7 @@ const UglifyJSPlugin            = require( `uglifyjs-webpack-plugin` )
 const env       = args.prod ? `production` : `development`
 const isDev     = env === `development`
 const isProd    = !isDev
-const destPath  = path.resolve( __dirname, isDev ? `.tmp` : `public` )
+const destPath  = path.resolve( __dirname, isDev ? `.tmp` : `dist` )
 
 const entry   = {
   thailpha: `./js/index.jsx`,
