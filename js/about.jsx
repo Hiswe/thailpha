@@ -41,7 +41,7 @@ const About = ({version}) => {
         <dt className="about__topic">Share the app</dt>
         <dd className="about__detail">
           <p>The app can be shared with this link </p>
-          <a href="https://thailpha-9e56f.firebaseapp.com">https://thailpha-9e56f.firebaseapp.com</a>
+          <a href="https://hiswe.github.io/thailpha/">https://hiswe.github.io/thailpha/</a>
         </dd>
       </dl>
       <dl className="about__section">
