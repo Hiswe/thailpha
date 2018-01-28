@@ -357,7 +357,16 @@ touchIcon.description = `resize favicon for different devices`
 const webManifest = () => {
   return gulp
   .src( 'manifest.json' )
-  .pipe( $.jsonEditor({name: bc.appTitle, version: newVersion || version }) )
+  .pipe( $.jsonEditor( json => {
+    json.name       = bc.appTitle
+    json.version    = newVersion || version
+    json.start_url  = `${bc.BASE_URL}${json.start_url}`
+    json.icons      = json.icons.map( icon => {
+      icon.src = `${bc.BASE_URL}${icon.src}`
+      return icon
+    })
+    return json
+  }) )
   .pipe( gulp.dest(bc.buildDir) )
 }
 webManifest.description = `copy the web manifest to the right place`
@@ -369,21 +378,26 @@ assets.description = `build every assets`
 // HTML
 ////////
 
-const html = () => {
+function pug() {
   return gulp
-  .src( 'html/index.pug' )
+  .src( `html/index.pug` )
   .pipe( $.pug({
     pretty: bc.isDev,
     locals: {
-      env:      bc.env,
-      appTitle: bc.appTitle,
-      BASE_URL: bc.BASE_URL,
+      env:        bc.env,
+      isRelease:  bc.isRelease,
+      appTitle:   bc.appTitle,
+      BASE_URL:   bc.BASE_URL,
     }
   }) )
   .pipe( gulp.dest(bc.buildDir) )
-  .pipe( $.rename('200.html') )
+}
+function page404() {
+  return gulp
+  .src( `html/404.html` )
   .pipe( gulp.dest(bc.buildDir) )
 }
+const html = bc.isRelease ? gulp.parallel(pug, page404) : pug
 html.description = `build index.html`
 
 ////////
@@ -469,7 +483,7 @@ const dev = bc.skipBuild ? bsAndWatch() :
 dev.description = `build, watch & launch a dev server`
 
 ////////
-// DEPLOY
+// RELEASE
 ////////
 
 function askVersion() {

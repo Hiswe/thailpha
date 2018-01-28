@@ -41,7 +41,7 @@ shell.echo( shell.exec( `git branch`, {silent: true}).grep(/^\*/).stdout )
 shell.exec( `git add .`, {silent: true} )
 shell.exec( `git commit -m "RELEASE – version ${version}"`, {silent: true} )
 shell.echo( `pushing to gh-pages…` )
-const ghPagePush = shell.exec( `git push origin gh-pages`, {silent: true} )
+const ghPagePush = shell.exec( `git push origin gh-pages --force`, {silent: true} )
 if ( ghPagePush.code !== 0 ) {
   shell.echo('Error: Git push failed')
   shell.echo(ghPagePush.stderr)

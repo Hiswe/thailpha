@@ -1,6 +1,6 @@
 {
   "manifest_version": 2,
-  "version": "3.0.2",
+  "version": "3.0.3",
   "name": "Thailpha",
   "short_name": "Thailpha",
   "background_color": "#fff",
@@ -11,31 +11,31 @@
   "start_url": "/index.html?utm_source=homescreen",
   "orientation": "any",
   "icons": [{
-    "src": "touch-icon-icon-iphone.png",
+    "src": "/touch-icon-icon-iphone.png",
     "sizes": "57x57",
     "type": "image/png"
   }, {
-    "src": "touch-icon-icon-ipad.png",
+    "src": "/touch-icon-icon-ipad.png",
     "sizes": "76x76",
     "type": "image/png"
   }, {
-    "src": "touch-icon-ipad-retina.png",
+    "src": "/touch-icon-ipad-retina.png",
     "sizes": "120x120",
     "type": "image/png"
   }, {
-    "src": "touch-icon-web-app.png",
+    "src": "/touch-icon-web-app.png",
     "sizes": "144x144",
     "type": "image/png"
-  }, {}, {
-    "src": "touch-icon-ipad-retina.png",
+  }, {
+    "src": "/touch-icon-ipad-retina.png",
     "sizes": "152x152",
     "type": "image/png"
   }, {
-    "src": "touch-icon-iphone-6-plus.png",
+    "src": "/touch-icon-iphone-6-plus.png",
     "sizes": "180x180",
     "type": "image/png"
   }, {
-    "src": "launcher-icon-touch-icon-4x.png",
+    "src": "/launcher-icon-touch-icon-4x.png",
     "sizes": "192x192",
     "type": "image/png"
   }]

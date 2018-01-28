@@ -27,19 +27,19 @@ const App = props => {
         <CSSTransition key={window.location.pathname} timeout={timeout} classNames="fade" appear>
           {/* warning! check service-worker.js if adding or removing routes */}
           <Switch>
-            <Route exact path="/" component={ Consonnants } />
-            <Route path="/vowels" component={ Vowels } />
-            <Route path="/numbers" component={ Numbers } />
-            <Route path="/about" component={ About } />
-            <Route path="/search" component={ Search } />
-            <Route path="/char/:longId" component={ CharDetail } />
-            <Redirect to="/" />
+            <Route exact path={`${BASE_URL}/`} component={ Consonnants } />
+            <Route path={`${BASE_URL}/vowels`} component={ Vowels } />
+            <Route path={`${BASE_URL}/numbers`} component={ Numbers } />
+            <Route path={`${BASE_URL}/about`} component={ About } />
+            <Route path={`${BASE_URL}/search`} component={ Search } />
+            <Route path={`${BASE_URL}/char/:longId`} component={ CharDetail } />
+            <Redirect to={`${BASE_URL}/`} />
           </Switch>
 
         </CSSTransition>
       </TransitionGroup>
 
-      <Route path="/" component={ MainNav } />
+      <Route path={`${BASE_URL}/`} component={ MainNav } />
 
     </div>
   )
