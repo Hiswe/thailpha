@@ -1,6 +1,6 @@
 {
   "name": "thailpha",
-  "version": "3.0.0",
+  "version": "3.0.2",
   "description": "Thai alphabet webapp",
   "author": "Yannick Aïvayan <yannick.aivayan@hiswe.net> (http://hiswe.net)",
   "main": "dist/index.html",

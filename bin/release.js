@@ -40,10 +40,26 @@ shell.echo( shell.exec( `git branch`, {silent: true}).grep(/^\*/).stdout )
 // commits
 shell.exec( `git add .`, {silent: true} )
 shell.exec( `git commit -m "RELEASE – version ${version}"`, {silent: true} )
-shell.exec( `git push origin gh-pages`, {silent: true} )
+shell.echo( `pushing to gh-pages…` )
+const ghPagePush = shell.exec( `git push origin gh-pages`, {silent: true} )
+if ( ghPagePush.code !== 0 ) {
+  shell.echo('Error: Git push failed')
+  shell.echo(ghPagePush.stderr)
+  shell.exit(1)
+} else {
+  shell.echo( `…push done!` )
+}
 // tags
+shell.echo( `tagging version…` )
 shell.exec( `git tag v${version}`, {silent: true} )
-shell.exec( `git push --tags`, {silent: true} )
+const tagPush = shell.exec( `git push --tags`, {silent: true} )
+if ( tagPush.code !== 0 ) {
+  shell.echo('Error: Git tag push failed')
+  shell.echo(tagPush.stderr)
+  shell.exit(1)
+} else {
+  shell.echo( `…tag push done!` )
+}
 
 // TEARDOW
 shell.cd( originalDir )
