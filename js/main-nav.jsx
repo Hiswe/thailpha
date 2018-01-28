@@ -7,23 +7,23 @@ const MainNav = props => {
 
   return (
     <nav className="main-nav">
-      <NavLink to="/" exact={true} activeClassName="is-active" className="main-nav__btn main-nav__btn--chars">
+      <NavLink to={`${BASE_URL}/`} exact={true} activeClassName="is-active" className="main-nav__btn main-nav__btn--chars">
         consonants
       </NavLink>
 
-      <NavLink to="/vowels" activeClassName="is-active" className="main-nav__btn main-nav__btn--chars">
+      <NavLink to={`${BASE_URL}/vowels`} activeClassName="is-active" className="main-nav__btn main-nav__btn--chars">
         vowels
       </NavLink>
 
-      <NavLink to="/numbers" activeClassName="is-active" className="main-nav__btn main-nav__btn--chars">
+      <NavLink to={`${BASE_URL}/numbers`} activeClassName="is-active" className="main-nav__btn main-nav__btn--chars">
         numbers
       </NavLink>
 
-      <NavLink to="/search" activeClassName="is-active" className="main-nav__btn  ">
+      <NavLink to={`${BASE_URL}/search`} activeClassName="is-active" className="main-nav__btn  ">
         <Icon svgId="search" />
       </NavLink>
 
-      <NavLink to="/about" activeClassName="is-active" className="main-nav__btn">
+      <NavLink to={`${BASE_URL}/about`} activeClassName="is-active" className="main-nav__btn">
         <Icon svgId="info-outline" />
       </NavLink>
 

@@ -72,7 +72,7 @@ const SimilarChar = ({char}) => {
   return (
     <tr className="letter-similar__row">
       <td className="letter-similar__col thai-letter thai-letter--similar">
-        <Link to={ `/char/${ char.longId }` }>
+        <Link to={ `${BASE_URL}/char/${ char.longId }` }>
           <Char svgId={char.longId} />
         </Link>
       </td>

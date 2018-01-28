@@ -12,7 +12,7 @@ const About = ({version}) => {
         <dd className="about__detail">
           <p>All information are provided by: </p>
           <ul>
-            <li><a href="http://en.wikipedia.org/wiki/Thai_alphabet" target="_blank" className="link">wikipedia</a></li>
+            <li><a href="https://en.wikipedia.org/wiki/Thai_alphabet" target="_blank" className="link">wikipedia</a></li>
             <li><a href="http://thai-language.com" target="_blank" className="link">thai-language.com</a> (mainly for the <a href="http://thai-language.com/ref/vowels" target="_blank" className="link">vowels</a>)</li>
           </ul>
           <p>About transcription from Thai char to latin char:</p>

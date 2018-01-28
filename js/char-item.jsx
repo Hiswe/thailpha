@@ -12,7 +12,7 @@ const CharItem = props => {
 
   return (
     <li className={wrapperClasses}>
-      <Link to={`/char/${props.longId}`} className="char-section__item-link" >
+      <Link to={`${BASE_URL}/char/${props.longId}`} className="char-section__item-link" >
         <p className="preview-list-item-rtgs">{props.rtgs}</p>
         <p className={letterClasses}>
           <Char svgId={props.longId} />
