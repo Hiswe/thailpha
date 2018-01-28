@@ -34,7 +34,7 @@ shell.cd( copydir )
 
 shell.echo( `checking out gh-pages` )
 shell.exec( `git checkout gh-pages -f`, {silent: true})
-shell.echo( shell.exec( `git branch`, {silent: true}).grep(/^\*/).stdout )
+// shell.echo( shell.exec( `git branch`, {silent: true}).grep(/^\*/).stdout )
 
 // GIT
 // commits
