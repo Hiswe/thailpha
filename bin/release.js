@@ -24,6 +24,11 @@ const copydir     = shell.exec(`mktemp -d /tmp/thailpha.XXX`, {silent: true})
 // stdout come with a linebreak. Remove it for better path joining
 const copydirPath = copydir.stdout.replace('\n', '')
 
+const teardown = () => {
+  shell.cd( originalDir )
+  shell.rm( `-Rf`, copydir )
+}
+
 shell.echo( `temp dir will be created at: ${copydirPath}`)
 
 shell.echo( `begin copy…` )
@@ -45,6 +50,7 @@ const ghPagePush = shell.exec( `git push origin gh-pages --force`, {silent: true
 if ( ghPagePush.code !== 0 ) {
   shell.echo('Error: Git push failed')
   shell.echo(ghPagePush.stderr)
+  teardown()
   shell.exit(1)
 } else {
   shell.echo( `…push done!` )
@@ -56,11 +62,11 @@ const tagPush = shell.exec( `git push --tags`, {silent: true} )
 if ( tagPush.code !== 0 ) {
   shell.echo('Error: Git tag push failed')
   shell.echo(tagPush.stderr)
+  teardown()
   shell.exit(1)
 } else {
   shell.echo( `…tag push done!` )
 }
 
 // TEARDOW
-shell.cd( originalDir )
-shell.rm( `-Rf`, copydir )
+teardown()
