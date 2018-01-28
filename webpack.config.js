@@ -1,21 +1,17 @@
 `use strict`
 
-const path                      = require( `path` )
-const webpack                   = require( `webpack` )
-const args                      = require( `yargs` ).argv
-const UglifyJSPlugin            = require( `uglifyjs-webpack-plugin` )
+const path            = require( `path` )
+const webpack         = require( `webpack` )
+const UglifyJSPlugin  = require( `uglifyjs-webpack-plugin` )
 
-const env       = args.prod ? `production` : `development`
-const isDev     = env === `development`
-const isProd    = !isDev
-const destPath  = path.resolve( __dirname, isDev ? `.tmp` : `dist` )
+const bc            = require( `./build-config` )
 
 const entry   = {
   thailpha: `./js/index.jsx`,
 }
 const output  = {
   filename: `[name].js`,
-  path:     destPath,
+  path:     bc.buildPath,
 }
 const plugins = [
   // https://webpack.js.org/plugins/commons-chunk-plugin/#passing-the-minchunks-property-a-function
@@ -24,15 +20,14 @@ const plugins = [
     filename: `thailpha-lib.js`,
     minChunks: m => m.context && m.context.indexOf( `node_modules` ) !== -1
   }),
+  new webpack.DefinePlugin({
+    'process.env.NODE_ENV': JSON.stringify( bc.env ),
+    'BASE_URL':             JSON.stringify( bc.BASE_URL ),
+  })
 ]
 
-if ( isProd ) {
+if ( bc.isProd ) {
   plugins.push( new UglifyJSPlugin() )
-  plugins.push( new webpack.DefinePlugin({
-    'process.env': {
-      'NODE_ENV': JSON.stringify('production')
-    }
-  }) )
 }
 
 const rules = [

@@ -1,7 +1,6 @@
 'use strict'
 
 const fs          = require( `fs` )
-const args        = require( `yargs` ).argv
 const del         = require( `del` )
 const mergeStream = require( `merge-stream` )
 const gulp        = require( `gulp` )
@@ -15,17 +14,13 @@ const beeper      = require( `beeper` )
 const workbox     = require( `workbox-build` )
 const inquirer    = require( `inquirer` )
 
+const bc          = require( `./build-config` )
 const { version } = require( `./package.json` )
 let newVersion    = false
 const { reload }  = browserSync
-const env         = args.prod ? `production` : `development`
-const isDev       = env === `development`
-const isProd      = !isDev
-const appTitle    = isDev ? `Thailpha dev` : `Thailpha`
 const bundler     = webpack( require(`./webpack.config.js`) )
-const buildDir    = isDev ? '.tmp' : 'dist'
 
-log( 'environment is', magenta(env) )
+log( 'environment is', magenta(bc.env) )
 
 ////////
 // MISC
@@ -63,16 +58,16 @@ jsApp.description = `bundle the JS front application`
 // https://developers.google.com/web/tools/workbox/reference-docs/latest/module-workbox-build#.Configuration
 function workboxSW() {
   return workbox.generateSW({
-    globDirectory:    buildDir,
+    globDirectory:    bc.buildDir,
     globPatterns:     ['**\/*.{html,js,css,png,svg,json}'],
-    swDest:           `${buildDir}/thailpha-sw.js`,
+    swDest:           `${bc.buildDir}/thailpha-sw.js`,
     cacheId:          `thailpha-cache-v3`,
     navigateFallback: `/index.html`,
     navigateFallbackWhitelist: [
       /\/(vowels|numbers|about|search|char\/)/,
     ],
     // this is for allowing thailpha-lib.js in dev
-    maximumFileSizeToCacheInBytes: isDev ? 5000000 : 2097152,
+    maximumFileSizeToCacheInBytes: bc.isDev ? 5000000 : 2097152,
   }).catch( error  => console.warn('Service worker generation failed: ' + error) )
 
 }
@@ -225,16 +220,16 @@ const css = () => {
   .pipe( $.stylus({
     'include css': true,
     define: {
-      isProd: isProd,
+      isProd: bc.isProd,
     }
   }) )
   .pipe( $.postcss([
     autoprefixer(),
   ]) )
   .pipe( $.sourcemaps.write() )
-  .pipe( $.if(isProd, cssProd()) )
+  .pipe( $.if(bc.isProd, cssProd()) )
   .pipe( $.rename( 'thailpha.css' ) )
-  .pipe( gulp.dest(buildDir) )
+  .pipe( gulp.dest(bc.buildDir) )
   .pipe( reload({stream: true}) )
 }
 css.description = `build css files (from stylus)`
@@ -278,8 +273,7 @@ const characters = () => {
     templates: svgTemplates,
   }) )
   .pipe( $.rename({basename: `svg-chars`}) )
-  .pipe( $.if( /[.]svg$/, gulp.dest(`dist`)) )
-  .pipe( $.if( /[.]svg$/, gulp.dest(`.tmp`)) )
+  .pipe( $.if( /[.]svg$/, gulp.dest(bc.buildDir)) )
   .pipe( $.if( /[.]html$/, gulp.dest('.tmp')) )
   .pipe( $.if( /[.]css$/, gulp.dest(`css`)) )
 }
@@ -324,30 +318,29 @@ icons.description = `bundle SVG files`
 
 const touchIcon = () => {
   const basename    = 'touch-icon'
-  const iconSource  = isProd ? 'data/ios.png' : 'data/ios-dev.png'
   return gulp
-  .src( iconSource )
+  .src( bc.iconSource )
   .pipe( $.imageResize({width: 192, height: 192, upscale: true}) )
   .pipe( $.rename( path =>  path.basename = `launcher-icon-${basename}-4x` ) )
-  .pipe( gulp.dest(buildDir) )
+  .pipe( gulp.dest(bc.buildDir) )
   .pipe( $.imageResize({width: 180, height: 180, upscale: true}) )
   .pipe( $.rename( path =>  path.basename = `${basename}-iphone-6-plus` ) )
-  .pipe( gulp.dest(buildDir) )
+  .pipe( gulp.dest(bc.buildDir) )
   .pipe( $.imageResize({width: 152, height: 152, upscale: true}) )
   .pipe( $.rename( path =>  path.basename = `${basename}-ipad-retina` ) )
-  .pipe( gulp.dest(buildDir) )
+  .pipe( gulp.dest(bc.buildDir) )
   .pipe( $.imageResize({width: 144, height: 144, upscale: true}) )
   .pipe( $.rename( path =>  path.basename = `${basename}-web-app` ) )
-  .pipe( gulp.dest(buildDir) )
+  .pipe( gulp.dest(bc.buildDir) )
   .pipe( $.imageResize({width: 120, height: 120, upscale: true}) )
   .pipe( $.rename( path =>  path.basename = `${basename}-iphone-retina` ) )
-  .pipe( gulp.dest(buildDir) )
+  .pipe( gulp.dest(bc.buildDir) )
   .pipe( $.imageResize({width: 76, height: 76, upscale: true}) )
   .pipe( $.rename( path =>  path.basename = `${basename}-icon-ipad` ) )
-  .pipe( gulp.dest(buildDir) )
+  .pipe( gulp.dest(bc.buildDir) )
   .pipe( $.imageResize({width: 57, height: 57, upscale: true}) )
   .pipe( $.rename( path =>  path.basename = `${basename}-icon-iphone` ) )
-  .pipe( gulp.dest(buildDir) )
+  .pipe( gulp.dest(bc.buildDir) )
 }
 touchIcon.description = `resize favicon for different devices`
 
@@ -356,8 +349,8 @@ touchIcon.description = `resize favicon for different devices`
 const webManifest = () => {
   return gulp
   .src( 'manifest.json' )
-  .pipe( $.jsonEditor({name: appTitle, version: newVersion || version }) )
-  .pipe( gulp.dest(buildDir) )
+  .pipe( $.jsonEditor({name: bc.appTitle, version: newVersion || version }) )
+  .pipe( gulp.dest(bc.buildDir) )
 }
 webManifest.description = `copy the web manifest to the right place`
 
@@ -372,15 +365,16 @@ const html = () => {
   return gulp
   .src( 'html/index.pug' )
   .pipe( $.pug({
-    pretty: isDev,
+    pretty: bc.isDev,
     locals: {
-      env,
-      appTitle,
+      env:      bc.env,
+      appTitle: bc.appTitle,
+      BASE_URL: bc.BASE_URL,
     }
   }) )
-  .pipe( gulp.dest(buildDir) )
+  .pipe( gulp.dest(bc.buildDir) )
   .pipe( $.rename('200.html') )
-  .pipe( gulp.dest(buildDir) )
+  .pipe( gulp.dest(bc.buildDir) )
 }
 html.description = `build index.html`
 
@@ -388,7 +382,7 @@ html.description = `build index.html`
 // MISC
 ////////
 
-const clean = () => del( `${buildDir}/*` )
+const clean = () => del( `${bc.buildDir}/*` )
 clean.description = `clean everything in the destination folder`
 
 ////////
@@ -397,7 +391,7 @@ clean.description = `clean everything in the destination folder`
 
 const showBundleSize = () => {
   return gulp
-  .src( [`${buildDir}/*.js`, `${buildDir}/*.css`] )
+  .src( [`${bc.buildDir}/*.js`, `${bc.buildDir}/*.css`] )
   .pipe( $.size({gzip: true, showFiles: true}) )
 }
 
@@ -422,7 +416,7 @@ const bs = () => {
   return browserSync.init({
     open: false,
     server: {
-      baseDir:  `./${buildDir}`,
+      baseDir:  `./${bc.buildDir}`,
       index:    `index.html`,
       https:    true,
       middleware: [
@@ -437,14 +431,14 @@ const bs = () => {
 let hash
 const watch = () => {
   gulp.watch( `manifest.json`,                    webManifest )
-  gulp.watch( `.tmp/manifest.json`,               reload )
+  gulp.watch( `${bc.buildDir}/manifest.json`,     reload )
   gulp.watch( `data/**/*.json`,                   data )
   gulp.watch( `css/**/*.styl`,                    css )
   gulp.watch( `html/*`,                           html )
   gulp.watch( `characters/*.svg`,                 characters )
   gulp.watch( `icons/*.svg`,                      icons )
   gulp.watch( `js/thailpha-service-worker.js`,    serviceWorker )
-  gulp.watch( `.tmp/thailpha-service-worker.js`,  reload )
+  gulp.watch( `${bc.buildDir}/thailpha-service-worker.js`, reload )
   bundler.watch( {}, (err, stats) => {
     if (err) return onError( err )
     const info = stats.toJson()
@@ -462,7 +456,7 @@ const bsAndWatch = () => {
   watch()
 }
 
-const dev = args.build === false ? bsAndWatch() :
+const dev = bc.skipBuild ? bsAndWatch() :
   gulp.series( build, bsAndWatch )
 dev.description = `build, watch & launch a dev server`
 
@@ -493,7 +487,7 @@ function bump() {
   .pipe( gulp.dest(`.`) )
 }
 
-const preRelease = gulp.series(
+const preRelease = bc.skipBump ? buildProd : gulp.series(
   askVersion,
   bump,
   buildProd,

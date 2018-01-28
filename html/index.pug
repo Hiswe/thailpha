@@ -6,23 +6,23 @@ html(lang="en")
     meta(name="mobile-web-app-capable", content="yes")
     meta(name="apple-mobile-web-app-capable", content="yes")
 
-    link(rel="icon" sizes="228x228" href="/touch-icon-iphone-6-plus.png")
+    link(rel="icon" sizes="228x228" href=`${BASE_URL}/touch-icon-iphone-6-plus.png`)
 
     meta(name="viewport" content="width=device-width")
 
-    link(rel="apple-touch-icon" href="/touch-icon-iphone.png")
-    link(rel="apple-touch-icon" sizes="76x76" href="/touch-icon-ipad.png")
-    link(rel="apple-touch-icon" sizes="120x120" href="/touch-icon-iphone-retina.png")
-    link(rel="apple-touch-icon" sizes="152x152" href="/touch-icon-ipad-retina.png")
-    link(rel="apple-touch-icon" sizes="180x180" href="/touch-icon-iphone-6-plus.png")
+    link(rel="apple-touch-icon" href=`${BASE_URL}/touch-icon-iphone.png`)
+    link(rel="apple-touch-icon" sizes="76x76" href=`${BASE_URL}/touch-icon-ipad.png`)
+    link(rel="apple-touch-icon" sizes="120x120" href=`${BASE_URL}/touch-icon-iphone-retina.png`)
+    link(rel="apple-touch-icon" sizes="152x152" href=`${BASE_URL}/touch-icon-ipad-retina.png`)
+    link(rel="apple-touch-icon" sizes="180x180" href=`${BASE_URL}/touch-icon-iphone-6-plus.png`)
 
-    link(rel="manifest" href="/manifest.json")
+    link(rel="manifest" href=`${BASE_URL}/manifest.json`)
 
     title= appTitle
-    link(rel="stylesheet" href="/thailpha.css")
+    link(rel="stylesheet" href=`${BASE_URL}/thailpha.css`)
 
   body
     include svg-icons.svg
     #main
-    script(src="/thailpha-lib.js")
-    script(src="/thailpha.js")
+    script(src=`${BASE_URL}/thailpha-lib.js`)
+    script(src=`${BASE_URL}/thailpha.js`)
