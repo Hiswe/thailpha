@@ -62,7 +62,15 @@ function workboxSW() {
     globPatterns:     ['**\/*.{html,js,css,png,svg,json}'],
     swDest:           `${bc.buildDir}/thailpha-sw.js`,
     cacheId:          `thailpha-cache-v3`,
-    navigateFallback: `/index.html`,
+    navigateFallback: `${bc.BASE_URL}/index.html`,
+    manifestTransforms: [
+      manifestEntries => {
+        return manifestEntries.map( entry => {
+          entry.url = `${bc.BASE_URL}/${entry.url}`
+          return entry
+        })
+      }
+    ],
     navigateFallbackWhitelist: [
       /\/(vowels|numbers|about|search|char\/)/,
     ],
