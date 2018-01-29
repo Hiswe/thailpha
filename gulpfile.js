@@ -66,7 +66,7 @@ function workboxSW() {
     manifestTransforms: [
       manifestEntries => {
         return manifestEntries.map( entry => {
-          entry.url = `${bc.BASE_URL}/${entry.url}`
+          if (bc.BASE_URL) entry.url = `${bc.BASE_URL}/${entry.url}`
           return entry
         })
       }
@@ -454,18 +454,23 @@ const bs = () => {
 let hash
 const watch = () => {
   gulp.watch( `manifest.json`,                    webManifest )
-  gulp.watch( `${bc.buildDir}/manifest.json`,     reload )
   gulp.watch( `data/**/*.json`,                   data )
   gulp.watch( `css/**/*.styl`,                    css )
   gulp.watch( `html/*`,                           html )
   gulp.watch( `characters/*.svg`,                 characters )
   gulp.watch( `icons/*.svg`,                      icons )
-  gulp.watch( `js/thailpha-service-worker.js`,    serviceWorker )
-  gulp.watch( `${bc.buildDir}/thailpha-service-worker.js`, reload )
+  gulp.watch( [
+    `${bc.buildDir}/*`,
+    `!${bc.buildDir}/workbox*`,
+    `!${bc.buildDir}/thailpha-sw.js`,
+    ],                                            workboxSW )
+  gulp.watch( `${bc.buildDir}/thailpha-sw.js`,    reload )
   bundler.watch( {}, (err, stats) => {
     if (err) return onError( err )
     const info = stats.toJson()
-    if ( stats.hasErrors() ) return info.errors.forEach( error => console.error(error) )
+    if ( stats.hasErrors() ) {
+      return info.errors.forEach( error => console.error(error) )
+    }
     if (hash !== stats.hash) {
       hash = stats.hash
       reload()

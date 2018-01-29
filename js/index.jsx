@@ -2,9 +2,6 @@ import React from 'react'
 import { render } from 'react-dom'
 import { BrowserRouter as Router, Route,  Redirect, Switch } from 'react-router-dom'
 import { Provider } from 'react-redux'
-import Transition from 'react-transition-group/Transition'
-import TransitionGroup from 'react-transition-group/TransitionGroup'
-import CSSTransition from 'react-transition-group/CSSTransition'
 
 import store from './state-container'
 import Consonnants from './consonants.jsx'
@@ -23,24 +20,17 @@ const timeout = { enter: 300, exit: 200 }
 const App = props => {
   return (
     <div id="app-wrapper">
-      <TransitionGroup>
-        <CSSTransition key={window.location.pathname} timeout={timeout} classNames="fade" appear>
-          {/* warning! check service-worker.js if adding or removing routes */}
-          <Switch>
-            <Route exact path={`${BASE_URL}/`} component={ Consonnants } />
-            <Route path={`${BASE_URL}/vowels`} component={ Vowels } />
-            <Route path={`${BASE_URL}/numbers`} component={ Numbers } />
-            <Route path={`${BASE_URL}/about`} component={ About } />
-            <Route path={`${BASE_URL}/search`} component={ Search } />
-            <Route path={`${BASE_URL}/char/:longId`} component={ CharDetail } />
-            <Redirect to={`${BASE_URL}/`} />
-          </Switch>
-
-        </CSSTransition>
-      </TransitionGroup>
-
+      {/* warning! check service-worker.js if adding or removing routes */}
+      <Switch>
+        <Route exact path={`${BASE_URL}/`} component={ Consonnants } />
+        <Route path={`${BASE_URL}/vowels`} component={ Vowels } />
+        <Route path={`${BASE_URL}/numbers`} component={ Numbers } />
+        <Route path={`${BASE_URL}/about`} component={ About } />
+        <Route path={`${BASE_URL}/search`} component={ Search } />
+        <Route path={`${BASE_URL}/char/:longId`} component={ CharDetail } />
+        <Redirect to={`${BASE_URL}/`} />
+      </Switch>
       <Route path={`${BASE_URL}/`} component={ MainNav } />
-
     </div>
   )
 }
