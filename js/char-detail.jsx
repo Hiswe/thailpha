@@ -118,6 +118,9 @@ class CharDetail extends Component {
 
   render() {
     const { char } = this.props
+    if ( !char ) return (
+      <p className="letter-not-found">character not found</p>
+    )
     let wrapperClasses = `letter-container`
     if ( char.hasVariant ) wrapperClasses = `${wrapperClasses} has-variant`
     if ( char.hasSimilar ) wrapperClasses = `${wrapperClasses} has-similar`
