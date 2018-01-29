@@ -7,5 +7,8 @@
     "initial": "w",
     "final": "w"
   },
-  "class": "low"
+  "class": "low",
+  "similar": [
+    "ds-3"
+  ]
 }

@@ -44,6 +44,17 @@
       "additional-info  letter"\
       "similar-hint     similar-hint";
     }
+    &.has-variant.has-similar {
+      grid-template-rows: $gutter var(--variant-height) 1fr 1fr var(--variant-height) $gutter 50px;
+      grid-template-areas:
+      "meaning          letter"\
+      "meaning          letter"\
+      "meaning          letter"\
+      "additional-info  letter"\
+      "additional-info  variant"\
+      "additional-info  gutter"\
+      "similar-hint     similar-hint";
+    }
   }
 }
 .thai-letter--principal {
