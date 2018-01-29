@@ -4,8 +4,9 @@ const shell = require( `shelljs` )
 const path  = require( `path` )
 const fs    = require( `fs` )
 
-const BRANCH      = `release`
 const { version } = require( `../package.json` )
+const bc          = require( `../build-config` )
+const BRANCH      = bc.isGhRelease ? `gh-pages` : `release`
 
 if ( !shell.which(`git`) ) {
   shell.echo( `Sorry, this script requires git` )
@@ -24,11 +25,15 @@ if (branchName !== `master`) {
 // DEPLOYING TO FIREBASE
 ////////
 
-const firebaseDeploy = shell.exec(`yarn run firebase deploy`, {silent: true})
-if ( firebaseDeploy.code !== 0 ) {
-  shell.echo( `Unable deploy to firebase` )
-  shell.echo( firebaseDeploy.stderr )
-  shell.exit( 1 )
+if ( !bc.isGhRelease ) {
+  shell.echo( `Deploying to firebase…` )
+  const firebaseDeploy = shell.exec(`yarn run firebase deploy`, {silent: true})
+  if ( firebaseDeploy.code !== 0 ) {
+    shell.echo( `Unable deploy to firebase` )
+    shell.echo( firebaseDeploy.stderr )
+    shell.exit( 1 )
+  }
+  shell.echo( `…deployed` )
 }
 
 ////////
@@ -91,7 +96,7 @@ shell.exec( `git commit -m "RELEASE – version ${version}"`, {silent: true} )
 
 //----- PUSHING THE FILES
 
-shell.echo( `pushing to gh-pages…` )
+shell.echo( `pushing to ${BRANCH}…` )
 const ghPagePush = shell.exec( `git push origin ${tmpBranchName}:${BRANCH} --force`, {silent: true} )
 if ( ghPagePush.code !== 0 ) {
   shell.echo( `Error: Git push failed` )
@@ -103,6 +108,11 @@ if ( ghPagePush.code !== 0 ) {
 }
 
 //----- TAGGING THE VERSION
+
+if ( bc.skipBump ) {
+  shell.echo( `Skipping pushing tag` )
+  shell.exit( 0 )
+}
 
 shell.echo( `tagging version…` )
 shell.exec( `git tag v${version}`, {silent: true} )

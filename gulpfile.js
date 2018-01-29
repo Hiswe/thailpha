@@ -384,11 +384,11 @@ function pug() {
   .pipe( $.pug({
     pretty: bc.isDev,
     locals: {
-      env:        bc.env,
-      isRelease:  bc.isRelease,
-      appTitle:   bc.appTitle,
-      BASE_URL:   bc.BASE_URL,
-      isGhpage:   bc.isGhpage,
+      env:          bc.env,
+      isRelease:    bc.isRelease,
+      isGhRelease:  bc.isGhRelease,
+      appTitle:     bc.appTitle,
+      BASE_URL:     bc.BASE_URL,
     }
   }) )
   .pipe( gulp.dest(bc.buildDir) )
@@ -398,7 +398,7 @@ function page404() {
   .src( `html/404.html` )
   .pipe( gulp.dest(bc.buildDir) )
 }
-const html = bc.isGhpage ? gulp.parallel(pug, page404) : pug
+const html = bc.isGhRelease ? gulp.parallel(pug, page404) : pug
 html.description = `build index.html`
 
 ////////
