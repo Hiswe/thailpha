@@ -6,7 +6,8 @@ const path = require( `path` )
 const isRelease   = args.release === true
 const buildDir    = isRelease ? `dist` : `public`
 const buildPath   = path.resolve( __dirname, buildDir )
-const BASE_URL    = isRelease ? `/thailpha` : ``
+// const BASE_URL    = isRelease ? `/thailpha` : ``
+const BASE_URL    = ``
 const isProd      = args.compress === true
 const isDev       = !isProd
 const env         = isProd ? `production` : `development`
@@ -27,5 +28,6 @@ module.exports = {
   skipBump,
   appTitle,
   iconSource,
+  isGhpage: false,
 }
 

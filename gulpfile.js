@@ -388,6 +388,7 @@ function pug() {
       isRelease:  bc.isRelease,
       appTitle:   bc.appTitle,
       BASE_URL:   bc.BASE_URL,
+      isGhpage:   bc.isGhpage,
     }
   }) )
   .pipe( gulp.dest(bc.buildDir) )
@@ -397,7 +398,7 @@ function page404() {
   .src( `html/404.html` )
   .pipe( gulp.dest(bc.buildDir) )
 }
-const html = bc.isRelease ? gulp.parallel(pug, page404) : pug
+const html = bc.isGhpage ? gulp.parallel(pug, page404) : pug
 html.description = `build index.html`
 
 ////////

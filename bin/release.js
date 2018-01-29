@@ -4,6 +4,7 @@ const shell = require( `shelljs` )
 const path  = require( `path` )
 const fs    = require( `fs` )
 
+const BRANCH      = `release`
 const { version } = require( `../package.json` )
 
 if ( !shell.which(`git`) ) {
@@ -16,6 +17,17 @@ const branchName    = currentBranch.stdout.replace( /[\*\n\s]/g, `` )
 
 if (branchName !== `master`) {
   shell.echo( `Sorry, you need to be on the master branch` )
+  shell.exit( 1 )
+}
+
+////////
+// DEPLOYING TO FIREBASE
+////////
+
+const firebaseDeploy = shell.exec(`yarn run firebase deploy`, {silent: true})
+if ( firebaseDeploy.code !== 0 ) {
+  shell.echo( `Unable deploy to firebase` )
+  shell.echo( firebaseDeploy.stderr )
   shell.exit( 1 )
 }
 
@@ -59,9 +71,9 @@ shell.cd( copydir )
 
 //----- SETTING A NEW BRANCH
 
-shell.echo( `checking out gh-pages` )
+shell.echo( `checking out ${BRANCH}` )
 
-const tmpBranchName = `gh-pages-${version}`
+const tmpBranchName = `${BRANCH}-${version}`
 
 // orphan branch for having a clean new branch
 const gitCheckout = shell.exec( `git checkout --orphan ${tmpBranchName} `, {silent: true})
@@ -80,7 +92,7 @@ shell.exec( `git commit -m "RELEASE – version ${version}"`, {silent: true} )
 //----- PUSHING THE FILES
 
 shell.echo( `pushing to gh-pages…` )
-const ghPagePush = shell.exec( `git push origin ${tmpBranchName}:gh-pages --force`, {silent: true} )
+const ghPagePush = shell.exec( `git push origin ${tmpBranchName}:${BRANCH} --force`, {silent: true} )
 if ( ghPagePush.code !== 0 ) {
   shell.echo( `Error: Git push failed` )
   shell.echo( ghPagePush.stderr )
