@@ -6,7 +6,7 @@ const path = require( `path` )
 const isRelease   = args.release === true
 const buildDir    = isRelease ? `dist` : `public`
 const buildPath   = path.resolve( __dirname, buildDir )
-const isGhRelease = args.dest === `github`
+const isGhRelease = args.dest !== `firebase`
 const BASE_URL    = isGhRelease ? `/thailpha` : ``
 const isProd      = args.compress === true
 const isDev       = !isProd

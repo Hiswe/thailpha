@@ -76,9 +76,8 @@ shell.cd( copydir )
 
 //----- SETTING A NEW BRANCH
 
-shell.echo( `checking out ${BRANCH}` )
-
 const tmpBranchName = `${BRANCH}-${version}`
+shell.echo( `checking out “${tmpBranchName}” branch` )
 
 // orphan branch for having a clean new branch
 const gitCheckout = shell.exec( `git checkout --orphan ${tmpBranchName} `, {silent: true})
@@ -96,7 +95,7 @@ shell.exec( `git commit -m "RELEASE – version ${version}"`, {silent: true} )
 
 //----- PUSHING THE FILES
 
-shell.echo( `pushing to ${BRANCH}…` )
+shell.echo( `pushing to “${BRANCH}” branch…` )
 const ghPagePush = shell.exec( `git push origin ${tmpBranchName}:${BRANCH} --force`, {silent: true} )
 if ( ghPagePush.code !== 0 ) {
   shell.echo( `Error: Git push failed` )
