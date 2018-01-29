@@ -79,8 +79,8 @@ const SimilarChar = ({char}) => {
         </Link>
       </td>
       <td className="letter-similar__col">{ char.rtgs }</td>
-      <td className="letter-similar__col">{ char.pronunciation.initial }</td>
-      <td className="letter-similar__col">{ char.pronunciation.final }</td>
+      <td className="letter-similar__col">{ char.pronunciation && char.pronunciation.initial }</td>
+      <td className="letter-similar__col">{ char.pronunciation && char.pronunciation.final }</td>
     </tr>
   )
 }
