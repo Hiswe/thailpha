@@ -27,7 +27,7 @@
     "release": "npm run pre-release && npm run deploy",
     "pre-release:firebase": "npm run pre-release -- --dest=firebase",
     "deploy:firebase": "npm run deploy -- --dest=firebase",
-    "release:no-bump:firebase": "npm run pre-release:firebase -- --no-bump && npm run deploy:firebase -- --no-bump"
+    "release:firebase:no-bump": "npm run pre-release:firebase -- --no-bump && npm run deploy:firebase -- --no-bump"
   },
   "keywords": [
     "thai",
