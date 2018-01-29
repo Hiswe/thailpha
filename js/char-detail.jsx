@@ -69,10 +69,12 @@ const SimilarHint = ({similar}) => {
 }
 
 const SimilarChar = ({char}) => {
+  const charUrl = { pathname: `${BASE_URL}/char/${ char.longId }`}
+  if ( IS_DEV ) charUrl.search = `?id=${char.id}`
   return (
     <tr className="letter-similar__row">
       <td className="letter-similar__col thai-letter thai-letter--similar">
-        <Link to={ `${BASE_URL}/char/${ char.longId }` }>
+        <Link to={ charUrl }>
           <Char svgId={char.longId} />
         </Link>
       </td>

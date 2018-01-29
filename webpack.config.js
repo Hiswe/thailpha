@@ -22,6 +22,7 @@ const plugins = [
   }),
   new webpack.DefinePlugin({
     'process.env.NODE_ENV': JSON.stringify( bc.env ),
+    'IS_DEV':               JSON.stringify( bc.isDev ),
     'BASE_URL':             JSON.stringify( bc.BASE_URL ),
   })
 ]
