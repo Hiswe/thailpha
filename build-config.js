@@ -3,14 +3,14 @@
 const args = require( `yargs` ).argv
 const path = require( `path` )
 
+const isProd      = args.compress === true
+const isDev       = !isProd
+const env         = isProd ? `production` : `development`
 const isRelease   = args.release === true
 const buildDir    = isRelease ? `dist` : `public`
 const buildPath   = path.resolve( __dirname, buildDir )
 const isGhRelease = args.dest !== `firebase`
-const BASE_URL    = isGhRelease ? `/thailpha` : ``
-const isProd      = args.compress === true
-const isDev       = !isProd
-const env         = isProd ? `production` : `development`
+const BASE_URL    = isProd && isGhRelease ? `/thailpha` : ``
 const skipBuild   = args.build === false
 const skipBump    = args.bump === false
 const appTitle    = `Thailpha${ isDev ? ' dev' : '' }`
