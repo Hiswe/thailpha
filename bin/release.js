@@ -6,7 +6,7 @@ const fs    = require( `fs` )
 
 const { version } = require( `../package.json` )
 const bc          = require( `../build-config` )
-const BRANCH      = bc.isGhRelease ? `gh-pages` : `release`
+const BRANCH      = bc.isGhRelease ? `gh-pages` : `firebase`
 
 if ( !shell.which(`git`) ) {
   shell.echo( `Sorry, this script requires git` )
