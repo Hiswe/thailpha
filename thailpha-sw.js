@@ -1,0 +1,85 @@
+importScripts('workbox-sw.prod.v2.1.2.js');
+
+/**
+ * DO NOT EDIT THE FILE MANIFEST ENTRY
+ *
+ * The method precache() does the following:
+ * 1. Cache URLs in the manifest to a local cache.
+ * 2. When a network request is made for any of these URLs the response
+ *    will ALWAYS comes from the cache, NEVER the network.
+ * 3. When the service worker changes ONLY assets with a revision change are
+ *    updated, old cache entries are left as is.
+ *
+ * By changing the file manifest manually, your users may end up not receiving
+ * new versions of files because the revision hasn't changed.
+ *
+ * Please use workbox-build or some other tool / approach to generate the file
+ * manifest which accounts for changes to local files and update the revision
+ * accordingly.
+ */
+const fileManifest = [
+  {
+    "url": "/thailpha/404.html",
+    "revision": "d405e178e163f345f1729cc0e68f36ce"
+  },
+  {
+    "url": "/thailpha/index.html",
+    "revision": "03d445fb8f02aa0340fbf46a4c31bf39"
+  },
+  {
+    "url": "/thailpha/launcher-icon-touch-icon-4x.png",
+    "revision": "0f6f272a359fbbd4ba8cdfdefcd5ecf9"
+  },
+  {
+    "url": "/thailpha/manifest.json",
+    "revision": "0bedb3b99443ddec29c4f9836079867f"
+  },
+  {
+    "url": "/thailpha/svg-chars.svg",
+    "revision": "007508ab021c2f9fdb3e9278fd8ac957"
+  },
+  {
+    "url": "/thailpha/thailpha-lib.js",
+    "revision": "01dbc2fccf6599a122282d8c47e8f1a2"
+  },
+  {
+    "url": "/thailpha/thailpha.css",
+    "revision": "d66e9a5290ef7e668f5fd06702ae314a"
+  },
+  {
+    "url": "/thailpha/thailpha.js",
+    "revision": "386f8b9407de4e3489002e61258cc6ef"
+  },
+  {
+    "url": "/thailpha/touch-icon-icon-ipad.png",
+    "revision": "9f495681218827ba7d5ed377461b3368"
+  },
+  {
+    "url": "/thailpha/touch-icon-icon-iphone.png",
+    "revision": "f31adffed6ee06adaeee8fe872beb493"
+  },
+  {
+    "url": "/thailpha/touch-icon-ipad-retina.png",
+    "revision": "f2a99fa6e4487799e9f4a9759c53be80"
+  },
+  {
+    "url": "/thailpha/touch-icon-iphone-6-plus.png",
+    "revision": "b5e4d048b10bae648d11d5ac61561b68"
+  },
+  {
+    "url": "/thailpha/touch-icon-iphone-retina.png",
+    "revision": "60df61b5e9fdf1962d307301cd20b86b"
+  },
+  {
+    "url": "/thailpha/touch-icon-web-app.png",
+    "revision": "9b130ba47487399810af986cb39aea1e"
+  }
+];
+
+const workboxSW = new self.WorkboxSW({
+  "cacheId": "thailpha-cache-v3"
+});
+workboxSW.precache(fileManifest);
+workboxSW.router.registerNavigationRoute("/thailpha/index.html", {
+  whitelist: [/\/(vowels|numbers|about|search|char\/)/],
+});
