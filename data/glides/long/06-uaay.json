@@ -2,8 +2,13 @@
   "letter": "-วาย",
   "variant": [
   ],
-  "thai": "เอียว",
+  "thai": "วาย",
   "rtgs": "uaay",
   "ipa": "uaj",
-  "pronunciation": "uaay (uoy in buoy)"
+  "pronunciation": "uaay (uoy in buoy)",
+  "similar": [
+    "c-37",
+    "vl-1",
+    "c-34"
+  ]
 }
