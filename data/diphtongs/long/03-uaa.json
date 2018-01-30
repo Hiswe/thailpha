@@ -1,9 +1,10 @@
 {
-  "letter": "อัว",
+  "letter": "อัวะ",
   "variant": [
   ],
   "thai": "สระอัว",
-  "rtgs": "Sara ua",
+  "rtgs": "Sara uua",
+  "rare": true,
   "ipa": "ua",
   "pronunciation": "ua (ewe in newer)"
 }
