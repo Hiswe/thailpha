@@ -9,7 +9,7 @@ const env         = isProd ? `production` : `development`
 const isRelease   = args.release === true
 const buildDir    = isRelease ? `dist` : `public`
 const buildPath   = path.resolve( __dirname, buildDir )
-const isGhRelease = args.dest !== `firebase`
+const isGhRelease = args.dest === `gh`
 const BASE_URL    = isProd && isGhRelease ? `/thailpha` : ``
 const skipBuild   = args.build === false
 const skipBump    = args.bump === false

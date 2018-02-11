@@ -27,7 +27,7 @@ Thai alphabet webapp
 
 ## Demo
 
-[https://hiswe.github.io/thailpha/](https://hiswe.github.io/thailpha/)
+[https://thailpha-3e7f6.firebaseapp.com/](https://thailpha-3e7f6.firebaseapp.com/)
 
 ## sources
 

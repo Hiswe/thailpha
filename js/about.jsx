@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import { version } from '../package.json'
+import { Icon } from './svg-symbol.jsx'
 
 const About = ({version}) => {
   return (
@@ -41,7 +42,9 @@ const About = ({version}) => {
         <dt className="about__topic">Share the app</dt>
         <dd className="about__detail">
           <p>The app can be shared with this link </p>
-          <a href="https://hiswe.github.io/thailpha/">https://hiswe.github.io/thailpha/</a>
+          <a href="https://thailpha-3e7f6.firebaseapp.com/">https://thailpha-3e7f6.firebaseapp.com/</a>
+          <p>or this QR code</p>
+          <Icon svgId="thailpha-firebase" />
         </dd>
       </dl>
       <dl className="about__section">

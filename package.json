@@ -29,9 +29,9 @@
     "deploy": "node ./bin/release.js",
     "release:no-bump": "npm run pre-release -- --no-bump && node ./bin/release.js --no-bump",
     "release": "npm run test && npm run pre-release && npm run deploy",
-    "pre-release:firebase": "npm run pre-release -- --dest=firebase",
-    "deploy:firebase": "npm run deploy -- --dest=firebase",
-    "release:firebase:no-bump": "npm run pre-release:firebase -- --no-bump && npm run deploy:firebase -- --no-bump"
+    "pre-release:gh": "npm run pre-release -- --dest=gh",
+    "deploy:gh": "npm run deploy -- --dest=gh",
+    "release:gh:no-bump": "npm run pre-release:gh -- --no-bump && npm run deploy:gh -- --no-bump"
   },
   "ava": {
     "files": [
