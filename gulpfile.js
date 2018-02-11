@@ -20,7 +20,11 @@ let newVersion    = false
 const { reload }  = browserSync
 const bundler     = webpack( require(`./webpack.config.js`) )
 
-log( 'environment is', magenta(bc.env) )
+log( `environment is`, magenta(bc.env) )
+if (bc.isRelease) {
+  log( `release mode to`, magenta(bc.releaseDest) )
+}
+
 
 ////////
 // MISC
@@ -384,11 +388,12 @@ function pug() {
   .pipe( $.pug({
     pretty: bc.isDev,
     locals: {
-      env:          bc.env,
-      isRelease:    bc.isRelease,
-      isGhRelease:  bc.isGhRelease,
-      appTitle:     bc.appTitle,
-      BASE_URL:     bc.BASE_URL,
+      env:                bc.env,
+      isRelease:          bc.isRelease,
+      isGhRelease:        bc.isGhRelease,
+      isFirebaseRelease:  bc.isFirebaseRelease,
+      appTitle:           bc.appTitle,
+      BASE_URL:           bc.BASE_URL,
     }
   }) )
   .pipe( gulp.dest(bc.buildDir) )

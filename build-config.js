@@ -10,6 +10,10 @@ const isRelease   = args.release === true
 const buildDir    = isRelease ? `dist` : `public`
 const buildPath   = path.resolve( __dirname, buildDir )
 const isGhRelease = args.dest === `gh`
+const isFirebaseRelease = !isGhRelease
+const releaseDest = isGhRelease ? `github`
+  : isFirebaseRelease ? `firebase`
+  : `UNKNOWN`
 const BASE_URL    = isProd && isGhRelease ? `/thailpha` : ``
 const skipBuild   = args.build === false
 const skipBump    = args.bump === false
@@ -29,5 +33,7 @@ module.exports = {
   appTitle,
   iconSource,
   isGhRelease,
+  isFirebaseRelease,
+  releaseDest,
 }
 
