@@ -201,7 +201,7 @@ const data = () => {
   .pipe( gulp.dest('js/models') )
 
 }
-data.description = `update Thai dictionary to be consummable by the JS front application`
+data.description = `update Thai dictionary to be consumable by the JS front application`
 
 //----- ALL JS
 

@@ -10,14 +10,15 @@
     "alphabet"
   ],
   "engines": {
-    "node": "8.9.4"
+    "node": "8.10.0"
   },
   "scripts": {
     "test": "gulp data && ava",
     "start": "npm run build:prod && npm run serve:prod",
     "dev": "gulp dev",
     "doctoc": "doctoc README.md --github",
-    "build:prod": "gulp build:prod --compress",
+    "build": "gulp build:prod --compress",
+    "build:prod": "yarn run build",
     "build:dev": "gulp build",
     "build:js": "gulp js",
     "serve:prod": "ws --https --port 5000 --directory dist --spa index.html",
