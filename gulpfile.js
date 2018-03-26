@@ -63,17 +63,19 @@ jsApp.description = `bundle the JS front application`
 function workboxSW() {
   return workbox.generateSW({
     globDirectory:    bc.buildDir,
-    globPatterns:     ['**\/*.{html,js,css,png,svg,json}'],
+    globPatterns:     [`**\/*.{html,js,css,png,svg,json}`],
     swDest:           `${bc.buildDir}/thailpha-sw.js`,
     cacheId:          `thailpha-cache-v3`,
     navigateFallback: `${bc.BASE_URL}/index.html`,
+    // need to return {{manifest: Array<ManifestEntry>, warnings: Array<String>|undefined}}
+    // https://github.com/GoogleChrome/workbox/issues/1341#issuecomment-370601915
     manifestTransforms: [
-      manifestEntries => {
-        return manifestEntries.map( entry => {
+      manifestEntries => ({
+        manifest: manifestEntries.map( entry => {
           if (bc.BASE_URL) entry.url = `${bc.BASE_URL}/${entry.url}`
           return entry
         })
-      }
+      })
     ],
     navigateFallbackWhitelist: [
       /\/(vowels|numbers|about|search|char\/)/,

@@ -2,71 +2,50 @@
 
 const path            = require( `path` )
 const webpack         = require( `webpack` )
-const UglifyJSPlugin  = require( `uglifyjs-webpack-plugin` )
 
 const bc            = require( `./build-config` )
 
-const entry   = {
-  thailpha: `./js/index.jsx`,
-}
-const output  = {
-  filename: `[name].js`,
-  path:     bc.buildPath,
-}
-const plugins = [
-  // https://webpack.js.org/plugins/commons-chunk-plugin/#passing-the-minchunks-property-a-function
-  new webpack.optimize.CommonsChunkPlugin({
-    name:     `vendor`,
-    filename: `thailpha-lib.js`,
-    minChunks: m => m.context && m.context.indexOf( `node_modules` ) !== -1
-  }),
-  new webpack.DefinePlugin({
-    'process.env.NODE_ENV': JSON.stringify( bc.env ),
-    'IS_DEV':               JSON.stringify( bc.isDev ),
-    'BASE_URL':             JSON.stringify( bc.BASE_URL ),
-  })
-]
-
-if ( bc.isProd ) {
-  plugins.push( new UglifyJSPlugin() )
-}
-
-const rules = [
-  {
-    test:     /\.jsx?$/,
-    include: [
-      path.resolve( __dirname, 'js' ),
-    ],
-    use: {
-      loader: 'babel-loader',
-      options: {
-        presets: [ 'env' ],
-        plugins: [
-          'transform-object-rest-spread',
-          'transform-react-jsx',
-          // // change React.createElement to `h`
-          // [ 'transform-react-jsx', { pragma: 'h' } ]
-        ],
+const client = {
+  target: `web`,
+  mode:   bc.env,
+  entry:  {
+    thailpha: `./js/index.jsx`,
+  },
+  output: {
+    filename: `[name].js`,
+    path:     bc.buildPath,
+  },
+  devtool: bc.isDev ? `inline-source-map` : false,
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify( bc.env ),
+      'IS_DEV':               JSON.stringify( bc.isDev ),
+      'BASE_URL':             JSON.stringify( bc.BASE_URL ),
+    })
+  ],
+  // https://gist.github.com/sokra/1522d586b8e5c0f5072d7565c2bee693
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          chunks: `initial`,
+          test: path.resolve(__dirname, `node_modules`),
+          name: `thailpha-lib`,
+          enforce: true,
+        }
+      }
+    }
+  },
+  module: {
+    rules: [{
+      test:     /\.jsx?$/,
+      include: [ path.resolve( __dirname, `js` ) ],
+      use: {
+        loader: `babel-loader`,
+        options: { babelrc: true },
       },
     },
-  },
-]
-
-const resolve = {
-  // alias: {
-  //   'react':     'preact-compat',
-  //   'react-dom': 'preact-compat',
-  // },
+  ]},
 }
 
-module.exports = {
-  entry,
-  output,
-  watch:    true,
-  devtool:  'inline-source-map',
-  plugins,
-  resolve,
-  module: {
-    rules,
-  },
-}
+module.exports = [ client ]
