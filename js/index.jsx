@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route,  Redirect, Switch } from 'react-router-
 import { Provider } from 'react-redux'
 
 import store from './state-container'
-import Consonnants from './consonants.jsx'
+import Consonants from './consonants.jsx'
 import Vowels from './vowels.jsx'
 import Numbers from './numbers.jsx'
 import About from './about.jsx'
@@ -22,7 +22,7 @@ const App = props => {
     <div id="app-wrapper">
       {/* warning! check service-worker.js if adding or removing routes */}
       <Switch>
-        <Route exact path={`${BASE_URL}/`} component={ Consonnants } />
+        <Route exact path={`${BASE_URL}/`} component={ Consonants } />
         <Route path={`${BASE_URL}/vowels`} component={ Vowels } />
         <Route path={`${BASE_URL}/numbers`} component={ Numbers } />
         <Route path={`${BASE_URL}/about`} component={ About } />

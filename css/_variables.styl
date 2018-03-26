@@ -14,8 +14,8 @@ $c-grey-light     = #CCC;
 $c-grey           = #999;
 
 $c-brand          = #54009D;
-$c-brand-lightest  = lighten( $c-brand, 90% );
-$c-brand-dark     = darken( $c-brand, 40% );
+$c-brand-lightest = lighten( $c-brand, 90% );
+$c-brand-darker   = darken( $c-brand, 40% );
 
 ///////
 // SIZES
@@ -32,7 +32,6 @@ $mq-big       = '(min-width: 1024px)';
 $mq-small     = '(max-width: 1023px)';
 $mq-landscape = '(orientation: landscape)';
 
-
 ///////
 // CSS VARS
 ///////
@@ -40,8 +39,10 @@ $mq-landscape = '(orientation: landscape)';
 :root {
   --nav-height: 50px;
   --c-primary: $c-brand;
+  --c-primary-darker: $c-brand-darker;
   --c-primary-lightest: $c-brand-lightest;
   --c-primary-contrast: white;
+  --c-accent: $c-pink;
   --c-contrast: $c-pink;
   --c-grey-lightest: $c-grey-lightest;
   --c-grey-light: $c-grey-light;

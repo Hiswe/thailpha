@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
+import { CopyToClipboard } from 'react-copy-to-clipboard'
 
 import { version } from '../package.json'
 import { Icon } from './svg-symbol.jsx'
@@ -35,6 +36,7 @@ class About extends PureComponent {
     super( props )
     this.state = {
       tab: 0,
+      appLink: `https://thailpha-3e7f6.firebaseapp.com/`
     }
     this.handleTabChange = this.handleTabChange.bind( this )
   }
@@ -93,7 +95,12 @@ class About extends PureComponent {
           changeTab={ this.handleTabChange }
         >
           <p>The app can be shared with this link </p>
-          <a href="https://thailpha-3e7f6.firebaseapp.com/">https://thailpha-3e7f6.firebaseapp.com/</a>
+          <a href={ state.appLink }>{ state.appLink }</a>
+          <p>
+            <CopyToClipboard text={ state.appLink }>
+              <button className="btn">Copy to clipboard</button>
+            </CopyToClipboard>
+          </p>
           <p>or this QR code</p>
           <Icon svgId="thailpha-firebase" />
         </AboutSection>
