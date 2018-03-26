@@ -7,9 +7,19 @@ import { Icon } from './svg-symbol.jsx'
 const BASE_CLASS = `about`
 
 function AboutSection( props ) {
+  const { tab, currentTab, changeTab } = props
+  const COMP_CLASS = [ `${BASE_CLASS}__section` ]
+  const isSelected = currentTab === tab
+  COMP_CLASS.push( isSelected ?  `${BASE_CLASS}__section--is-selected`
+    : `${BASE_CLASS}__section--is-not-selected`  )
+
+  function handleClick( event ) {
+    changeTab( tab )
+  }
+
   return (
-    <dl className={ `${BASE_CLASS}__section` }>
-      <dt className={ `${BASE_CLASS}__topic` }>
+    <dl className={ COMP_CLASS.join(` `) }>
+      <dt className={ `${BASE_CLASS}__topic` } onClick={ handleClick }>
         { props.topic }
       </dt>
       <dd className={ `${BASE_CLASS}__detail` }>
@@ -23,15 +33,31 @@ class About extends PureComponent {
 
   constructor( props ) {
     super( props )
+    this.state = {
+      tab: 0,
+    }
+    this.handleTabChange = this.handleTabChange.bind( this )
+  }
+
+  handleTabChange( tab ) {
+    console.log( `handleTabChange`, tab )
+    this.setState( { tab} )
   }
 
   render() {
-    const { props } = this
+    const { props, state } = this
     const { version } = props
+    let tabs = -1
+    const getTabId = () => tabs += 1
     return (
       <section className={ BASE_CLASS }>
         <h1 className={ `h1 ${BASE_CLASS}__title` }>About Thailpha</h1>
-        <AboutSection topic="Sources &amp; transcriptions">
+        <AboutSection
+          topic="Sources &amp; transcriptions"
+          tab={ getTabId() }
+          currentTab={ state.tab }
+          changeTab={ this.handleTabChange }
+        >
           <p>All information are provided by: </p>
           <ul>
             <li><a href="https://en.wikipedia.org/wiki/Thai_alphabet" target="_blank" className="link">wikipedia</a></li>
@@ -45,7 +71,12 @@ class About extends PureComponent {
             </footer>
           </blockquote>
         </AboutSection>
-        <AboutSection topic="Detailed disposition">
+        <AboutSection
+          topic="Detailed disposition"
+          tab={ getTabId() }
+          currentTab={ state.tab }
+          changeTab={ this.handleTabChange }
+        >
           <p>
             When clicking on a character you access a more complete view of it.<br />
           </p>
@@ -55,13 +86,23 @@ class About extends PureComponent {
             </li>
           </ul>
         </AboutSection>
-        <AboutSection topic="Share the app">
+        <AboutSection
+          topic="Share the app"
+          tab={ getTabId() }
+          currentTab={ state.tab }
+          changeTab={ this.handleTabChange }
+        >
           <p>The app can be shared with this link </p>
           <a href="https://thailpha-3e7f6.firebaseapp.com/">https://thailpha-3e7f6.firebaseapp.com/</a>
           <p>or this QR code</p>
           <Icon svgId="thailpha-firebase" />
         </AboutSection>
-        <AboutSection topic="Author &amp; suggestions">
+        <AboutSection
+          topic="Author &amp; suggestions"
+          tab={ getTabId() }
+          currentTab={ state.tab }
+          changeTab={ this.handleTabChange }
+        >
           <p>brought to you by Yannick “Hiswe” Aïvayan</p>
           <ul>
             <li>working at <a href="https://www.goodenough.agency/">goodenough</a></li>
@@ -73,7 +114,12 @@ class About extends PureComponent {
             <li>creating a ticket on <a href="https://github.com/Hiswe/thailpha/issues" target="_blank" className="link">the github repo</a></li>
           </ul>
         </AboutSection>
-        <AboutSection topic="Ressources">
+        <AboutSection
+          topic="Ressources"
+          tab={ getTabId() }
+          currentTab={ state.tab }
+          changeTab={ this.handleTabChange }
+        >
           <ul>
             <li>Icons coming from: <a href="https://material.io/icons" target="_blank" className="link">Google Material Icon</a></li>
             <li>Font used for the colored chars <a href="http://www.f0nt.com/release/th-sarabun-new/" target="_blank" className="link">TH Sarabun New</a></li>

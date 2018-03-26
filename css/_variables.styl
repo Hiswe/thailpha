@@ -14,7 +14,8 @@ $c-grey-light     = #CCC;
 $c-grey           = #999;
 
 $c-brand          = #54009D;
-$c-brand-dark     = darken($c-brand, 40%);
+$c-brand-lightest  = lighten( $c-brand, 90% );
+$c-brand-dark     = darken( $c-brand, 40% );
 
 ///////
 // SIZES
@@ -39,6 +40,7 @@ $mq-landscape = '(orientation: landscape)';
 :root {
   --nav-height: 50px;
   --c-primary: $c-brand;
+  --c-primary-lightest: $c-brand-lightest;
   --c-primary-contrast: white;
   --c-contrast: $c-pink;
   --c-grey-lightest: $c-grey-lightest;

@@ -32,6 +32,19 @@
   &__footer {
     align-self: end;
   }
+
+
+  @media $mq-small {
+    &__section--is-selected &__topic {
+      background: var(--c-primary-lightest);
+    }
+    &__section--is-not-selected + &__section--is-not-selected &__topic {
+      border-top: 1px solid var(--c-grey-light);
+    }
+    &__section--is-not-selected &__detail {
+      display: none;
+    }
+  }
 }
 
 .version {
