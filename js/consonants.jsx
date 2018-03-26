@@ -6,6 +6,8 @@ import CharSubsection from './char-subsection.jsx'
 import CharList from './char-list.jsx'
 import { Char, Icon } from './svg-symbol.jsx'
 import { toggleSetting } from './state-container/actions.js'
+import consonants from './models/01-dico-consonants.json'
+import toneMarks from './models/02-dico-tone-marks.json'
 
 ////////
 // CUSTOM TITLE
@@ -15,7 +17,7 @@ const ConsonantTitlePresentational = ({onClick, isActive}) => {
   const btnClass = `char-section__help-button ${ isActive ? 'char-section__help-button--active' : '' }`
   return (
     <Fragment>
-      consonnants
+      consonants
       <button className={ btnClass } onClick={ onClick }>
         <Icon svgId="help-outline" />
       </button>
@@ -69,25 +71,17 @@ const ConsonantExplanation = connect( consonantExplanationState2Prop, consonantE
 // CONSONANT PAGE
 ////////
 
-const ConsonantsPresentational = ({consonants, toneMarks, toggleConsonantsHelp}) => (
-  <Fragment>
-    <CharSection title={ <ConsonantTitle /> }>
-      <CharList chars={ consonants } />
-      <CharSubsection title="Tone marks">
-        <CharList chars={ toneMarks } />
-      </CharSubsection>
-    </CharSection>
-    <ConsonantExplanation />
-  </Fragment>
-)
-
-const mapStateToProp = state => {
-  return {
-    consonants: state.chars.filter( char => char.isConsonant ),
-    toneMarks: state.chars.filter( char => char.isToneMark ),
-  }
+export default function Consonants( props ) {
+  // const { toggleConsonantsHelp } = props
+  return (
+    <Fragment>
+      <CharSection title={ <ConsonantTitle /> }>
+        <CharList chars={ consonants } />
+        <CharSubsection title="Tone marks">
+          <CharList chars={ toneMarks } />
+        </CharSubsection>
+      </CharSection>
+      <ConsonantExplanation />
+    </Fragment>
+  )
 }
-
-const Consonants = connect( mapStateToProp )( ConsonantsPresentational )
-
-export { Consonants as default }

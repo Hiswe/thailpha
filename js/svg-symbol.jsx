@@ -3,7 +3,7 @@ import React from 'react'
 const Char = ({svgId, additionalClass = ''}) => {
   return (
     <svg role="img" className={`svg-char char-${svgId} ${additionalClass}`}>
-      <use xlinkHref={`${BASE_URL}/svg-chars.svg#char-${svgId }`}></use>
+      <use xlinkHref={`#char-${svgId }`}></use>
     </svg>
   )
 }

@@ -281,13 +281,14 @@ const characters = () => {
     },
   }) )
   .pipe( $.svgSymbols({
-    id:       `char-%f`,
-    class:    `.char-%f`,
-    fontSize: 16,
-    templates: svgTemplates,
+    id:         `char-%f`,
+    class:      `.char-%f`,
+    fontSize:   16,
+    templates:  svgTemplates,
+    svgAttrs:   { class: `svg-icon-library` },
   }) )
   .pipe( $.rename({basename: `svg-chars`}) )
-  .pipe( $.if( /[.]svg$/, gulp.dest(bc.buildDir)) )
+  .pipe( $.if( /[.]svg$/, gulp.dest('html')) )
   .pipe( $.if( /[.]html$/, gulp.dest('.tmp')) )
   .pipe( $.if( /[.]css$/, gulp.dest(`css`)) )
 }

@@ -5,7 +5,7 @@ import { filterChar } from './state-container/actions.js'
 import CharSection from './char-section.jsx'
 import CharList from './char-list.jsx'
 
-const Search = props => {
+function Search( props ) {
   const { handleSearch, handleReset, chars } = props
   return (
     <CharSection title="search">
@@ -23,11 +23,11 @@ const Search = props => {
   )
 }
 
-const mapStateToProp = state => {
+function state2props( state ) {
   return { chars: state.filtered }
 }
 
-const mapDispatchToProps = {
+const dispatch2Props = {
   handleSearch( e ) {
     return filterChar( e.target.value )
   },
@@ -36,6 +36,4 @@ const mapDispatchToProps = {
   }
 }
 
-const SearchContainer = connect( mapStateToProp, mapDispatchToProps )( Search )
-
-export { SearchContainer as default }
+export default connect( state2props, dispatch2Props )( Search )
