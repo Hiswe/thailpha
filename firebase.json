@@ -6,11 +6,23 @@
       "**/.*",
       "**/node_modules/**"
     ],
-    "rewrites": [
-      {
-        "source": "**",
-        "destination": "/index.html"
-      }
-    ]
+    "rewrites": [ {
+      "source": "**",
+      "destination": "/index.html"
+    } ],
+    "headers": [ {
+      "source" : "thailpha-sw.js",
+      "headers" : [ {
+        "key" : "Cache-Control",
+        "value" : "private, no-cache, no-store, must-revalidate"
+      }, {
+        "key" : "Expires",
+        "value" : "-1"
+      }, {
+        "key" : "Pragma",
+        "value" : "no-cache"
+      } ]
+    } ]
+
   }
 }
