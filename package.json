@@ -22,7 +22,7 @@
     "build:dev": "gulp build",
     "build:js": "gulp js",
     "build:js:workbox": "gulp js:workbox",
-    "serve:prod": "ws --https --port 5000 --directory dist --spa index.html",
+    "serve:prod": "yarn run build:prod && ws --https --port 5000 --directory dist --spa index.html",
     "serve:dev": "ws --https --port 5000 --directory dist --spa index.html --log.format tiny",
     "serve:dev-no-https": "ws --port 4000 --directory dist --spa index.html --log.format tiny",
     "watch:prod": "npm run build:prod --compress && gulp watch --compress",
