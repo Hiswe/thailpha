@@ -28,7 +28,7 @@
     "watch:prod": "npm run build:prod --compress && gulp watch --compress",
     "watch:dev": "npm run build:dev && gulp watch",
     "pre-release": "gulp pre-release --compress --release",
-    "pre-release:no:bump": "gulp pre-release --compress --release --no-bump",
+    "pre-release:no-bump": "gulp pre-release --compress --release --no-bump",
     "deploy": "node ./bin/release.js",
     "release:no-bump": "npm run pre-release:no-bump && node ./bin/release.js --no-bump",
     "release": "npm run test && npm run pre-release && npm run deploy",
