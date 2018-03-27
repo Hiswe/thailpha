@@ -15,7 +15,7 @@ const client = {
     filename: `[name].js`,
     path:     bc.buildPath,
   },
-  devtool: bc.isDev ? `inline-source-map` : false,
+  devtool: bc.isDev ? `source-map` : false,
   plugins: [
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify( bc.env ),
