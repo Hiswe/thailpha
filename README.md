@@ -6,10 +6,10 @@
   - [Demo](#demo)
   - [sources](#sources)
     - [about transcription from Thai char to latin char](#about-transcription-from-thai-char-to-latin-char)
-  - [For developpers](#for-developpers)
+  - [For developers](#for-developers)
     - [Requirements](#requirements)
     - [Building](#building)
-    - [Developement](#developement)
+    - [Development](#development)
       - [building dependencies](#building-dependencies)
       - [server with livereload](#server-with-livereload)
       - [building for dev](#building-for-dev)
@@ -44,7 +44,7 @@ quoting [thai-language.com](http://www.thai-language.com/ref/phonemic-transcript
 
 this apply to this webapp.
 
-## For developpers 
+## For developers 
 
 ### Requirements
 
@@ -64,7 +64,7 @@ npm start
 
 all will be in the **dist** folder
 
-### Developement
+### Development
 
 #### building dependencies
 

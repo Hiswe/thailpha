@@ -16,7 +16,7 @@
     "test": "gulp data && ava",
     "start": "npm run build:prod && npm run serve:prod",
     "dev": "gulp dev",
-    "doctoc": "doctoc README.md --github",
+    "toc": "doctoc README.md --github",
     "build": "gulp build:prod --compress",
     "build:prod": "yarn run build",
     "build:dev": "gulp build",
