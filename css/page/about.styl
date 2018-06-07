@@ -26,6 +26,32 @@
     padding-bottom: var(--half-gutter);
     text-transform: uppercase;
     background: var(--c-grey-lightest);
+    position: relative;
+
+    @media $mq-small {
+      padding-left: 2em;
+
+      &::before {
+        content: '';
+      }
+    }
+
+    .about__section--is-selected &::before {
+      transform: rotate(90deg);
+      border-left-color: var(--c-primary-lighter);
+    }
+
+    &::before {
+      display: inline-block;
+      border-color:  transparent transparent transparent var(--c-grey-light);
+      border-width: 10px;
+      border-style: solid;
+      position: absolute;
+      left: .7em;
+      top: .7em;
+      transform-origin: 25% 50%;
+      transition: transform .25s;
+    }
   }
   &__detail {
     padding-top: var(--half-gutter);
