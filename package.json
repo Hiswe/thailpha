@@ -1,14 +1,11 @@
 {
   "name": "thailpha",
-  "version": "3.2.2",
+  "version": "3.2.3",
   "description": "Thai alphabet webapp",
   "author": "Yannick Aïvayan <yannick.aivayan@hiswe.net> (http://hiswe.net)",
   "main": "dist/index.html",
   "repository": "git://github.com/Hiswe/thailpha",
-  "keywords": [
-    "thai",
-    "alphabet"
-  ],
+  "keywords": ["thai", "alphabet"],
   "engines": {
     "node": "8.11.2"
   },
@@ -38,14 +35,10 @@
     "release:gh:no-bump": "npm run pre-release:gh:no-bump && npm run deploy:gh -- --no-bump"
   },
   "ava": {
-    "files": [
-      "test/*.js"
-    ],
+    "files": ["test/*.js"],
     "babel": false,
     "compileEnhancements": false,
-    "require": [
-      "@babel/register"
-    ]
+    "require": ["@babel/register"]
   },
   "license": "MIT",
   "dependencies": {
