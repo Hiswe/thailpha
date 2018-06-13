@@ -19,7 +19,7 @@ const MainNav = props => {
         numbers
       </NavLink>
 
-      <NavLink to={`${BASE_URL}/search`} activeClassName="is-active" className="main-nav__btn  ">
+      <NavLink to={`${BASE_URL}/search`} activeClassName="is-active" className="main-nav__btn">
         <Icon svgId="search" />
       </NavLink>
 
