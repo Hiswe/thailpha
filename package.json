@@ -5,9 +5,12 @@
   "author": "Yannick Aïvayan <yannick.aivayan@hiswe.net> (http://hiswe.net)",
   "main": "dist/index.html",
   "repository": "git://github.com/Hiswe/thailpha",
-  "keywords": ["thai", "alphabet"],
+  "keywords": [
+    "thai",
+    "alphabet"
+  ],
   "engines": {
-    "node": "8.11.2"
+    "node": "8.11.4"
   },
   "scripts": {
     "test": "gulp data && ava",
@@ -35,10 +38,14 @@
     "deploy:gh": "npm run deploy -- --dest=gh"
   },
   "ava": {
-    "files": ["test/*.js"],
+    "files": [
+      "test/*.js"
+    ],
     "babel": false,
     "compileEnhancements": false,
-    "require": ["@babel/register"]
+    "require": [
+      "@babel/register"
+    ]
   },
   "license": "MIT",
   "dependencies": {
