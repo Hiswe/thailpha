@@ -125,7 +125,7 @@ const mergeData = prefix => data => {
     letter.longId = `${prefix}-${letter.rtgs.replace(' ', '-').toLowerCase()}`
     return letter
   })
-  return new Buffer(JSON.stringify(result, null, 2))
+  return new Buffer.from(JSON.stringify(result, null, 2))
 }
 
 const data = () => {
@@ -200,7 +200,7 @@ const data = () => {
         const result = dictionaries.reduce((accumulator, dictionary) => {
           return accumulator.concat(data[dictionary])
         }, [])
-        return new Buffer(JSON.stringify(result, null, 2))
+        return new Buffer.from(JSON.stringify(result, null, 2))
       })
     )
     .pipe($.defineModule('es6'))
