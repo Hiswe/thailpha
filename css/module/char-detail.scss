@@ -1,6 +1,6 @@
 #letter {
   position: fixed;
-  top:0;
+  top: 0;
   right: 0;
   bottom: $s-nav;
   left: 0;
@@ -10,8 +10,8 @@
 }
 
 .letter-not-found {
+  @include flex-center();
   display: flex;
-  flex-center();
   margin: 0;
   height: calc(100vh - var(--nav-height));
   font-size: fluid-fs(1);
@@ -26,53 +26,57 @@
   display: flex;
   flex-direction: column;
 
-  @media $mq-landscape {
+  @media #{$mq-landscape} {
     display: grid;
     grid-template-columns: 35% 1fr;
     grid-template-rows: 1fr 1fr;
     grid-template-areas:
-      "meaning          letter"\
-      "additional-info  letter";
+      'meaning          letter'
+      'additional-info  letter';
 
     &.has-variant {
-      grid-template-rows: $gutter var(--variant-height) 1fr 1fr var(--variant-height) $gutter;
+      grid-template-rows: $gutter var(--variant-height) 1fr 1fr var(
+          --variant-height
+        ) $gutter;
       grid-template-areas:
-      "meaning          letter"\
-      "meaning          letter"\
-      "meaning          letter"\
-      "additional-info  letter"\
-      "additional-info  variant"\
-      "additional-info  gutter";
+        'meaning          letter'
+        'meaning          letter'
+        'meaning          letter'
+        'additional-info  letter'
+        'additional-info  variant'
+        'additional-info  gutter';
     }
 
     &.has-similar {
       grid-template-rows: 1fr 1fr 50px;
       grid-template-areas:
-      "meaning          letter"\
-      "additional-info  letter"\
-      "similar-hint     similar-hint";
+        'meaning          letter'
+        'additional-info  letter'
+        'similar-hint     similar-hint';
     }
     &.has-variant.has-similar {
-      grid-template-rows: $gutter var(--variant-height) 1fr 1fr var(--variant-height) $gutter 50px;
+      grid-template-rows: $gutter var(--variant-height) 1fr 1fr var(
+          --variant-height
+        ) $gutter 50px;
       grid-template-areas:
-      "meaning          letter"\
-      "meaning          letter"\
-      "meaning          letter"\
-      "additional-info  letter"\
-      "additional-info  variant"\
-      "additional-info  gutter"\
-      "similar-hint     similar-hint";
+        'meaning          letter'
+        'meaning          letter'
+        'meaning          letter'
+        'additional-info  letter'
+        'additional-info  variant'
+        'additional-info  gutter'
+        'similar-hint     similar-hint';
     }
   }
 }
 .thai-letter--principal {
+  @include flex-center();
   flex-grow: 1;
   width: 100%;
   height: 100%;
   display: flex;
-  flex-center();
 
-  @media $mq-landscape {
+  @media #{$mq-landscape} {
     justify-self: stretch;
     grid-area: letter;
   }
@@ -89,7 +93,7 @@
   padding: $gutter;
   font-weight: 300;
 
-  @media $mq-landscape {
+  @media #{$mq-landscape} {
     border-right: 1px solid $c-grey-light;
   }
 }
@@ -105,15 +109,14 @@
   &__thai {
     display: none;
 
-    @media $mq-landscape {
+    @media #{$mq-landscape} {
       display: block;
     }
   }
 }
 
 .letter-additional-info {
-
-  @media $mq-landscape {
+  @media #{$mq-landscape} {
     grid-area: additional-info;
     border-top: 1px solid $c-grey-light;
     text-align: left;
@@ -131,9 +134,9 @@
   }
   &__label {
     color: $c-grey;
-    padding: 0 .5em;
+    padding: 0 0.5em;
 
-    @media $mq-landscape {
+    @media #{$mq-landscape} {
       padding: 0;
     }
   }
@@ -153,13 +156,13 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
   grid-gap: 1px;
-  font-size: .5em;
+  font-size: 0.5em;
 
   &:empty {
     display: none;
   }
 
-  @media $mq-landscape {
+  @media #{$mq-landscape} {
     grid-gap: 1rem;
     width: 75%;
     margin: 0 auto;
@@ -167,10 +170,10 @@
   }
 
   &__item {
-    flex-center();
+    @include flex-center();
     height: var(--variant-height);
     display: flex;
-    box-shadow:0 0 0 1px $c-grey-light;
+    box-shadow: 0 0 0 1px $c-grey-light;
   }
 }
 
@@ -180,7 +183,7 @@
 }
 
 .letter-hint {
-  @media $mq-landscape {
+  @media #{$mq-landscape} {
     grid-area: similar-hint;
   }
 }
@@ -209,7 +212,7 @@
       padding-right: var(--gutter);
     }
     &.thai-letter--similar {
-      font-size: .5em;
+      font-size: 0.5em;
     }
   }
 }

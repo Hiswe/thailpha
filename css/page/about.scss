@@ -1,12 +1,12 @@
 .about {
   min-height: calc(100vh - var(--nav-height));
 
-  @media $mq-small {
+  @media #{$mq-small} {
     display: flex;
     flex-direction: column;
   }
 
-  @media $mq-big {
+  @media #{$mq-big} {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-gap: var(--gutter);
@@ -28,7 +28,7 @@
     background: var(--c-grey-lightest);
     position: relative;
 
-    @media $mq-small {
+    @media #{$mq-small} {
       padding-left: 2em;
 
       &::before {
@@ -43,14 +43,14 @@
 
     &::before {
       display: inline-block;
-      border-color:  transparent transparent transparent var(--c-grey-light);
+      border-color: transparent transparent transparent var(--c-grey-light);
       border-width: 10px;
       border-style: solid;
       position: absolute;
-      left: .7em;
-      top: .7em;
+      left: 0.7em;
+      top: 0.7em;
       transform-origin: 25% 50%;
-      transition: transform .25s;
+      transition: transform 0.25s;
     }
   }
   &__detail {
@@ -61,12 +61,12 @@
     }
   }
   &__footer {
-    @media $mq-small {
+    @media #{$mq-small} {
       margin-top: auto;
     }
   }
 
-  @media $mq-small {
+  @media #{$mq-small} {
     &__section--is-selected &__topic {
       background: var(--c-primary-lightest);
     }

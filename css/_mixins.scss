@@ -1,22 +1,15 @@
-flex-center() {
+@mixin flex-center() {
   align-items: center;
   justify-content: center;
 }
 
-// workaround for compiling grid-regions with stylus
-// https://github.com/stylus/stylus/issues/2306
-// b for bracket
-b(val) {
-  unquote("[") + val + unquote("]");
-}
-
 // https://codepen.io/CrocoDillon/pen/fBJxu
-fluid-fs( $ffs = 1) {
-  $ffsX2 = $ffs * 2
-  'calc(%svw + %svh + %svmin)' % ($ffsX2 $ffsX2 $ffs);
+@function fluid-fs($ffs: 1) {
+  $ffsX2: $ffs * 2;
+  @return 'calc(#{$ffsX2}vw + #{$ffsX2}vh + #{$ffs}vmin)';
 }
 
-hide() {
+@mixin hide() {
   border: 0 !important;
   clip: rect(0 0 0 0) !important;
   height: 1px !important;

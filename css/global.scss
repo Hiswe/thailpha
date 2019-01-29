@@ -33,7 +33,7 @@ body,
   background: $c-white;
   padding-bottom: $s-nav;
 
-  @media $mq-big {
+  @media #{$mq-big} {
     max-width: 1280px;
     margin: 0 auto;
   }
@@ -41,12 +41,12 @@ body,
 
 dl,
 dd {
-  padding:  0;
-  margin:   0;
+  padding: 0;
+  margin: 0;
 }
 
 .svg-icon-library {
-  hide();
+  @include hide();
 }
 .icon {
   fill: currentColor;
@@ -64,7 +64,7 @@ dd {
     font-size: 80%;
     color: $c-grey;
     &::before {
-      content: "\2014 \00A0";
+      content: '\2014 \00A0';
     }
   }
 }
@@ -78,12 +78,12 @@ dd {
 
 .fade-appear-active,
 .fade-enter-active {
-  transition: opacity .3s linear;
+  transition: opacity 0.3s linear;
   opacity: 1;
 }
 
 .fade-exit {
-  transition: opacity .2s linear;
+  transition: opacity 0.2s linear;
   opacity: 1;
 }
 

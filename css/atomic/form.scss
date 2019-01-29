@@ -1,4 +1,4 @@
-input[type=checkbox] {
+input[type='checkbox'] {
   display: none;
 
   + label {
@@ -10,9 +10,9 @@ label::before {
   content: '';
   display: block;
   width: 25px;
-  height: @width;
+  height: 25px;
   border: 1px solid $c-grey-light;
-  margin: 0 .5em 0 0;
+  margin: 0 0.5em 0 0;
 }
 label ~ label {
   margin-top: $gutter;

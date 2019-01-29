@@ -1,5 +1,5 @@
 .settings {
-  height: 'calc(100vh - %s)' % $s-nav;
+  height: 'calc(100vh - #{$s-nav})';
   display: flex;
   flex-direction: column;
 

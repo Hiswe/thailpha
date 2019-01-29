@@ -13,6 +13,10 @@ const log = require(`fancy-log`)
 const beeper = require(`beeper`)
 const workbox = require(`workbox-build`)
 const inquirer = require(`inquirer`)
+const sass = require(`gulp-sass`)
+const nodeSass = require('node-sass')
+
+sass.compiler = nodeSass
 
 const bc = require(`./build-config`)
 const { version } = require(`./package.json`)
@@ -229,15 +233,15 @@ const cssProd = lazypipe()
 
 const css = () => {
   return gulp
-    .src(`css/index.styl`)
+    .src(`css/index.scss`)
     .pipe($.plumber(onError))
     .pipe($.sourcemaps.init())
     .pipe(
-      $.stylus({
-        'include css': true,
-        define: {
-          isProd: bc.isProd,
-        },
+      sass({
+        // 'include css': true,
+        // define: {
+        //   isProd: bc.isProd,
+        // },
       })
     )
     .pipe($.postcss([autoprefixer()]))
@@ -291,7 +295,8 @@ const characters = () => {
     .pipe($.rename({ basename: `svg-chars` }))
     .pipe($.if(/[.]svg$/, gulp.dest('html')))
     .pipe($.if(/[.]html$/, gulp.dest('.tmp')))
-    .pipe($.if(/[.]css$/, gulp.dest(`css`)))
+    .pipe($.if(/[.]css$/, $.rename({ extname: `.scss` })))
+    .pipe($.if(/[.]scss$/, gulp.dest(`css`)))
 }
 characters.description = `bundle SVG characters`
 
@@ -332,7 +337,8 @@ const icons = () => {
     .pipe($.rename({ basename: `svg-icons` }))
     .pipe($.if(/[.]svg$/, gulp.dest('html')))
     .pipe($.if(/[.]html$/, gulp.dest('.tmp')))
-    .pipe($.if(/[.]css$/, gulp.dest('css')))
+    .pipe($.if(/[.]css$/, $.rename({ extname: `.scss` })))
+    .pipe($.if(/[.]scss$/, gulp.dest('css')))
 }
 icons.description = `bundle SVG files`
 

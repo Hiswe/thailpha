@@ -24,9 +24,9 @@
     display: flex;
     flex-wrap: wrap;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax( var(--min-size), 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(var(--min-size), 1fr));
 
-    @media $mq-big {
+    @media #{$mq-big} {
       // we could have use a px size
       // but with this we can't know for sure how many colums there will be
       // and without a row selector we can't have a clean way of doing this
@@ -37,11 +37,11 @@
   &__item {
     list-style: none;
     border: 1px solid $c-grey-light;
-    border-width: 0 1px 1px  0;
+    border-width: 0 1px 1px 0;
     cursor: pointer;
     position: relative;
 
-    @media $mq-small {
+    @media #{$mq-small} {
       &:nth-child(4n + 4) {
         border-width: 0 0 1px 0;
       }
@@ -53,8 +53,7 @@
       }
     }
 
-    @media $mq-big {
-
+    @media #{$mq-big} {
       &:nth-child(7n + 7) {
         border-width: 0 0 1px 0;
       }
@@ -75,13 +74,13 @@
     }
 
     .thai-letter {
+      @include flex-center();
       --char-size: 2.5vw;
       flex-grow: 1;
       display: flex;
-      flex-center();
       font-size: var(--char-size);
 
-      @media $mq-big {
+      @media #{$mq-big} {
         --char-size: 1em;
       }
     }
@@ -94,12 +93,11 @@
     color: currentColor;
     text-decoration: none;
 
-    @media $mq-big {
+    @media #{$mq-big} {
       min-height: 140px;
     }
   }
 }
-
 
 .char-subsection {
   &__header {
@@ -109,10 +107,10 @@
 }
 .preview-list-item-rtgs {
   font-size: 3vw;
-  padding: .5em 0 .25em;
+  padding: 0.5em 0 0.25em;
   white-space: pre;
 
-  @media $mq-big {
+  @media #{$mq-big} {
     font-size: 16px;
   }
 
@@ -137,20 +135,20 @@
   color: $c-grey;
   font-size: 3vw;
 
-  @media $mq-big {
+  @media #{$mq-big} {
     font-size: 16px;
   }
 }
 
 .consonant-explanation {
+  @include flex-center();
   position: fixed;
   top: 0;
   right: 0;
   bottom: var(--nav-height);
   left: 0;
-  background: rgba(0, 0, 0, .75);
+  background: rgba(0, 0, 0, 0.75);
   display: flex;
-  flex-center();
 
   &__content {
     max-width: 90%;
