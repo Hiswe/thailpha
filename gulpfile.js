@@ -5,7 +5,6 @@ const del = require(`del`)
 const mergeStream = require(`merge-stream`)
 const gulp = require(`gulp`)
 const $ = require(`gulp-load-plugins`)()
-const lazypipe = require(`lazypipe`)
 const browserSync = require(`browser-sync`).create()
 const webpack = require(`webpack`)
 const magenta = require(`ansi-magenta`)
@@ -13,10 +12,6 @@ const log = require(`fancy-log`)
 const beeper = require(`beeper`)
 const workbox = require(`workbox-build`)
 const inquirer = require(`inquirer`)
-const sass = require(`gulp-sass`)
-const nodeSass = require('node-sass')
-
-sass.compiler = nodeSass
 
 const bc = require(`./build-config`)
 const { version } = require(`./package.json`)
@@ -218,42 +213,6 @@ const js = gulp.series(data, jsApp)
 js.description = `build JS files`
 
 ////////
-// CSS
-////////
-
-const autoprefixer = require('autoprefixer')
-const csswring = require('csswring')
-
-const cssProd = lazypipe()
-  .pipe($.purgeSourcemaps)
-  .pipe(
-    $.postcss,
-    [csswring({ removeAllComments: true })]
-  )
-
-const css = () => {
-  return gulp
-    .src(`css/index.scss`)
-    .pipe($.plumber(onError))
-    .pipe($.sourcemaps.init())
-    .pipe(
-      sass({
-        // 'include css': true,
-        // define: {
-        //   isProd: bc.isProd,
-        // },
-      })
-    )
-    .pipe($.postcss([autoprefixer()]))
-    .pipe($.sourcemaps.write())
-    .pipe($.if(bc.isProd, cssProd()))
-    .pipe($.rename('thailpha.css'))
-    .pipe(gulp.dest(bc.buildDir))
-    .pipe(reload({ stream: true }))
-}
-css.description = `build css files (from stylus)`
-
-////////
 // ASSETS
 ////////
 
@@ -394,7 +353,7 @@ const build = gulp.series(
   clean,
   // assets first for css to include the right SVG files
   assets,
-  gulp.parallel(js, css, html),
+  gulp.parallel(js, html),
   workboxSW
 )
 build.description = `build everything (--prod for prod ^^)`
@@ -424,7 +383,6 @@ let hash
 const watch = () => {
   gulp.watch(`manifest.json`, webManifest)
   gulp.watch(`data/**/*.json`, data)
-  gulp.watch(`css/**/*.styl`, css)
   gulp.watch(`html/*`, html)
   gulp.watch(`characters/*.svg`, characters)
   gulp.watch(`icons/*.svg`, icons)
@@ -491,7 +449,6 @@ const preRelease = bc.skipBump
   : gulp.series(askVersion, bump, buildProd)
 
 gulp.task(`html`, html)
-gulp.task(`css`, css)
 gulp.task(`data`, data)
 gulp.task(`js`, js)
 gulp.task(`js:app`, jsApp)

@@ -3,6 +3,9 @@
 const path = require(`path`)
 const webpack = require(`webpack`)
 const WebpackPwaManifest = require('webpack-pwa-manifest')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const autoprefixer = require('autoprefixer')
+const csswring = require('csswring')
 
 const bc = require(`./build-config`)
 
@@ -48,6 +51,12 @@ const client = {
         },
       ],
     }),
+    new MiniCssExtractPlugin({
+      // Options similar to the same options in webpackOptions.output
+      // both options are optional
+      filename: bc.isDev ? `[name].css` : `[name].[hash].css`,
+      chunkFilename: bc.isDev ? `[id].css` : `[id].[hash].css`,
+    }),
   ],
   // https://gist.github.com/sokra/1522d586b8e5c0f5072d7565c2bee693
   optimization: {
@@ -71,6 +80,23 @@ const client = {
           loader: `babel-loader`,
           options: { babelrc: true },
         },
+      },
+      {
+        test: /\.(sa|sc|c)ss$/,
+        use: [
+          bc.isDev ? `style-loader` : MiniCssExtractPlugin.loader,
+          `css-loader`,
+          {
+            loader: `postcss-loader`,
+            options: {
+              ident: `postcss`,
+              plugins: [autoprefixer({})].concat(
+                bc.isDev ? [] : [csswring({ removeAllComments: true })]
+              ),
+            },
+          },
+          `sass-loader`,
+        ],
       },
     ],
   },
