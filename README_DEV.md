@@ -20,7 +20,7 @@
 
 ## requirements
 
-- [node](http://nodejs.org/download/) >= 8.11.2
+- [node](http://nodejs.org/download/) >= 10.15.0
 - GraphicsMagick `brew install graphicsmagick`
 - [Allowing https on localhost](https://improveandrepeat.com/2016/09/allowing-self-signed-certificates-on-localhost-with-chrome-and-firefox/) with invalid certificates. (`chrome://flags/#allow-insecure-localhost` for chrome, add an exception for Firefox)
 - optional: 

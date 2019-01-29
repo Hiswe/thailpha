@@ -3,5 +3,6 @@
     "devtool",
     "dico",
     "thailpha"
-  ]
+  ],
+  "editor.tabSize": 2
 }
