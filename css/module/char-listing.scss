@@ -31,7 +31,7 @@
       // but with this we can't know for sure how many colums there will be
       // and without a row selector we can't have a clean way of doing this
       // https://github.com/w3c/csswg-drafts/issues/1943
-      --min-size: (100%/7);
+      --min-size: calc(100% / 7);
     }
   }
   &__item {

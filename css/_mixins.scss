@@ -6,7 +6,7 @@
 // https://codepen.io/CrocoDillon/pen/fBJxu
 @function fluid-fs($ffs: 1) {
   $ffsX2: $ffs * 2;
-  @return 'calc(#{$ffsX2}vw + #{$ffsX2}vh + #{$ffs}vmin)';
+  @return calc(#{$ffsX2 * 1vw} + #{$ffsX2 * 1vh} + #{$ffs * 1vmin});
 }
 
 @mixin hide() {
