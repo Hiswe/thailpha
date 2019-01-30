@@ -2,7 +2,6 @@
 @import './_mixins';
 
 @import './global';
-// TODO: include this in SCSS
 @import './svg-icons';
 @import './svg-chars';
 
@@ -15,4 +14,4 @@
 @import './module/char-detail';
 @import './module/search';
 
-// @import './page/about';
+@import './page/about';

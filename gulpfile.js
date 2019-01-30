@@ -1,6 +1,5 @@
 'use strict'
 
-const fs = require(`fs`)
 const del = require(`del`)
 const mergeStream = require(`merge-stream`)
 const gulp = require(`gulp`)
@@ -305,34 +304,6 @@ const assets = gulp.parallel(characters, icons)
 assets.description = `build every assets`
 
 ////////
-// HTML
-////////
-
-function pug() {
-  return gulp
-    .src(`html/index.pug`)
-    .pipe(
-      $.pug({
-        pretty: bc.isDev,
-        locals: {
-          env: bc.env,
-          isRelease: bc.isRelease,
-          isGhRelease: bc.isGhRelease,
-          isFirebaseRelease: bc.isFirebaseRelease,
-          appTitle: bc.appTitle,
-          BASE_URL: bc.BASE_URL,
-        },
-      })
-    )
-    .pipe(gulp.dest(bc.buildDir))
-}
-function page404() {
-  return gulp.src(`html/404.html`).pipe(gulp.dest(bc.buildDir))
-}
-const html = bc.isGhRelease ? gulp.parallel(pug, page404) : pug
-html.description = `build index.html`
-
-////////
 // MISC
 ////////
 
@@ -345,7 +316,11 @@ clean.description = `clean everything in the destination folder`
 
 const showBundleSize = () => {
   return gulp
-    .src([`${bc.buildDir}/*.js`, `${bc.buildDir}/*.css`])
+    .src([
+      `${bc.buildDir}/*.js`,
+      `${bc.buildDir}/*.css`,
+      `${bc.buildDir}/*.html`,
+    ])
     .pipe($.size({ gzip: true, showFiles: true }))
 }
 
@@ -353,7 +328,7 @@ const build = gulp.series(
   clean,
   // assets first for css to include the right SVG files
   assets,
-  gulp.parallel(js, html),
+  js,
   workboxSW
 )
 build.description = `build everything (--prod for prod ^^)`
@@ -448,7 +423,6 @@ const preRelease = bc.skipBump
   ? buildProd
   : gulp.series(askVersion, bump, buildProd)
 
-gulp.task(`html`, html)
 gulp.task(`data`, data)
 gulp.task(`js`, js)
 gulp.task(`js:app`, jsApp)

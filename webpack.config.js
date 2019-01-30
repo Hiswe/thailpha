@@ -3,6 +3,7 @@
 const path = require(`path`)
 const webpack = require(`webpack`)
 const WebpackPwaManifest = require('webpack-pwa-manifest')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const autoprefixer = require('autoprefixer')
 const csswring = require('csswring')
@@ -20,57 +21,6 @@ const client = {
     path: bc.buildPath,
   },
   devtool: bc.isDev ? `source-map` : false,
-  plugins: [
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(bc.env),
-      IS_DEV: JSON.stringify(bc.isDev),
-      BASE_URL: JSON.stringify(bc.BASE_URL),
-    }),
-    // PWA Manifest
-    // https://www.npmjs.com/package/webpack-pwa-manifest
-    new WebpackPwaManifest({
-      // https://github.com/webpack/webpack/issues/237#issuecomment-342129128
-      version: process.env.npm_package_version,
-      name: bc.appTitle,
-      short_name: bc.appTitle,
-      background_color: `#fff`,
-      theme_color: `black`,
-      description: `Thai Alphabet`,
-      lang: `en-US`,
-      display: `standalone`,
-      start_url: `${bc.BASE_URL}/index.html?utm_source=homescreen`,
-      orientation: `any`,
-      // ios: true,
-      icons: [
-        {
-          src: bc.iconSource,
-          // same sizes as nuxt-pwa
-          sizes: [64, 120, 144, 152, 192, 384, 512],
-          // destination: `img/icons`,
-          ios: true,
-        },
-      ],
-    }),
-    new MiniCssExtractPlugin({
-      // Options similar to the same options in webpackOptions.output
-      // both options are optional
-      filename: bc.isDev ? `[name].css` : `[name].[hash].css`,
-      chunkFilename: bc.isDev ? `[id].css` : `[id].[hash].css`,
-    }),
-  ],
-  // https://gist.github.com/sokra/1522d586b8e5c0f5072d7565c2bee693
-  optimization: {
-    splitChunks: {
-      cacheGroups: {
-        vendor: {
-          chunks: `initial`,
-          test: path.resolve(__dirname, `node_modules`),
-          name: `thailpha-lib`,
-          enforce: true,
-        },
-      },
-    },
-  },
   module: {
     rules: [
       {
@@ -98,7 +48,103 @@ const client = {
           `sass-loader`,
         ],
       },
+      // https://github.com/pugjs/pug-loader
+      {
+        test: /\.pug$/,
+        use: [
+          {
+            loader: `pug-loader`,
+            options: {
+              self: true,
+              pretty: true,
+              globals: {
+                env: bc.env,
+                isRelease: bc.isRelease,
+                isGhRelease: bc.isGhRelease,
+                isFirebaseRelease: bc.isFirebaseRelease,
+                appTitle: bc.appTitle,
+              },
+            },
+          },
+        ],
+      },
     ],
+  },
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify(bc.env),
+      IS_DEV: JSON.stringify(bc.isDev),
+      BASE_URL: JSON.stringify(bc.BASE_URL),
+    }),
+    new MiniCssExtractPlugin({
+      // Options similar to the same options in webpackOptions.output
+      // both options are optional
+      filename: bc.isDev ? `[name].css` : `[name].[hash].css`,
+      chunkFilename: bc.isDev ? `[id].css` : `[id].[hash].css`,
+    }),
+    new HtmlWebpackPlugin({
+      template: path.resolve(__dirname, `html/index.pug`),
+      // custom variables
+      // https://stackoverflow.com/a/41376115
+      env: bc.env,
+      isRelease: bc.isRelease,
+      isGhRelease: bc.isGhRelease,
+      isFirebaseRelease: bc.isFirebaseRelease,
+      appTitle: bc.appTitle,
+      // options: {
+      //   minify: false,
+      // },
+    }),
+    // PWA Manifest
+    // https://www.npmjs.com/package/webpack-pwa-manifest
+    new WebpackPwaManifest({
+      // https://github.com/webpack/webpack/issues/237#issuecomment-342129128
+      version: process.env.npm_package_version,
+      name: bc.appTitle,
+      short_name: bc.appTitle,
+      background_color: `#fff`,
+      theme_color: `black`,
+      description: `Thai Alphabet`,
+      lang: `en-US`,
+      display: `standalone`,
+      start_url: `${bc.BASE_URL}/index.html?utm_source=homescreen`,
+      orientation: `any`,
+      inject: true,
+      ios: true,
+      icons: [
+        {
+          src: bc.iconSource,
+          // same sizes as nuxt-pwa
+          sizes: [64, 120, 144, 152, 192, 384, 512],
+          // destination: `img/icons`,
+          ios: true,
+        },
+      ],
+    }),
+  ].concat(
+    // need to be after WebpackPwaManifest to not be injected by iOS tags
+    bc.isGhRelease
+      ? [
+          new HtmlWebpackPlugin({
+            filename: `404.html`,
+            inject: false,
+            template: path.resolve(__dirname, `html/404.pug`),
+          }),
+        ]
+      : []
+  ),
+  // https://gist.github.com/sokra/1522d586b8e5c0f5072d7565c2bee693
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          chunks: `initial`,
+          test: path.resolve(__dirname, `node_modules`),
+          name: `thailpha-lib`,
+          enforce: true,
+        },
+      },
+    },
   },
 }
 
