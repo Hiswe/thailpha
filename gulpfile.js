@@ -1,22 +1,22 @@
 'use strict'
 
-const del = require(`del`)
-const mergeStream = require(`merge-stream`)
-const gulp = require(`gulp`)
-const $ = require(`gulp-load-plugins`)()
-const browserSync = require(`browser-sync`).create()
-const webpack = require(`webpack`)
-const magenta = require(`ansi-magenta`)
-const log = require(`fancy-log`)
-const beeper = require(`beeper`)
-const workbox = require(`workbox-build`)
-const inquirer = require(`inquirer`)
+const path = require('path')
+const del = require('del')
+const mergeStream = require('merge-stream')
+const gulp = require('gulp')
+const $ = require('gulp-load-plugins')()
+const webpack = require('webpack')
+const WebpackDevServer = require('webpack-dev-server')
+const magenta = require('ansi-magenta')
+const log = require('fancy-log')
+const beeper = require('beeper')
+const workbox = require('workbox-build')
+const inquirer = require('inquirer')
 
-const bc = require(`./build-config`)
-const { version } = require(`./package.json`)
+const bc = require('./build-config')
+const { version } = require('./package.json')
 let newVersion = false
-const { reload } = browserSync
-const bundler = webpack(require(`./webpack.config.js`))
+const bundler = webpack(require('./webpack.config.js'))
 
 log(`environment is`, magenta(bc.env))
 if (bc.isRelease) {
@@ -310,10 +310,6 @@ assets.description = `build every assets`
 const clean = () => del(`${bc.buildDir}/*`)
 clean.description = `clean everything in the destination folder`
 
-////////
-// DEV
-////////
-
 const showBundleSize = () => {
   return gulp
     .src([
@@ -323,6 +319,10 @@ const showBundleSize = () => {
     ])
     .pipe($.size({ gzip: true, showFiles: true }))
 }
+
+////////
+// DEV
+////////
 
 const build = gulp.series(
   clean,
@@ -336,60 +336,49 @@ build.description = `build everything (--prod for prod ^^)`
 const buildProd = gulp.series(build, showBundleSize)
 buildProd.description = `build everything (prod)`
 
-const connectLogger = require(`connect-logger`)
-const historyFallback = require(`connect-history-api-fallback`)
-const bs = () => {
-  return browserSync.init({
-    open: false,
-    server: {
-      baseDir: `./${bc.buildDir}`,
-      index: `index.html`,
-      https: true,
-      middleware: [
-        connectLogger(),
-        // Fallback to index.html for applications that are using the HTML 5 history API
-        historyFallback(),
-      ],
-    },
-  })
+const webpackServerOptions = {
+  contentBase: path.join(__dirname, bc.buildDir),
+  historyApiFallback: true,
+  stats: {
+    colors: true,
+  },
+}
+
+// https://github.com/webpack/docs/wiki/usage-with-gulp
+const PORT = 3000
+const webpackDevServer = done => {
+  new WebpackDevServer(bundler, webpackServerOptions).listen(
+    PORT,
+    `localhost`,
+    err => {
+      if (err) return onError(err)
+      log(`http://localhost:3000`)
+    }
+  )
 }
 
 let hash
 const watch = () => {
-  gulp.watch(`manifest.json`, webManifest)
   gulp.watch(`data/**/*.json`, data)
-  gulp.watch(`html/*`, html)
   gulp.watch(`characters/*.svg`, characters)
   gulp.watch(`icons/*.svg`, icons)
   gulp.watch(
     [
-      `${bc.buildDir}/*`,
+      // `${bc.buildDir}/*`,
       `!${bc.buildDir}/workbox*`,
       `!${bc.buildDir}/thailpha-sw.js`,
     ],
     workboxSW
   )
-  gulp.watch(`${bc.buildDir}/thailpha-sw.js`, reload)
-  bundler.watch({}, (err, stats) => {
-    if (err) return onError(err)
-    const info = stats.toJson()
-    if (stats.hasErrors()) {
-      return info.errors.forEach(error => console.error(error))
-    }
-    if (hash !== stats.hash) {
-      hash = stats.hash
-      reload()
-    }
-  })
 }
 watch.description = `watch & rebuild on change`
 
-const bsAndWatch = () => {
-  bs()
+const serveAndWatch = () => {
+  webpackDevServer()
   watch()
 }
 
-const dev = bc.skipBuild ? bsAndWatch() : gulp.series(build, bsAndWatch)
+const dev = bc.skipBuild ? serveAndWatch() : gulp.series(build, serveAndWatch)
 dev.description = `build, watch & launch a dev server`
 
 ////////
