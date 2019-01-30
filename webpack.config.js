@@ -20,6 +20,7 @@ const client = {
   output: {
     filename: `[name].[hash].js`,
     path: bc.buildPath,
+    publicPath: `/`,
   },
   devtool: bc.isDev ? `source-map` : false,
   module: {
@@ -138,8 +139,6 @@ const client = {
           }),
         }),
       ],
-      // this is for allowing thailpha-lib.js in dev
-      maximumFileSizeToCacheInBytes: bc.isDev ? 5000000 : 2097152,
     }),
   ].concat(
     // need to be after WebpackPwaManifest to not be injected by iOS tags
