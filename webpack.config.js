@@ -7,6 +7,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const autoprefixer = require('autoprefixer')
 const csswring = require('csswring')
+const { GenerateSW } = require('workbox-webpack-plugin')
 
 const bc = require(`./build-config`)
 
@@ -17,7 +18,7 @@ const client = {
     thailpha: `./js/index.jsx`,
   },
   output: {
-    filename: `[name].js`,
+    filename: `[name].[hash].js`,
     path: bc.buildPath,
   },
   devtool: bc.isDev ? `source-map` : false,
@@ -121,6 +122,25 @@ const client = {
         },
       ],
     }),
+    new GenerateSW({
+      swDest: `thailpha-sw.js`,
+      include: [/\.html$/, /\.js$/, /\.css$/, /\.png$/, /\.svg$/, /\.json$/],
+      cacheId: `thailpha-cache-v3`,
+      navigateFallback: `${bc.BASE_URL}/index.html`,
+      navigateFallbackWhitelist: [/\/(vowels|numbers|about|search|char\/)/],
+      // need to return {{manifest: Array<ManifestEntry>, warnings: Array<String>|undefined}}
+      // https://github.com/GoogleChrome/workbox/issues/1341#issuecomment-370601915
+      manifestTransforms: [
+        manifestEntries => ({
+          manifest: manifestEntries.map(entry => {
+            if (bc.BASE_URL) entry.url = `${bc.BASE_URL}/${entry.url}`
+            return entry
+          }),
+        }),
+      ],
+      // this is for allowing thailpha-lib.js in dev
+      maximumFileSizeToCacheInBytes: bc.isDev ? 5000000 : 2097152,
+    }),
   ].concat(
     // need to be after WebpackPwaManifest to not be injected by iOS tags
     bc.isGhRelease
@@ -138,10 +158,12 @@ const client = {
     splitChunks: {
       cacheGroups: {
         vendor: {
-          chunks: `initial`,
-          test: path.resolve(__dirname, `node_modules`),
+          // chunks: `initial`,
+          // test: path.resolve(__dirname, `node_modules`),
+          test: /[\\/]node_modules[\\/]/,
           name: `thailpha-lib`,
-          enforce: true,
+          chunks: `all`,
+          // enforce: true,
         },
       },
     },

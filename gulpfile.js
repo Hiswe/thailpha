@@ -10,7 +10,6 @@ const WebpackDevServer = require('webpack-dev-server')
 const magenta = require('ansi-magenta')
 const log = require('fancy-log')
 const beeper = require('beeper')
-const workbox = require('workbox-build')
 const inquirer = require('inquirer')
 
 const bc = require('./build-config')
@@ -56,36 +55,6 @@ const jsApp = done => {
   })
 }
 jsApp.description = `bundle the JS front application`
-
-//----- WORKBOX
-
-// all options are listed here
-// https://developers.google.com/web/tools/workbox/reference-docs/latest/module-workbox-build#.Configuration
-function workboxSW() {
-  return workbox
-    .generateSW({
-      globDirectory: bc.buildDir,
-      globPatterns: [`**\/*.{html,js,css,png,svg,json}`],
-      swDest: `${bc.buildDir}/thailpha-sw.js`,
-      cacheId: `thailpha-cache-v3`,
-      navigateFallback: `${bc.BASE_URL}/index.html`,
-      // need to return {{manifest: Array<ManifestEntry>, warnings: Array<String>|undefined}}
-      // https://github.com/GoogleChrome/workbox/issues/1341#issuecomment-370601915
-      manifestTransforms: [
-        manifestEntries => ({
-          manifest: manifestEntries.map(entry => {
-            if (bc.BASE_URL) entry.url = `${bc.BASE_URL}/${entry.url}`
-            return entry
-          }),
-        }),
-      ],
-      navigateFallbackWhitelist: [/\/(vowels|numbers|about|search|char\/)/],
-      // this is for allowing thailpha-lib.js in dev
-      maximumFileSizeToCacheInBytes: bc.isDev ? 5000000 : 2097152,
-    })
-    .catch(error => console.warn('Service worker generation failed: ' + error))
-}
-workboxSW.description = `generate the service worker using workbox`
 
 //----- DATA DICTIONNARY
 
@@ -328,8 +297,7 @@ const build = gulp.series(
   clean,
   // assets first for css to include the right SVG files
   assets,
-  js,
-  workboxSW
+  js
 )
 build.description = `build everything (--prod for prod ^^)`
 
@@ -362,14 +330,6 @@ const watch = () => {
   gulp.watch(`data/**/*.json`, data)
   gulp.watch(`characters/*.svg`, characters)
   gulp.watch(`icons/*.svg`, icons)
-  gulp.watch(
-    [
-      // `${bc.buildDir}/*`,
-      `!${bc.buildDir}/workbox*`,
-      `!${bc.buildDir}/thailpha-sw.js`,
-    ],
-    workboxSW
-  )
 }
 watch.description = `watch & rebuild on change`
 
@@ -415,7 +375,6 @@ const preRelease = bc.skipBump
 gulp.task(`data`, data)
 gulp.task(`js`, js)
 gulp.task(`js:app`, jsApp)
-gulp.task(`js:workbox`, workboxSW)
 gulp.task(`characters`, characters)
 gulp.task(`icons`, icons)
 gulp.task(`assets`, assets)
