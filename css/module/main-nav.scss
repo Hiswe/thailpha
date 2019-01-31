@@ -25,7 +25,7 @@
     }
 
     &.is-active {
-      background: $c-brand;
+      background: var(--c-primary);
     }
   }
 

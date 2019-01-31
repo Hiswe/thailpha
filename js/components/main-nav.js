@@ -14,7 +14,6 @@ const MainNav = props => {
       >
         consonants
       </NavLink>
-
       <NavLink
         to={`/vowels`}
         activeClassName="is-active"
@@ -22,7 +21,6 @@ const MainNav = props => {
       >
         vowels
       </NavLink>
-
       <NavLink
         to={`/numbers`}
         activeClassName="is-active"
@@ -30,7 +28,6 @@ const MainNav = props => {
       >
         numbers
       </NavLink>
-
       <NavLink
         to={`/search`}
         activeClassName="is-active"
@@ -38,7 +35,6 @@ const MainNav = props => {
       >
         <SvgIcon svgId="search" />
       </NavLink>
-
       <NavLink
         to={`/about`}
         activeClassName="is-active"

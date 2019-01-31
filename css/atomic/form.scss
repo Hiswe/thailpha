@@ -19,8 +19,8 @@ label ~ label {
 }
 input:checked + label::before {
   content: '\2713';
-  background: $c-brand;
-  border-color: $c-brand;
+  background: var(--c-primary);
+  border-color: var(--c-primary);
   color: $c-white;
   display: flex;
   justify-content: center;

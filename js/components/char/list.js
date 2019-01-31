@@ -10,4 +10,4 @@ const CharList = props => (
   </ul>
 )
 
-export { CharList as default }
+export default CharList

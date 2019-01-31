@@ -72,7 +72,7 @@ const client = {
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(bc.env),
       __IS_DEV__: JSON.stringify(bc.isDev),
-      __APP_TITLE__: JSON.stringify(bc.appTitle),
+      __APP_TITLE__: JSON.stringify(bc.APP_TITLE),
       __APP_DESC__: JSON.stringify(bc.APP_DESC),
       __APP_URL__: JSON.stringify(bc.APP_URL),
       __APP_VERSION__: JSON.stringify(bc.APP_VERSION),
@@ -99,8 +99,8 @@ const client = {
     new WebpackPwaManifest({
       // https://github.com/webpack/webpack/issues/237#issuecomment-342129128
       version: process.env.npm_package_version,
-      name: bc.appTitle,
-      short_name: bc.appTitle,
+      name: bc.APP_TITLE,
+      short_name: bc.APP_TITLE,
       background_color: `#fff`,
       theme_color: `black`,
       description: `Thai Alphabet`,

@@ -25,4 +25,4 @@ const CharItem = props => {
   )
 }
 
-export { CharItem as default }
+export default CharItem

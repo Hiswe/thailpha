@@ -101,6 +101,7 @@
     "postcss-loader": "^3.0.0",
     "pug": "^2.0.3",
     "pug-loader": "^2.4.0",
+    "react-pose": "^4.0.6",
     "react-toastify": "^4.5.2",
     "sass-loader": "^7.1.0",
     "shelljs": "^0.8.2",

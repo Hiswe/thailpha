@@ -13,10 +13,14 @@ $c-grey-lightest: #f3f3f3;
 $c-grey-light: #ccc;
 $c-grey: #999;
 
-$c-brand: #54009d;
-$c-brand-lighter: lighten($c-brand, 70%);
-$c-brand-lightest: lighten($c-brand, 90%);
-$c-brand-darker: darken($c-brand, 40%);
+$c-primary: hsl(272, 100%, 31%);
+$c-primary-h: hue($c-primary) / 1deg;
+$c-primary-s: saturation($c-primary);
+$c-primary-l: lightness($c-primary);
+
+$c-primary-lighter: hsl($c-primary-h, $c-primary-s, 79%);
+$c-primary-lightest: hsl($c-primary-h, $c-primary-s, 93%);
+$c-primary-darker: hsl($c-primary-h, $c-primary-s, 18%);
 
 ///////
 // SIZES
@@ -39,10 +43,10 @@ $mq-landscape: '(orientation: landscape)';
 
 :root {
   --nav-height: 50px;
-  --c-primary: #{$c-brand};
-  --c-primary-darker: #{$c-brand-darker};
-  --c-primary-lighter: #{$c-brand-lighter};
-  --c-primary-lightest: #{$c-brand-lightest};
+  --c-primary: #{$c-primary};
+  --c-primary-darker: #{$c-primary-darker};
+  --c-primary-lighter: #{$c-primary-lighter};
+  --c-primary-lightest: #{$c-primary-lightest};
   --c-primary-contrast: white;
   --c-accent: #{$c-pink};
   --c-contrast: #{$c-pink};

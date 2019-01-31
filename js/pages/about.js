@@ -77,6 +77,22 @@ class About extends PureComponent {
         <section className={BASE_CLASS}>
           <h1 className={`h1 ${BASE_CLASS}__title`}>About Thailpha</h1>
           <AboutSection
+            topic="Share the app"
+            tab={getTabId()}
+            currentTab={state.tab}
+            changeTab={this.handleTabChange}
+          >
+            <p>
+              <button className="btn" onClick={this.onShare}>
+                Click to share
+              </button>
+            </p>
+            <p>or send this link</p>
+            <a href={__APP_URL__}>{__APP_URL__}</a>
+            <p>or this QR code</p>
+            <SvgIcon svgId="thailpha-firebase" />
+          </AboutSection>
+          <AboutSection
             topic="Sources &amp; transcriptions"
             tab={getTabId()}
             currentTab={state.tab}
@@ -150,22 +166,6 @@ class About extends PureComponent {
                 provided.
               </li>
             </ul>
-          </AboutSection>
-          <AboutSection
-            topic="Share the app"
-            tab={getTabId()}
-            currentTab={state.tab}
-            changeTab={this.handleTabChange}
-          >
-            <p>
-              <button className="btn" onClick={this.onShare}>
-                Click to share
-              </button>
-            </p>
-            <p>or send this link</p>
-            <a href={__APP_URL__}>{__APP_URL__}</a>
-            <p>or this QR code</p>
-            <SvgIcon svgId="thailpha-firebase" />
           </AboutSection>
           <AboutSection
             topic="Author &amp; suggestions"

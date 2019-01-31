@@ -1,12 +1,8 @@
 import React from 'react'
 import { render } from 'react-dom'
-import {
-  BrowserRouter as Router,
-  Route,
-  Redirect,
-  Switch,
-} from 'react-router-dom'
+import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom'
 import { Provider } from 'react-redux'
+import posed, { PoseGroup } from 'react-pose'
 
 import '../css/index.scss'
 
@@ -20,34 +16,42 @@ import CharDetail from '~/pages/char-detail'
 import MainNav from '~/components/main-nav'
 import registerServiceWorker from '~/register-service-worker'
 
-// animation copied from
-// https://github.com/ReactTraining/react-router/issues/5279
-// and mostly
-// https://codesandbox.io/s/4RAqrkRkn?view=preview
-const timeout = { enter: 300, exit: 200 }
+const RoutesContainer = posed.div({
+  enter: { opacity: 1, delay: 300, beforeChildren: true },
+  exit: { opacity: 0 },
+})
+
 const App = props => {
   return (
-    <div id="app-wrapper">
-      {/* warning! check service-worker.js if adding or removing routes */}
-      <Switch>
-        <Route exact path={`/`} component={Consonants} />
-        <Route path={`/vowels`} component={Vowels} />
-        <Route path={`/numbers`} component={Numbers} />
-        <Route path={`/about`} component={PageAbout} />
-        <Route path={`/search`} component={Search} />
-        <Route path={`/char/:longId`} component={CharDetail} />
-        <Redirect to={`/`} />
-      </Switch>
-      <Route path={`/`} component={MainNav} />
-    </div>
+    <Route
+      render={({ location }) => (
+        <div id="app-wrapper">
+          <PoseGroup>
+            <RoutesContainer key={location.key}>
+              {/* warning! check service-worker.js if adding or removing routes */}
+              <Switch location={location}>
+                <Route exact path={`/`} component={Consonants} />
+                <Route path={`/vowels`} component={Vowels} />
+                <Route path={`/numbers`} component={Numbers} />
+                <Route path={`/about`} component={PageAbout} />
+                <Route path={`/search`} component={Search} />
+                <Route path={`/char/:longId`} component={CharDetail} />
+                <Redirect to={`/`} />
+              </Switch>
+            </RoutesContainer>
+          </PoseGroup>
+          <Route path={`/`} component={MainNav} />
+        </div>
+      )}
+    />
   )
 }
 
 render(
   <Provider store={store}>
-    <Router>
+    <BrowserRouter>
       <App />
-    </Router>
+    </BrowserRouter>
   </Provider>,
   document.getElementById(`main`)
 )

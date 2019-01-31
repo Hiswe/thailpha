@@ -26,7 +26,6 @@ module.exports = {
   env,
   skipBuild,
   skipBump,
-  appTitle: APP_TITLE,
   iconSource,
   releaseDest,
   APP_TITLE,
