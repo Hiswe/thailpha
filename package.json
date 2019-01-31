@@ -35,10 +35,7 @@
     "release:gh:no-bump": "npm run pre-release:gh:no-bump && npm run deploy:gh -- --no-bump",
     "pre-release": "gulp pre-release --compress --release",
     "pre-release:no-bump": "gulp pre-release --compress --release --no-bump",
-    "pre-release:gh": "npm run pre-release -- --dest=gh",
-    "pre-release:gh:no-bump": "npm run pre-release:no-bump -- --dest=gh",
-    "deploy": "node ./bin/release.js",
-    "deploy:gh": "npm run deploy -- --dest=gh"
+    "deploy": "node ./bin/release.js"
   },
   "ava": {
     "files": [

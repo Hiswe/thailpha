@@ -7,7 +7,7 @@ const MainNav = props => {
   return (
     <nav className="main-nav">
       <NavLink
-        to={`${__BASE_URL__}/`}
+        to={`/`}
         exact={true}
         activeClassName="is-active"
         className="main-nav__btn main-nav__btn--chars"
@@ -16,7 +16,7 @@ const MainNav = props => {
       </NavLink>
 
       <NavLink
-        to={`${__BASE_URL__}/vowels`}
+        to={`/vowels`}
         activeClassName="is-active"
         className="main-nav__btn main-nav__btn--chars"
       >
@@ -24,7 +24,7 @@ const MainNav = props => {
       </NavLink>
 
       <NavLink
-        to={`${__BASE_URL__}/numbers`}
+        to={`/numbers`}
         activeClassName="is-active"
         className="main-nav__btn main-nav__btn--chars"
       >
@@ -32,7 +32,7 @@ const MainNav = props => {
       </NavLink>
 
       <NavLink
-        to={`${__BASE_URL__}/search`}
+        to={`/search`}
         activeClassName="is-active"
         className="main-nav__btn"
       >
@@ -40,7 +40,7 @@ const MainNav = props => {
       </NavLink>
 
       <NavLink
-        to={`${__BASE_URL__}/about`}
+        to={`/about`}
         activeClassName="is-active"
         className="main-nav__btn"
       >

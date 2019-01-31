@@ -18,6 +18,7 @@ import PageAbout from '~/pages/about'
 import Search from '~/pages/search'
 import CharDetail from '~/pages/char-detail'
 import MainNav from '~/components/main-nav'
+import registerServiceWorker from '~/register-service-worker'
 
 // animation copied from
 // https://github.com/ReactTraining/react-router/issues/5279
@@ -29,15 +30,15 @@ const App = props => {
     <div id="app-wrapper">
       {/* warning! check service-worker.js if adding or removing routes */}
       <Switch>
-        <Route exact path={`${__BASE_URL__}/`} component={Consonants} />
-        <Route path={`${__BASE_URL__}/vowels`} component={Vowels} />
-        <Route path={`${__BASE_URL__}/numbers`} component={Numbers} />
-        <Route path={`${__BASE_URL__}/about`} component={PageAbout} />
-        <Route path={`${__BASE_URL__}/search`} component={Search} />
-        <Route path={`${__BASE_URL__}/char/:longId`} component={CharDetail} />
-        <Redirect to={`${__BASE_URL__}/`} />
+        <Route exact path={`/`} component={Consonants} />
+        <Route path={`/vowels`} component={Vowels} />
+        <Route path={`/numbers`} component={Numbers} />
+        <Route path={`/about`} component={PageAbout} />
+        <Route path={`/search`} component={Search} />
+        <Route path={`/char/:longId`} component={CharDetail} />
+        <Redirect to={`/`} />
       </Switch>
-      <Route path={`${__BASE_URL__}/`} component={MainNav} />
+      <Route path={`/`} component={MainNav} />
     </div>
   )
 }
@@ -48,34 +49,35 @@ render(
       <App />
     </Router>
   </Provider>,
-  document.getElementById('main')
+  document.getElementById(`main`)
 )
-;(function() {
-  if (!`serviceWorker` in navigator) return
-  navigator.serviceWorker
-    .register(`${__BASE_URL__}/thailpha-sw.js`)
-    .then(reg => {
-      reg.addEventListener('updatefound', () => {
-        console.log('updatefound')
-        // A wild service worker has appeared in reg.installing!
-        const newWorker = reg.installing
+registerServiceWorker()
+// ;(function() {
+//   if (!`serviceWorker` in navigator) return
+//   navigator.serviceWorker
+//     .register(`/thailpha-sw.js`)
+//     .then(reg => {
+//       reg.addEventListener('updatefound', () => {
+//         console.log('updatefound')
+//         // A wild service worker has appeared in reg.installing!
+//         const newWorker = reg.installing
 
-        newWorker.state
-        // "installing" - the install event has fired, but not yet complete
-        // "installed"  - install complete
-        // "activating" - the activate event has fired, but not yet complete
-        // "activated"  - fully active
-        // "redundant"  - discarded. Either failed install, or it's been
-        //                replaced by a newer version
+//         newWorker.state
+//         // "installing" - the install event has fired, but not yet complete
+//         // "installed"  - install complete
+//         // "activating" - the activate event has fired, but not yet complete
+//         // "activated"  - fully active
+//         // "redundant"  - discarded. Either failed install, or it's been
+//         //                replaced by a newer version
 
-        newWorker.addEventListener('statechange', () => {
-          console.log('newworker statechange')
-          console.log(newWorker)
-          // newWorker.state has changed
-        })
-      })
-    })
-    .catch(error => {
-      console.log('sorry', error)
-    })
-})()
+//         newWorker.addEventListener('statechange', () => {
+//           console.log('newworker statechange')
+//           console.log(newWorker)
+//           // newWorker.state has changed
+//         })
+//       })
+//     })
+//     .catch(error => {
+//       console.log('sorry', error)
+//     })
+// })()

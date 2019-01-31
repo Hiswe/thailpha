@@ -11,14 +11,7 @@ const env = isProd ? `production` : `development`
 const isRelease = args.release === true
 const buildDir = isRelease ? `dist` : `public`
 const buildPath = path.resolve(__dirname, buildDir)
-const isGhRelease = args.dest === `gh`
-const isFirebaseRelease = !isGhRelease
-const releaseDest = isGhRelease
-  ? `github`
-  : isFirebaseRelease
-  ? `firebase`
-  : `UNKNOWN`
-const BASE_URL = isProd && isGhRelease ? `/thailpha` : ``
+const releaseDest = `firebase`
 const skipBuild = args.build === false
 const skipBump = args.bump === false
 const APP_TITLE = `Thailpha${isDev ? ' dev' : ''}`
@@ -28,7 +21,6 @@ module.exports = {
   isRelease,
   buildDir,
   buildPath,
-  BASE_URL,
   isProd,
   isDev,
   env,
@@ -36,8 +28,6 @@ module.exports = {
   skipBump,
   appTitle: APP_TITLE,
   iconSource,
-  isGhRelease,
-  isFirebaseRelease,
   releaseDest,
   APP_TITLE,
   APP_DESC: pkg.description,

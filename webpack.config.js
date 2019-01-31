@@ -7,7 +7,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const autoprefixer = require('autoprefixer')
 const csswring = require('csswring')
-const { GenerateSW } = require('workbox-webpack-plugin')
+const { InjectManifest } = require('workbox-webpack-plugin')
 
 const bc = require(`./build-config`)
 
@@ -72,7 +72,6 @@ const client = {
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(bc.env),
       __IS_DEV__: JSON.stringify(bc.isDev),
-      __BASE_URL__: JSON.stringify(bc.BASE_URL),
       __APP_TITLE__: JSON.stringify(bc.appTitle),
       __APP_DESC__: JSON.stringify(bc.APP_DESC),
       __APP_URL__: JSON.stringify(bc.APP_URL),
@@ -90,9 +89,7 @@ const client = {
       // https://stackoverflow.com/a/41376115
       env: bc.env,
       isRelease: bc.isRelease,
-      isGhRelease: bc.isGhRelease,
-      isFirebaseRelease: bc.isFirebaseRelease,
-      appTitle: bc.appTitle,
+      APP_TITLE: bc.APP_TITLE,
       // options: {
       //   minify: false,
       // },
@@ -123,35 +120,22 @@ const client = {
         },
       ],
     }),
-    new GenerateSW({
+    // keep this in case we want to check a regular generated SW
+    // new GenerateSW({
+    //   swDest: `thailpha-sw.js`,
+    //   include: [/\.html$/, /\.js$/, /\.css$/, /\.png$/, /\.svg$/, /\.json$/],
+    //   cacheId: `thailpha-cache-v3`,
+    //   navigateFallback: `${bc.BASE_URL}/index.html`,
+    //   navigateFallbackWhitelist: [/\/(vowels|numbers|about|search|char\/)/],
+    // }),
+    // Workbox Service Worker
+    // https://developers.google.com/web/tools/workbox/modules/workbox-webpack-plugin#injectmanifest_plugin_1
+    new InjectManifest({
+      swSrc: path.resolve(__dirname, `js/service-worker-templates.js`),
       swDest: `thailpha-sw.js`,
-      include: [/\.html$/, /\.js$/, /\.css$/, /\.png$/, /\.svg$/, /\.json$/],
-      cacheId: `thailpha-cache-v3`,
-      navigateFallback: `${bc.BASE_URL}/index.html`,
-      navigateFallbackWhitelist: [/\/(vowels|numbers|about|search|char\/)/],
-      // // need to return {{manifest: Array<ManifestEntry>, warnings: Array<String>|undefined}}
-      // // https://github.com/GoogleChrome/workbox/issues/1341#issuecomment-370601915
-      // manifestTransforms: [
-      //   manifestEntries => ({
-      //     manifest: manifestEntries.map(entry => {
-      //       if (bc.BASE_URL) entry.url = `${bc.BASE_URL}/${entry.url}`
-      //       return entry
-      //     }),
-      //   }),
-      // ],
+      // importWorkboxFrom: `local`,
     }),
-  ].concat(
-    // need to be after WebpackPwaManifest to not be injected by iOS tags
-    bc.isGhRelease
-      ? [
-          new HtmlWebpackPlugin({
-            filename: `404.html`,
-            inject: false,
-            template: path.resolve(__dirname, `html/404.pug`),
-          }),
-        ]
-      : []
-  ),
+  ],
   // https://gist.github.com/sokra/1522d586b8e5c0f5072d7565c2bee693
   optimization: {
     splitChunks: {

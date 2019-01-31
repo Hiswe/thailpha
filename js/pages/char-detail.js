@@ -76,7 +76,7 @@ const SimilarHint = ({ similar }) => {
 }
 
 const SimilarChar = ({ char }) => {
-  const charUrl = { pathname: `${__BASE_URL__}/char/${char.longId}` }
+  const charUrl = { pathname: `/char/${char.longId}` }
   if (__IS_DEV__) charUrl.search = `?id=${char.id}`
   return (
     <tr className="letter-similar__row">

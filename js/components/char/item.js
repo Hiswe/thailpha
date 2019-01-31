@@ -9,7 +9,7 @@ const CharItem = props => {
   if (props.obsolete) wrapperClasses = `${wrapperClasses} is-obsolete`
   let letterClasses = `thai-letter ${props.longId}`
   if (props.isVowel) letterClasses = `${letterClasses} thai-letter--vowel`
-  const charUrl = { pathname: `${__BASE_URL__}/char/${props.longId}` }
+  const charUrl = { pathname: `/char/${props.longId}` }
   if (__IS_DEV__) charUrl.search = `?id=${props.id}`
 
   return (
