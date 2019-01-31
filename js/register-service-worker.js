@@ -1,6 +1,16 @@
 const BASE_CLASS = `pwa-refresh-ui`
 const SW_PATH = `/thailpha-sw.js`
 
+export default function registerServiceWorker() {
+  if (!(`serviceWorker` in navigator)) return
+  window.addEventListener(`load`, () => {
+    navigator.serviceWorker
+      .register(SW_PATH)
+      .then(onRegistration)
+      .catch(error => console.log(`Can't register Service Worker`, error))
+  })
+}
+
 function showRefreshUI(registration) {
   const refreshContainer = document.createElement(`div`)
   refreshContainer.classList.add(BASE_CLASS)
@@ -104,42 +114,3 @@ function onRegistration(registration) {
 
   listenForWaitingServiceWorker(registration, showRefreshUI)
 }
-export default function registerServiceWorker() {
-  if (!(`serviceWorker` in navigator)) return
-  window.addEventListener(`load`, () => {
-    navigator.serviceWorker
-      .register(SW_PATH)
-      .then(onRegistration)
-      .catch(error => console.log(`Can't register Service Worker`, error))
-  })
-}
-
-// ;(function() {
-//   if (!`serviceWorker` in navigator) return
-//   navigator.serviceWorker
-//     .register(`${__BASE_URL__}/thailpha-sw.js`)
-//     .then(reg => {
-//       reg.addEventListener('updatefound', () => {
-//         console.log('updatefound')
-//         // A wild service worker has appeared in reg.installing!
-//         const newWorker = reg.installing
-
-//         newWorker.state
-//         // "installing" - the install event has fired, but not yet complete
-//         // "installed"  - install complete
-//         // "activating" - the activate event has fired, but not yet complete
-//         // "activated"  - fully active
-//         // "redundant"  - discarded. Either failed install, or it's been
-//         //                replaced by a newer version
-
-//         newWorker.addEventListener('statechange', () => {
-//           console.log('newworker statechange')
-//           console.log(newWorker)
-//           // newWorker.state has changed
-//         })
-//       })
-//     })
-//     .catch(error => {
-//       console.log('sorry', error)
-//     })
-// })

@@ -51,33 +51,5 @@ render(
   </Provider>,
   document.getElementById(`main`)
 )
+
 registerServiceWorker()
-// ;(function() {
-//   if (!`serviceWorker` in navigator) return
-//   navigator.serviceWorker
-//     .register(`/thailpha-sw.js`)
-//     .then(reg => {
-//       reg.addEventListener('updatefound', () => {
-//         console.log('updatefound')
-//         // A wild service worker has appeared in reg.installing!
-//         const newWorker = reg.installing
-
-//         newWorker.state
-//         // "installing" - the install event has fired, but not yet complete
-//         // "installed"  - install complete
-//         // "activating" - the activate event has fired, but not yet complete
-//         // "activated"  - fully active
-//         // "redundant"  - discarded. Either failed install, or it's been
-//         //                replaced by a newer version
-
-//         newWorker.addEventListener('statechange', () => {
-//           console.log('newworker statechange')
-//           console.log(newWorker)
-//           // newWorker.state has changed
-//         })
-//       })
-//     })
-//     .catch(error => {
-//       console.log('sorry', error)
-//     })
-// })()

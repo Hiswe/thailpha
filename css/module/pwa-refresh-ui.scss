@@ -7,6 +7,7 @@
   display: flex;
   padding: 0 calc(50% - 400px / 2);
   font-size: 18px;
+  border-bottom: 2px solid var(--c-accent);
 
   &__text,
   &__dismiss,
