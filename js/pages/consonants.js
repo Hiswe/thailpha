@@ -1,14 +1,15 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 
-import CharSection from './char-section.jsx'
-import CharSubsection from './char-subsection.jsx'
-import CharList from './char-list.jsx'
-import SvgChar from '~/components/svg-char'
-import SvgIcon from '~/components/svg-icon'
-import { toggleSetting } from './state-container/actions.js'
-import consonants from './models/01-dico-consonants.json'
-import toneMarks from './models/02-dico-tone-marks.json'
+import CharSection from '~/components/char/section'
+import CharSubsection from '~/components/char/subsection'
+import CharList from '~/components/char/list'
+import SvgChar from '~/components/svg/char'
+import SvgIcon from '~/components/svg/icon'
+
+import { toggleSetting } from '~/state-container/actions.js'
+import consonants from '~/models/01-dico-consonants.json'
+import toneMarks from '~/models/02-dico-tone-marks.json'
 
 ////////
 // CUSTOM TITLE

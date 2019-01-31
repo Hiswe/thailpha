@@ -1,10 +1,12 @@
 import React from 'react'
 
-import CharItem from './char-item.jsx'
+import CharItem from '~/components/char/item'
 
 const CharList = props => (
   <ul className="char-section__list">
-    { props.chars.map( char => <CharItem key={char.id} {...char} /> ) }
+    {props.chars.map(char => (
+      <CharItem key={char.id} {...char} />
+    ))}
   </ul>
 )
 

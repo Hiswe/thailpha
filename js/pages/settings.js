@@ -1,8 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { version } from '../package.json'
-import { toggleSetting } from './actions.js'
+import { toggleSetting } from '~/actions.js'
 
 const Settings = props => {
   const { settings, handleChange, version } = props
@@ -26,14 +25,17 @@ const mapStateToProp = state => {
 }
 
 const mapDispatchToProps = {
-  handleChange( e ) {
+  handleChange(e) {
     return toggleSetting({
-      key:    e.target.id,
-      value:  e.target.checked,
+      key: e.target.id,
+      value: e.target.checked,
     })
-  }
+  },
 }
 
-const SettingsContainer = connect( mapStateToProp, mapDispatchToProps )( Settings )
+const SettingsContainer = connect(
+  mapStateToProp,
+  mapDispatchToProps
+)(Settings)
 
 export { SettingsContainer as default }

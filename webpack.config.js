@@ -15,7 +15,7 @@ const client = {
   target: `web`,
   mode: bc.env,
   entry: {
-    thailpha: `./js/index.jsx`,
+    thailpha: `./js/application.js`,
   },
   output: {
     filename: `[name].[hash].js`,
@@ -157,12 +157,9 @@ const client = {
     splitChunks: {
       cacheGroups: {
         vendor: {
-          // chunks: `initial`,
-          // test: path.resolve(__dirname, `node_modules`),
           test: /[\\/]node_modules[\\/]/,
           name: `thailpha-lib`,
           chunks: `all`,
-          // enforce: true,
         },
       },
     },

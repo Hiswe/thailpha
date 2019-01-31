@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-import SvgChar from '~/components/svg-char'
+import SvgChar from '~/components/svg/char'
 
 const CharItem = props => {
   let wrapperClasses = `char-section__item`

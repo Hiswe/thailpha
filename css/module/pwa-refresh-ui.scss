@@ -1,0 +1,39 @@
+.pwa-refresh-ui {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  display: flex;
+  padding: 0 calc(50% - 400px / 2);
+  font-size: 18px;
+
+  &__text,
+  &__dismiss,
+  &__refresh {
+    margin: 0;
+    padding: 0.75rem 0;
+  }
+  &__text {
+    flex: 1 1 auto;
+    padding-left: 0.5rem;
+  }
+  &__dismiss,
+  &__refresh {
+    font-size: 16px;
+    background: none;
+    border: 0;
+    text-transform: uppercase;
+    margin-left: 0.5rem;
+    color: var(--c-accent);
+    transition: color 0.25s, transform 0.25s;
+
+    &:active {
+      color: var(--c-accent-darker);
+      transform: translateY(2px);
+    }
+  }
+  &__refresh {
+    padding-right: 0.5rem;
+  }
+}

@@ -3,7 +3,7 @@ import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import copy from 'copy-to-clipboard'
 
-import SvgIcon from '~/components/svg-icon'
+import SvgIcon from '~/components/svg/icon'
 
 const BASE_CLASS = `about`
 const SHARE_API = typeof navigator.share === `function`
