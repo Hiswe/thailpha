@@ -14,10 +14,10 @@ import store from './state-container'
 import Consonants from './consonants.jsx'
 import Vowels from './vowels.jsx'
 import Numbers from './numbers.jsx'
-import PageAbout from './pages/about.jsx'
+import PageAbout from '~/pages/about'
 import Search from './search.jsx'
-import CharDetail from './char-detail.jsx'
-import MainNav from './main-nav.jsx'
+import CharDetail from '~/pages/char-detail'
+import MainNav from '~/components/main-nav'
 
 // animation copied from
 // https://github.com/ReactTraining/react-router/issues/5279

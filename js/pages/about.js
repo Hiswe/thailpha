@@ -3,7 +3,7 @@ import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import copy from 'copy-to-clipboard'
 
-import { Icon } from '../svg-symbol.jsx'
+import SvgIcon from '~/components/svg-icon'
 
 const BASE_CLASS = `about`
 const SHARE_API = typeof navigator.share === `function`
@@ -165,7 +165,7 @@ class About extends PureComponent {
             <p>or send this link</p>
             <a href={__APP_URL__}>{__APP_URL__}</a>
             <p>or this QR code</p>
-            <Icon svgId="thailpha-firebase" />
+            <SvgIcon svgId="thailpha-firebase" />
           </AboutSection>
           <AboutSection
             topic="Author &amp; suggestions"

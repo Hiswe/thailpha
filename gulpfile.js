@@ -87,7 +87,11 @@ const mergeData = prefix => data => {
     if (/^[vdg]l$/.test(prefix)) letter.isLong = true
     if (/^[vdg]s$/.test(prefix)) letter.isShort = true
     if (letter.meaning) {
-      letter.longMeaning = `${letter.rtgs.split(' ')[1]}: ${letter.meaning}`
+      // letters don't have a 2 words rtgs
+      const secondRtgsPart = letter.rtgs.split(' ')[1]
+      letter.longMeaning = secondRtgsPart
+        ? `${secondRtgsPart}: ${letter.meaning}`
+        : ``
     }
     letter.longId = `${prefix}-${letter.rtgs.replace(' ', '-').toLowerCase()}`
     return letter

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-import { Char } from './svg-symbol.jsx'
+import SvgChar from '~/components/svg-char'
 
 const CharItem = props => {
   let wrapperClasses = `char-section__item`
@@ -17,7 +17,7 @@ const CharItem = props => {
       <Link to={charUrl} className="char-section__item-link">
         <p className="preview-list-item-rtgs">{props.rtgs}</p>
         <p className={letterClasses}>
-          <Char svgId={props.longId} />
+          <SvgChar svgId={props.longId} />
         </p>
         <p className="preview-list-item-meaning">{props.meaning}</p>
       </Link>

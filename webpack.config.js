@@ -23,6 +23,9 @@ const client = {
     publicPath: `/`,
   },
   devtool: bc.isDev ? `source-map` : false,
+  resolve: {
+    alias: { '~': path.resolve(__dirname, `js`) },
+  },
   module: {
     rules: [
       {

@@ -1,9 +1,8 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
-import crio from 'crio'
 import { Link } from 'react-router-dom'
 
-import { Char } from './svg-symbol.jsx'
+import SvgChar from '~/components/svg-char.js'
 
 const AdditionalInfos = ({ char }) => {
   const { pronunciation, isToneMark } = char
@@ -50,7 +49,10 @@ const AdditionalInfos = ({ char }) => {
 const VariantChar = ({ svgId }) => {
   return (
     <li className="letter-variant__item" key={svgId}>
-      <Char svgId={svgId} additionalClass="thai-letter thai-letter--variant" />
+      <SvgChar
+        svgId={svgId}
+        additionalClass="thai-letter thai-letter--variant"
+      />
     </li>
   )
 }
@@ -80,7 +82,7 @@ const SimilarChar = ({ char }) => {
     <tr className="letter-similar__row">
       <td className="letter-similar__col thai-letter thai-letter--similar">
         <Link to={charUrl}>
-          <Char svgId={char.longId} />
+          <SvgChar svgId={char.longId} />
         </Link>
       </td>
       <td className="letter-similar__col">{char.rtgs}</td>
@@ -144,7 +146,7 @@ class CharDetail extends Component {
                 {char.longMeaning}
               </span>
             </p>
-            <Char
+            <SvgChar
               svgId={char.longId}
               additionalClass="thai-letter thai-letter--principal"
             />

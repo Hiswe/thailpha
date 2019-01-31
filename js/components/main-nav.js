@@ -1,7 +1,7 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 
-import { Icon } from './svg-symbol.jsx'
+import SvgIcon from '~/components/svg-icon'
 
 const MainNav = props => {
   return (
@@ -36,7 +36,7 @@ const MainNav = props => {
         activeClassName="is-active"
         className="main-nav__btn"
       >
-        <Icon svgId="search" />
+        <SvgIcon svgId="search" />
       </NavLink>
 
       <NavLink
@@ -44,10 +44,10 @@ const MainNav = props => {
         activeClassName="is-active"
         className="main-nav__btn"
       >
-        <Icon svgId="info-outline" />
+        <SvgIcon svgId="info-outline" />
       </NavLink>
     </nav>
   )
 }
 
-export { MainNav as default }
+export default MainNav
