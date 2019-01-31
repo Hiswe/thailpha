@@ -14,7 +14,7 @@ import store from './state-container'
 import Consonants from './consonants.jsx'
 import Vowels from './vowels.jsx'
 import Numbers from './numbers.jsx'
-import About from './about.jsx'
+import PageAbout from './pages/about.jsx'
 import Search from './search.jsx'
 import CharDetail from './char-detail.jsx'
 import MainNav from './main-nav.jsx'
@@ -29,15 +29,15 @@ const App = props => {
     <div id="app-wrapper">
       {/* warning! check service-worker.js if adding or removing routes */}
       <Switch>
-        <Route exact path={`${BASE_URL}/`} component={Consonants} />
-        <Route path={`${BASE_URL}/vowels`} component={Vowels} />
-        <Route path={`${BASE_URL}/numbers`} component={Numbers} />
-        <Route path={`${BASE_URL}/about`} component={About} />
-        <Route path={`${BASE_URL}/search`} component={Search} />
-        <Route path={`${BASE_URL}/char/:longId`} component={CharDetail} />
-        <Redirect to={`${BASE_URL}/`} />
+        <Route exact path={`${__BASE_URL__}/`} component={Consonants} />
+        <Route path={`${__BASE_URL__}/vowels`} component={Vowels} />
+        <Route path={`${__BASE_URL__}/numbers`} component={Numbers} />
+        <Route path={`${__BASE_URL__}/about`} component={PageAbout} />
+        <Route path={`${__BASE_URL__}/search`} component={Search} />
+        <Route path={`${__BASE_URL__}/char/:longId`} component={CharDetail} />
+        <Redirect to={`${__BASE_URL__}/`} />
       </Switch>
-      <Route path={`${BASE_URL}/`} component={MainNav} />
+      <Route path={`${__BASE_URL__}/`} component={MainNav} />
     </div>
   )
 }
@@ -53,7 +53,7 @@ render(
 ;(function() {
   if (!`serviceWorker` in navigator) return
   navigator.serviceWorker
-    .register(`${BASE_URL}/thailpha-sw.js`)
+    .register(`${__BASE_URL__}/thailpha-sw.js`)
     .then(reg => {
       reg.addEventListener('updatefound', () => {
         console.log('updatefound')

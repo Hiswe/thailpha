@@ -6,7 +6,7 @@ import { loadSettings, saveSettings } from './settings-storage.js'
 import { settings } from './settings-reducers'
 import { chars, filtered } from './chars-reducers'
 
-const reducers    = combineReducers({
+const reducers = combineReducers({
   settings,
   chars,
   filtered,
@@ -15,22 +15,27 @@ const reducers    = combineReducers({
 const INITIAL_STATE = loadSettings()
 // freeze only `settings` as redux expect a regular plain object as initial values
 // http://redux.js.org/docs/api/createStore.html#arguments
-if (INITIAL_STATE && INITIAL_STATE.settings ) INITIAL_STATE.settings = crio( INITIAL_STATE.settings )
+if (INITIAL_STATE && INITIAL_STATE.settings)
+  INITIAL_STATE.settings = crio(INITIAL_STATE.settings)
 
-const store  = createStore( reducers, INITIAL_STATE, window.devToolsExtension ? window.devToolsExtension() : f => f )
+const store = createStore(
+  reducers,
+  INITIAL_STATE,
+  window.__REDUX_DEVTOOLS_EXTENSION__
+    ? window.__REDUX_DEVTOOLS_EXTENSION__()
+    : f => f
+)
 
 let previousState = store.getState()
 // subscribe for change so we can save datas if needed
-store.subscribe( () => {
+store.subscribe(() => {
   const state = store.getState()
-  if ( previousState.settings !== state.settings ) {
+  if (previousState.settings !== state.settings) {
     // save only the settings in storage
     // no need to save more :)
-    saveSettings( {settings: state.settings} )
+    saveSettings({ settings: state.settings })
   }
   previousState = state
 })
 
-export {
-  store as default,
-}
+export { store as default }

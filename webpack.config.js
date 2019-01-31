@@ -59,13 +59,6 @@ const client = {
             options: {
               self: true,
               pretty: true,
-              globals: {
-                env: bc.env,
-                isRelease: bc.isRelease,
-                isGhRelease: bc.isGhRelease,
-                isFirebaseRelease: bc.isFirebaseRelease,
-                appTitle: bc.appTitle,
-              },
             },
           },
         ],
@@ -75,8 +68,12 @@ const client = {
   plugins: [
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(bc.env),
-      IS_DEV: JSON.stringify(bc.isDev),
-      BASE_URL: JSON.stringify(bc.BASE_URL),
+      __IS_DEV__: JSON.stringify(bc.isDev),
+      __BASE_URL__: JSON.stringify(bc.BASE_URL),
+      __APP_TITLE__: JSON.stringify(bc.appTitle),
+      __APP_DESC__: JSON.stringify(bc.APP_DESC),
+      __APP_URL__: JSON.stringify(bc.APP_URL),
+      __APP_VERSION__: JSON.stringify(bc.APP_VERSION),
     }),
     new MiniCssExtractPlugin({
       // Options similar to the same options in webpackOptions.output
@@ -129,16 +126,16 @@ const client = {
       cacheId: `thailpha-cache-v3`,
       navigateFallback: `${bc.BASE_URL}/index.html`,
       navigateFallbackWhitelist: [/\/(vowels|numbers|about|search|char\/)/],
-      // need to return {{manifest: Array<ManifestEntry>, warnings: Array<String>|undefined}}
-      // https://github.com/GoogleChrome/workbox/issues/1341#issuecomment-370601915
-      manifestTransforms: [
-        manifestEntries => ({
-          manifest: manifestEntries.map(entry => {
-            if (bc.BASE_URL) entry.url = `${bc.BASE_URL}/${entry.url}`
-            return entry
-          }),
-        }),
-      ],
+      // // need to return {{manifest: Array<ManifestEntry>, warnings: Array<String>|undefined}}
+      // // https://github.com/GoogleChrome/workbox/issues/1341#issuecomment-370601915
+      // manifestTransforms: [
+      //   manifestEntries => ({
+      //     manifest: manifestEntries.map(entry => {
+      //       if (bc.BASE_URL) entry.url = `${bc.BASE_URL}/${entry.url}`
+      //       return entry
+      //     }),
+      //   }),
+      // ],
     }),
   ].concat(
     // need to be after WebpackPwaManifest to not be injected by iOS tags
