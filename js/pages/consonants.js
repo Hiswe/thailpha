@@ -1,5 +1,4 @@
-import React, { Fragment } from 'react'
-import { connect } from 'react-redux'
+import React, { Fragment, PureComponent } from 'react'
 import classNames from 'classnames'
 
 import CharSection from '~/components/char/section'
@@ -8,7 +7,6 @@ import CharList from '~/components/char/list'
 import SvgChar from '~/components/svg/char'
 import SvgIcon from '~/components/svg/icon'
 
-import { toggleSetting } from '~/state-container/actions.js'
 import consonants from '~/models/01-dico-consonants.json'
 import toneMarks from '~/models/02-dico-tone-marks.json'
 
@@ -16,44 +14,30 @@ import toneMarks from '~/models/02-dico-tone-marks.json'
 // CUSTOM TITLE
 ////////
 
-const ConsonantTitlePresentational = ({ onClick, isActive }) => {
+const ConsonantTitle = props => {
+  const { openHelp, isHelpOpen } = props
   const btnClass = classNames(`char-section__help-button`, {
-    'char-section__help-button--active': isActive,
+    'char-section__help-button--active': isHelpOpen,
   })
   return (
     <Fragment>
       consonants
-      <button className={btnClass} onClick={onClick}>
+      <button className={btnClass} onClick={openHelp}>
         <SvgIcon svgId="help-outline" />
       </button>
     </Fragment>
   )
 }
-const consonantTitleState2Prop = state => {
-  return {
-    isActive: state.settings.get('showConsonantsHelp'),
-  }
-}
-const consonantTitleDispatch2Prop = {
-  onClick(e) {
-    return toggleSetting({
-      key: 'showConsonantsHelp',
-    })
-  },
-}
-const ConsonantTitle = connect(
-  consonantTitleState2Prop,
-  consonantTitleDispatch2Prop
-)(ConsonantTitlePresentational)
 
 ////////
 // CONSONANT EXPLANATION
 ////////
 
-const ConsonantExplanationPresentational = ({ isVisible, close }) => {
-  if (!isVisible) return null
+const ConsonantExplanation = props => {
+  const { closeHelp, isHelpOpen } = props
+  if (!isHelpOpen) return null
   return (
-    <div className="consonant-explanation" onClick={close}>
+    <div className="consonant-explanation" onClick={closeHelp}>
       <SvgIcon svgId="close" additionalClass="consonant-explanation__close" />
       <SvgChar
         svgId="consonant-explanation"
@@ -63,39 +47,52 @@ const ConsonantExplanationPresentational = ({ isVisible, close }) => {
   )
 }
 
-const consonantExplanationState2Prop = state => {
-  return {
-    isVisible: state.settings.get('showConsonantsHelp'),
-  }
-}
-const consonantExplanationDispatch2Prop = {
-  close(e) {
-    return toggleSetting({
-      key: 'showConsonantsHelp',
-      value: false,
-    })
-  },
-}
-const ConsonantExplanation = connect(
-  consonantExplanationState2Prop,
-  consonantExplanationDispatch2Prop
-)(ConsonantExplanationPresentational)
-
 ////////
 // CONSONANT PAGE
 ////////
 
-export default function Consonants(props) {
-  // const { toggleConsonantsHelp } = props
-  return (
-    <Fragment>
-      <CharSection title={<ConsonantTitle />}>
-        <CharList chars={consonants} />
-        <CharSubsection title="Tone marks">
-          <CharList chars={toneMarks} />
-        </CharSubsection>
-      </CharSection>
-      <ConsonantExplanation />
-    </Fragment>
-  )
+export default class Consonants extends PureComponent {
+  constructor(props) {
+    super(props)
+    this.state = {
+      isHelpOpen: false,
+    }
+    this.openHelp = this.openHelp.bind(this)
+    this.closeHelp = this.closeHelp.bind(this)
+  }
+
+  openHelp() {
+    this.setState(() => ({
+      isHelpOpen: true,
+    }))
+  }
+
+  closeHelp() {
+    this.setState(() => ({
+      isHelpOpen: false,
+    }))
+  }
+
+  render() {
+    const { state } = this
+    const { isHelpOpen } = state
+    return (
+      <Fragment>
+        <CharSection
+          title={
+            <ConsonantTitle isHelpOpen={isHelpOpen} openHelp={this.openHelp} />
+          }
+        >
+          <CharList chars={consonants} />
+          <CharSubsection title="Tone marks">
+            <CharList chars={toneMarks} />
+          </CharSubsection>
+        </CharSection>
+        <ConsonantExplanation
+          isHelpOpen={isHelpOpen}
+          closeHelp={this.closeHelp}
+        />
+      </Fragment>
+    )
+  }
 }

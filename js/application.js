@@ -1,12 +1,10 @@
 import React from 'react'
 import { render } from 'react-dom'
 import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom'
-import { Provider } from 'react-redux'
 import posed, { PoseGroup } from 'react-pose'
 
 import '../css/index.scss'
 
-import store from './state-container'
 import Consonants from '~/pages/consonants'
 import Vowels from '~/pages/vowels'
 import Numbers from '~/pages/numbers'
@@ -48,11 +46,9 @@ const App = props => {
 }
 
 render(
-  <Provider store={store}>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </Provider>,
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>,
   document.getElementById(`main`)
 )
 

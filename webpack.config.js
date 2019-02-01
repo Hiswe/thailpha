@@ -8,6 +8,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const autoprefixer = require('autoprefixer')
 const csswring = require('csswring')
 const { InjectManifest } = require('workbox-webpack-plugin')
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 
 const bc = require(`./build-config`)
 
@@ -135,7 +136,7 @@ const client = {
       swDest: `thailpha-sw.js`,
       // importWorkboxFrom: `local`,
     }),
-  ],
+  ].concat(bc.isProd ? [new BundleAnalyzerPlugin()] : []),
   // https://gist.github.com/sokra/1522d586b8e5c0f5072d7565c2bee693
   optimization: {
     splitChunks: {
