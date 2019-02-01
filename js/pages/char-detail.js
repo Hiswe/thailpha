@@ -1,11 +1,13 @@
-import React, { Component, Fragment } from 'react'
-import { connect } from 'react-redux'
+import cloneDeep from 'lodash.clonedeep'
+import React, { PureComponent, Fragment } from 'react'
 import { Link } from 'react-router-dom'
 import classNames from 'classnames'
 
 import SvgChar from '~/components/svg/char'
+import ALL_CHARS from '~/models/dico-all.js'
 
-const AdditionalInfos = ({ char }) => {
+const AdditionalInfos = props => {
+  const { char } = props
   const { pronunciation, isToneMark } = char
   if (isToneMark) {
     const { initialConsonant } = char
@@ -47,7 +49,8 @@ const AdditionalInfos = ({ char }) => {
   )
 }
 
-const VariantChar = ({ svgId }) => {
+const VariantChar = props => {
+  const { svgId } = props
   return (
     <li className="letter-variant__item" key={svgId}>
       <SvgChar
@@ -58,7 +61,8 @@ const VariantChar = ({ svgId }) => {
   )
 }
 
-const VariantList = ({ char }) => {
+const VariantList = props => {
+  const { char } = props
   const { variant, longId } = char
   if (!variant) return null
   const variantSvgID = variant.map((v, i) => `${longId}-variant-${i}`)
@@ -71,12 +75,14 @@ const VariantList = ({ char }) => {
   )
 }
 
-const SimilarHint = ({ similar }) => {
+const SimilarHint = props => {
+  const { similar } = props
   if (!similar.length) return null
   return <p className="letter-hint">↓ similar ↓</p>
 }
 
-const SimilarChar = ({ char }) => {
+const SimilarChar = props => {
+  const { char } = props
   const charUrl = { pathname: `/char/${char.longId}` }
   if (__IS_DEV__) charUrl.search = `?id=${char.id}`
   return (
@@ -97,7 +103,8 @@ const SimilarChar = ({ char }) => {
   )
 }
 
-const SimilarList = ({ similar }) => {
+const SimilarList = props => {
+  const { similar } = props
   if (!similar.length) return null
   return (
     <table className="letter-similar">
@@ -110,9 +117,23 @@ const SimilarList = ({ similar }) => {
   )
 }
 
-class CharDetail extends Component {
+export default class CharDetail extends PureComponent {
   constructor(props) {
     super(props)
+    const { longId } = props.match.params
+
+    const char = ALL_CHARS.find(char => char.longId === longId)
+    // TODO: do something if no char
+    // if (!char) return { back: true }
+
+    const charWithSimilar = cloneDeep(char)
+    // expand the similarList with the full char
+    charWithSimilar.similar = charWithSimilar.similar.map(charId =>
+      ALL_CHARS.find(char => char.id === charId)
+    )
+    this.state = {
+      char: charWithSimilar,
+    }
     this._onEsc = this._onEsc.bind(this)
   }
 
@@ -131,7 +152,8 @@ class CharDetail extends Component {
   }
 
   render() {
-    const { char } = this.props
+    const { state } = this
+    const { char } = state
     if (!char) return <p className="letter-not-found">character not found</p>
     const wrapperClasses = classNames(`letter-container`, {
       'has-variant': char.hasVariant,
@@ -162,21 +184,3 @@ class CharDetail extends Component {
     )
   }
 }
-
-const mapStateToProp = (state, ownProps) => {
-  const { longId } = ownProps.match.params
-  const { chars } = state
-  const char = chars.find(char => char.longId === longId)
-  // maybe do a redirect here o_O ?
-  if (!char) return { back: true }
-
-  // expand the similarList with the full char
-  const similar = char
-    .get('similar')
-    .map(charId => chars.find(char => char.id === charId))
-  return { char: char.set('similar', similar) }
-}
-
-const CharDetailContainer = connect(mapStateToProp)(CharDetail)
-
-export { CharDetailContainer as default }

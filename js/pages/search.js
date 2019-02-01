@@ -44,7 +44,7 @@ const getFiltered = search => {
   return searchResult
 }
 
-class Search extends PureComponent {
+export default class Search extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
@@ -104,5 +104,3 @@ class Search extends PureComponent {
     )
   }
 }
-
-export default Search

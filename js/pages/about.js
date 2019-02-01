@@ -31,7 +31,7 @@ function AboutSection(props) {
   )
 }
 
-class About extends PureComponent {
+export default class About extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
@@ -249,5 +249,3 @@ class About extends PureComponent {
     )
   }
 }
-
-export default About

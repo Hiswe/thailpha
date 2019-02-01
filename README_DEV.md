@@ -26,9 +26,6 @@
 ## dev stack
 
 - framework: [react](https://reactjs.org/)
-- application state:
-  - [redux](https://redux.js.org/)
-  - [crio](https://github.com/planttheidea/crio)
 - build tools:
   - [webpack](https://webpack.js.org/)
   - [gulp](https://gulpjs.com/)
