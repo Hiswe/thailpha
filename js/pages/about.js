@@ -2,6 +2,7 @@ import React, { PureComponent, Fragment } from 'react'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import copy from 'copy-to-clipboard'
+import classNames from 'classnames'
 
 import SvgIcon from '~/components/svg/icon'
 
@@ -10,20 +11,18 @@ const SHARE_API = typeof navigator.share === `function`
 
 function AboutSection(props) {
   const { tab, currentTab, changeTab } = props
-  const COMP_CLASS = [`${BASE_CLASS}__section`]
   const isSelected = currentTab === tab
-  COMP_CLASS.push(
-    isSelected
-      ? `${BASE_CLASS}__section--is-selected`
-      : `${BASE_CLASS}__section--is-not-selected`
-  )
+  const COMP_CLASS = classNames(`${BASE_CLASS}__section`, {
+    [`${BASE_CLASS}__section--is-selected`]: isSelected,
+    [`${BASE_CLASS}__section--is-not-selected`]: !isSelected,
+  })
 
   function handleClick(event) {
     changeTab(tab)
   }
 
   return (
-    <dl className={COMP_CLASS.join(` `)}>
+    <dl className={COMP_CLASS}>
       <dt className={`${BASE_CLASS}__topic`} onClick={handleClick}>
         {props.topic}
       </dt>

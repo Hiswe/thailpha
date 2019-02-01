@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react'
 import { connect } from 'react-redux'
+import classNames from 'classnames'
 
 import CharSection from '~/components/char/section'
 import CharSubsection from '~/components/char/subsection'
@@ -16,9 +17,9 @@ import toneMarks from '~/models/02-dico-tone-marks.json'
 ////////
 
 const ConsonantTitlePresentational = ({ onClick, isActive }) => {
-  const btnClass = `char-section__help-button ${
-    isActive ? 'char-section__help-button--active' : ''
-  }`
+  const btnClass = classNames(`char-section__help-button`, {
+    'char-section__help-button--active': isActive,
+  })
   return (
     <Fragment>
       consonants

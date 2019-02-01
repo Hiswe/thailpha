@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
+import classNames from 'classnames'
 
 import SvgChar from '~/components/svg/char'
 
@@ -132,9 +133,10 @@ class CharDetail extends Component {
   render() {
     const { char } = this.props
     if (!char) return <p className="letter-not-found">character not found</p>
-    let wrapperClasses = `letter-container`
-    if (char.hasVariant) wrapperClasses = `${wrapperClasses} has-variant`
-    if (char.hasSimilar) wrapperClasses = `${wrapperClasses} has-similar`
+    const wrapperClasses = classNames(`letter-container`, {
+      'has-variant': char.hasVariant,
+      'has-similar': char.hasSimilar,
+    })
     return (
       <div id="letter">
         <div className="content">
